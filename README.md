@@ -13,3 +13,5 @@ https://bitbucket.org/jsbien/linde-marasca
 https://bitbucket.org/jsbien/lindewikisources-dl
 
 https://bitbucket.org/jsbien/sp4slownik-lindego
+
+https://depotuw.ceon.pl/handle/item/349
