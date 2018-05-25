@@ -15,3 +15,7 @@ https://bitbucket.org/jsbien/lindewikisources-dl
 https://bitbucket.org/jsbien/sp4slownik-lindego
 
 https://depotuw.ceon.pl/handle/item/349
+
+https://www.researchgate.net/publication/325348345_Rozwiniecia_skrotow_nazw_etnolektow_w_II_wydaniu_slownika_Lindego
+
+https://www.researchgate.net/publication/325348093_Rozwiniecia_skrotow_redakcyjnych_w_II_wydaniu_slownika_Lindego
