@@ -1,0 +1,535 @@
+% xelatex --shell-escape JSB14_object.tex
+\documentclass[12]{mwart}
+\usepackage{polyglossia}
+\setdefaultlanguage{polish}
+
+\usepackage{enumitem}
+\usepackage{draftwatermark}
+
+\usepackage{xltxtra}
+
+\setmainfont[Mapping=tex-text]{TeX Gyre Termes}
+\setsansfont[Mapping=tex-text]{TeX Gyre Adventor}
+%\setmainfont{TeXGyreTermes}
+%\setmainfont{DejaVu Serif}
+%\setmainfont{Bitstream Vera Serif}
+%\setmonofont{TeX Gyre Cursor}
+\setmonofont{DejaVu Sans Mono}
+
+\usepackage{ulem}
+
+
+%\usepackage{pdfdraftcopy}
+%\draftstring{http://bc.klf.uw.edu.pl}
+
+\usepackage{xcolor}
+
+\def\p#1{\textsf{#1}}
+\def\f#1{\colorbox{black!15}{\textsf{#1}}}
+
+\usepackage[style=authoryear,natbib=true]{biblatex}
+%\addbibresource{JSB2013.bib,typografia.bib}
+\addbibresource{4JSB2014.bib}
+\AtEveryBibitem{\clearfield{note}}
+% Wyed !!!
+
+\usepackage{graphicx}
+
+\usepackage{hyperref}
+
+\usepackage{soul}
+
+\newcommand{\program}[1]{\textsf{#1}}
+
+\title{Wstępna koncepcja\\
+  wielopoziomowej dygitalizacji obiektowej\\(object multilayer
+  digitization)\\na przykładzie słownika Lindego}
+
+\author{Janusz S. Bień}
+
+\date{29 stycznia 2015\\(uaktualnienie adresów 26.05.2018)}
+\begin{document}
+\maketitle
+% \pagestyle{empty}
+
+% no math
+\catcode`\&=12
+\catcode`\_=12
+
+\begin{quote}
+  Tekst na otwartej licencji Creative Commons Uznanie Autorstwa,
+  źródła dostępne w repozytorium
+  \url{https://bitbucket.org/jsbien/linde-info}.
+
+%  Wersja:  \input{"| hg log -v -l 1 \jobname.tex --template '{node}'"}
+\end{quote}
+
+\section{Wstęp}
+
+Punktem wyjścia do dygitalizacji obiektowej jest szczegółowa
+\textbf{analiza typograficzna słownika}.
+
+\begin{quote}
+  Jak można zauważyć np. na egzemplarzu z Biblioteki Łańcuckiej
+  udostępnianym przez Google Books, w oryginale wszystkie tomy mają
+  przedtytuł (\textit{Schmutztitel},
+  \url{http://de.wikipedia.org/wiki/Schmutztitel}; \textit{bastard
+    title}, \url{http://en.wikipedia.org/wiki/Half_title}) treści
+  \textsc{słownik Lindego}. Jest on pomijany w przedrukach, co zaburza
+  paginację --- zakładamy uzupełnienie skanów o tę brakującą kartę.
+\end{quote}
+
+\begin{quote}
+  W przedruku GUTENBERG-PRINT tom VI został opublikowany jako dwa
+  woluminy z dorobionymi pseudo-oryginalnymi tytulariami. Zgodnie z
+  oryginałem tom ten należy traktowac jako całość i uzupełnić o
+  oryginalne karty tytułowe.
+\end{quote}
+
+
+
+Tradycyjne wyniki dygitalizacji mają postać tekstu uzupełnionego o
+odpowiednie adnotacje (HTML, TEI itp.). Wynikiem dygitalizacji
+obiektowej jest zasób elektroniczny w formie bazy danych opisujący
+własności wyróżnionych w tekście obiektów. Zasób taki może mieć
+różnorodne zastosowanie, niekoniecznie przewidziane przez jego
+twórców; oczywistym i podstawowym zastosowaniem jest automatyczne
+wygenerowanie dygitalizacji tekstowej w zadanym formacie. Jest
+wskazane nadanie zasobowi International Standard Language Resource
+Number (\url{http://www.islrn.org/faq/}, usługa jest bezpłatna).
+
+Zakładamy wykorzystanie relacyjnej bazy danych --- wykorzystamy
+doświadczenia zdobyte przy bazodanowej dygitalizacji indeksu \textit{a
+  tergo} \citep{bc379}. 
+
+Omawiane dalej poziomy to pewne wygodne sposoby prezentacji jej
+zawartości, które mogą ulegać zmianom. Na granicy poziomów występują
+często wieloznaczności, co traktujemy jako rzecz normalną, wymagajacą
+traktowania w analogiczny sposób, jak wieloznaczności morfologiczne i
+składniowe znane od lat lingwistyce informatycznej.
+
+Zakładamy intensywne wykorzystanie systemu zarządzania wersjami
+(mercurial) oraz możliwości logowania transakcji w bazie danych do
+pełnego dokumentowania procesu tworzenia i uaktualniania zawartości
+bazy.
+
+Na różnych etapach dygitalizacji niezbędna będzie ręczna korekta
+danych, ale nie będzie to po prostu typowa korekta tekstu w trakcie
+jego lektury. Za pomocą istniejących oraz stworzonych na potrzeby
+projektu narzędzi weryfikowane będą indywidualnie wybrane aspekty
+dygitalizacji. Oczekujemy, że dzięki temu weryfikacja będzie szybsza,
+łatwiejsza i bardziej skuteczna.
+
+% Na podstawie prawa autorskiego dygitalizacja w formie bazy danych
+% kwalifikuje się do ochrony \textit{sui generis}; na mocy
+% obowiązującego regulaminu nabywania, korzystania i ochrony własności
+% intelektualnej na Uniwersytecie Warszawskim właścicielem baz danych
+% jest uczelnia. Intencją jest udostępnianie jej użytkownikom w sposób
+% swobodny, co wymaga uwzględnienia aspektów prawnych już na etapie
+% formułowania wniosku o grant.
+
+Z technicznego punktu widzenia możliwe jest udostępnianie zasobu przez
+serwer baz danych (zapewne MySQL) dostępny zdalnie dla uprawnionych
+użytkowników.
+
+
+\section{Słownik Lindego}
+\label{sec:slownik-lindego}
+
+Uważam za celowe wskanowanie oryginałów obu wydań słowników (najlepiej
+egzemplarzy z BUW) w sposób gwarantujący najwyższą jakość, tzn. za
+pomocą ScanRobot dostępnego na zasadach komercyjnych w Pracowni
+Skanowania przy Muzeum i Instytucie Zoologii PAN (\url{http://panscan.pl}).
+
+Aktualnie wykorzystywany reprint sprawia wrażenie opracowywanego
+komputerowo, co mogło wprowadzić jakieś zniekształcenia (przykładem
+sygnalizowane wcześniej pseudo-oryginalne strony tytułowe tomu
+szóstego).
+
+Forma bazy danych pozwala w szczególności na równoległą analizę
+różnych aspektów słownika, np. wykaz cytatów z poszczególnych źródeł
+(por. \url{http://ebuw.uw.edu.pl/publication/339848}) czy indeksy słów dla
+poszczególnych języków ---
+por. \citep[s.~57]{ptaszyk07:_słown_samuel_bogum_lindeg}.
+
+Zawartość bazy danych może być prezentowana użytkownikowi na różne
+sposoby, np.
+\begin{itemize}
+\item warstwa tekstu ukrytego w dokumentach DjVu
+\item korpus DjVu
+\item korpus w formacie Poliqarp 2
+\item HTML z zachowaniem układu strony oryginału lub z jego modyfikacją
+\end{itemize}
+W trakcie przygotowywania takiej formy prezentacyjnej wskazane jest
+--- jeśli format wyjściowy na to pozwala --- scalenie erraty z tekstem
+głównym,  wprowadzenia powiązań między oboma wydaniami słownika itp.
+
+Na potrzeby interfejsu użytkownika może być potrzebne stworzenie
+odpowiedniego fontu.
+
+\section{Baza informacji typograficznych}
+\label{sec:baza-inform-typogr-1}
+
+
+
+Baza ta zawiera informacje wytworzone przez program rozpoznawania
+znaków.  Podstawowe dane pobieramy z programu \p{tesseract} w formie
+plików hOCR generowanego przez \p{ocrodjvu}. Podobne dane można
+otrzymać z programu \p{tesseract} z łatą umożliwiającą wypisywanie
+wyniku w formacie TSV
+(por. \url{(http://tesseract-hocrtsv.herokuapp.com/},
+\sout{\url{http://teksty.klf.uw.edu.pl/12/1/alice_1.png.hocr.tsv}}
+\url{https://bitbucket.org/jsbien/linde-info/}); warto w miarę
+możliwości zachować zgodnośc z formatem TSV.
+
+Zakładamy segmentację do poziomu pojedynczych znaków. Jest ona
+dostępna w plikach hOCR generowanych przez \p{ocrodjvu}, ale w
+niestandardowej formie zaprojektowanej \textit{ad hoc} Przez Jakuba
+Wilka --- znajduje się ona w komentarzu na końcu pliku
+\sout{(por. np. \url{http://teksty.klf.uw.edu.pl/20/3/hOCR1.zip}}). W
+bardziej czytelnej postaci jest dostępna w plikach djvused
+generowanych przez \p{ocrodjvu}
+\sout{(por. np. \url{http://teksty.klf.uw.edu.pl/20/4/djvused1.zip})} ---
+jeśli dobrze pamiętam, \p{ocrodjvu} dwukrotnie uruchamia
+\p{tesseracta} z różnymi parametrami i w ten sposób komasuje
+wyniki. Być może warto w jakiś sposób wykorzystać faktt dostępnosci
+danych w formacie djvused i kodu, który go generuje.
+
+Dane mogą one być uzupełniane i konfrontowane z danymi z
+innych podobnych programów (przede wszystkim \p{FineReader}). 
+
+Punktem wyjścia jest zestaw własności przedstawiony niżej odnoszący
+się do pojedynczej strony.
+
+Niektóre wartości odnoszą się tylko do niektórych typów elementów; dla
+pozostałych otrzymują one wartości puste lub ustalone umownie ---
+np. własności fontu mogą być przypisane jednostkom większym niż znak,
+jeśli wszystkie elementy podrzędne mają takie same ich wartości.
+
+Szczególny charakter ma pole \texttt{text}. W sposób pierwotny jego
+wartość jest wypełniana przez dane programu OCR, ale różne programy
+--- a nawet różne przebiegi tego samego programu --- mogą dostarczać
+tych wartości dla elementów różnych poziomów. Jeśli dysponujemy tą
+informacją na poziomie znaków, to dodatkowo rekonstruujemy ją dla słów
+i ewentualnie wierszy.
+
+% JSB13_hOCRanaliza.tex
+
+
+
+\begin{enumerate}
+\item \f{version_id} (umowny odsyłacz do metadanych danej wersji,
+  informujących o pliku wejściowym, użytym programie do OCR itp.; choć
+  będziemy dążyć do tego, żeby istniała tylko jedna wersja bazy, do
+  tej utworzenia potrzebne będą wersje alternatywne).
+\item \f{page_id} (umowny identyfikator strony --- patrz niżej)
+\item \f{level} (zagnieżdżenie elementu)
+\item \f{page_id} (kolejny numer strony czyli elementu \texttt{div} z
+  atrybutem \texttt{ocr_page}; informacja praktycznie chyba
+  nieprzydatna, ale zachowana na wszelki wypadek);
+\item \f{block_num} (kolejny numer bloku czyli elementu \texttt{div} z
+  atrybutem \texttt{ocr_carea} na danej stronie --- jak w TSV, w hOCR numery są
+  globalne! 0 dla level = 1);
+\item \f{par_num} (kolejny numer akapitu czyli elementu \texttt{p} z
+  atrybutem \texttt{ocr_par} w danym bloku --- jak w TSV, w hOCR numery są
+  globalne! 0 dla level > 3);
+\item \f{line_num} (kolejny numer wiersza czyli elementu \texttt{span} z
+  atrybutem \texttt{ocr_line} w danym akapicie --- jak w TSV, w hOCR numery są
+  globalne! 0 dla level > 4);
+\item \f{word_num} (kolejny numer słowa czyli elementu \texttt{span} z
+  atrybutem \texttt{ocrx_word} w danym wierszu --- jak w TSV, w hOCR numery są
+  globalne! 0 dla level > 5);
+\item \f{char_num} (kolejny numer znaku w słowie --- jeśli segmentacja na
+  znaki nie jest dostępna w hOCR, to jest utworzona na podstawie
+  \texttt{ocrx_word})
+\item \f{left} (współrzędna gabarytu elementu, pobierana z sekcji
+  \textsf{bbox} atrybutu \texttt{title} danego elementu; 0 tylko dla
+  elementów, dla których hOCR nie zawiera ich gabarytów, czyli w
+  praktyce znaki rozpoznane przez \p{FineReader})
+\item \f{top} (współrzędna gabarytu elementu, pobierana z sekcji
+  \textsf{bbox} atrybutu \texttt{title} danego elementu; 0 tylko jak wyżej)
+\item \f{width} (rozmiar gabarytu elementu, pobierany z sekcji
+  \textsf{bbox} atrybutu \texttt{title} danego elementu; 0 tylko jak wyżej)
+\item \f{height} (rozmiar gabarytu elementu, pobierany z sekcji
+  \textsf{bbox} atrybutu \texttt{title} danego elementu; 0 tylko jak wyżej)
+\item \f{baseline} (pole tekstowe, zawierające zawartość sekcji
+  \textsf{baseline} atrybutu \texttt{title} elementu \texttt{span}
+  klasy \texttt{ocr_line}). Według specyfikacji
+  \begin{quote}
+    baseline pn pn-1 … p0 - a polynomial describing the baseline of a
+    line of text
+  \end{quote}
+  Niestety aktualnie znaczenie wartości podawanych przez
+  \textsf{tesseract} nie jest jasne. Są one wypisywane przez funkcję
+  \texttt{AddBaselineCoordsTohOCR} w \texttt{api/baseapi.cpp}; w
+  ogólnym wypadku może wystąpić również sekcja \texttt{textangle}. Dla
+  elementów innych niż \texttt{ocr_line} wartość może być wyliczana
+  według jakiegoś algorytmu; 0 jeśli hOCR nie podaje tej informacji
+  dla \texttt{ocr_line}.
+\item \f{conf} (ufność rozpoznania, pobierana z sekcji \textsf{x_conf}
+  atrybutu \texttt{title} danego elementu; wartość 0 jeśli hOCR nie zawiera tej informacji)
+\item \f{dir} (kierunek pisma, pobierany z atrybutu \texttt{dir} danego
+  elementu; z wyjątkiem nielicznych wstawek w alfabecie hebrajskim
+  zawsze \texttt{ltr} czyli \textit{left to right}). Wartość
+  dziedziczona przez elementy podrzędne, oraz przez te elementy
+  nadrzędne, dla których jest to jedyna wartość elementów podrzędnych;
+  w przeciwnym razie 0. Wartość 0 również wtedy, gdy hOCR w ogóle nie
+  zawiera tej informacji.
+\item \f{lang} (język, pobierany z atrybutu \texttt{lang} danego
+  elementu). Zasady dziedziczenia --- jak wyżej.
+\item \f{font} (informacja pobierana z sekcji \textsf{x_font}
+  atrybutu \texttt{title} danego elementu --- dostępna na razie tylko w
+  wersji rozwojowej,
+  \sout{(por. \url{http://teksty.klf.uw.edu.pl/13/})}. Zasady dziedziczenia --- jak wyżej.
+% https://code.google.com/p/tesseract-ocr/issues/detail?id=1219&can=1&q=font%20info&sort=-i
+%  Issue 1219: 	Add font info to hocr output
+
+% https://code.google.com/p/tesseract-ocr/issues/detail?id=1219
+% I extend it by config parameter hocr_font_info, so the user can turn it off (default ;-) ) or on..
+% fixed in r1132.
+\item \f{font_size}  (informacja o foncie, pobierana z sekcji \textsf{x_fsize}
+  atrybutu \texttt{title} danego elementu --- dostępna na razie tylko w
+  wersji rozwojowej
+  \sout{(por. \url{http://teksty.klf.uw.edu.pl/13/})}. Zasady dziedziczenia --- jak wyżej.
+\item \f{font_style} (eprezentowany przez element \texttt{strong}, element
+  \texttt{em} lub brak tych elementów). Zasady dziedziczenia --- jak wyżej.
+\item \f{text} (rozpoznany tekst w UTF-8 z wykorzystaniem Private Use Area
+  dla znaków, słów i wierszy --- pobierany bezpośrednio z hOCR lub
+  utworzony na podstawie elementów nadrzędnych lub podrzędnych).
+
+\end{enumerate}
+
+Wydaje się wskazane kilkakrotne przetwarzanie tekstu z różnymi
+parametrami. Choć program \p{tesseract} może teoretycznie rozpoznawać
+teksty wielojęzyczne, to zwiększanie liczby rozpoznawanych języków
+pogarsza jakość rozpoznawania. W związku z tym planujemy zadawać
+programowi jednocześnie co najwyżej dwa języki do rozpoznania. W
+konsekwencji w bazie będziemy mieć kilka wersji danych typograficznych
+i do dalszego przetwarzania będziemy wybierać wyniki najbardziej
+prawdopodobne --- wydaje się to wygodniejsze, niż wstępnie
+zaimplementowane przez Wilka komasowanie plików hOCR, które nie
+radziłoby sobie z rozbieżnosciami w gabarytach. Trochę podobną metodologię
+zastosował projekt LACE (\url{http://heml.mta.ca/lace}).
+
+Dane typograficzne wymagają weryfikacji lub innej modyfikacji na
+każdym poziomie, a wyniki weryfikacji powinne być zapisywane --- być
+może w osobnej powiązanej bazie. Poniżej wymienione są przykładowe
+możliwe testy.
+
+\begin{enumerate}
+\item nieuzasadnione zmiany linii pisma --- prawdopodobnie wynik
+  traktowania skaz papieru jako znaków lub inny błąd segmentacji.
+\item level (zagnieżdżenie elementu) --- zbyt duża wartość oznacza
+  błąd rozpoznania.
+\item block_num (kolejny numer bloku) --- należy oczekiwać błędów w
+  rozpoznaniu podziału strony na łamy, potrzebne są też pewne decyzje
+  konwencjonalne (paginę i sygnatury proponuję zaliczać do
+  odpowiedniego łamu). Należy pamiętać o
+  tabelach radiks i akapitach wspólnych dla obu łamów. Nie wszystkie
+  bloki są prostokątne. Niewłaściwa liczba bloków sygnalizuje błąd
+  rozpoznania.
+% \item par_num (kolejny numer akapitu) --- może być błędny w
+%   konsekwencji błędnego rozpoznania bloku.
+% \item line_num --- może być błędny w konsekwencji błędnego rozpoznania
+%   akapitu.
+% \begin{quote}
+%   Prawidłowe rozpoznanie wierszy jest niezbędne do poprawnej
+%   linearyzacji tekstu (ustalenia kolejności czytania ---
+%   \textit{reading order}) i stanowi warunek wstępny do dalszej
+%   analizy, w szczególności podziału wierszy na wyrazy (chodzi przede
+%   wszystkim o scalanie wyrazów przełamanych i analizy struktury haseł,
+%   w szczególności ustalenia zakresu kwalifikatorów jezykowych).
+% \end{quote}
+% \item word_num (kolejny numer słowa) --- słowa są tu rozumiane
+%   technicznie jako pewne napisy, mogące być w szczególności
+%   pojedynczymi znakami. Numeracja ta nie jest jednak w pełni
+%   wiarygodna, ponieważ znaki i napisy nierozpoznane przez program są
+%   po prostu pomijane.
+% \item char_num (kolejny numer znaku w słowie) --- należy się
+%   spodziewać pewnej liczby błędów spowodowanych mylnym potraktowaniem
+%   dwóch znaków jako jednego lub odwrotnie.
+% \item left (współrzędna gabarytu elementu) --- wykorzystywana i
+%   ewentualnie korygowana przez interakcyjny program do korekty.
+% \item top (współrzędna gabarytu elementu) --- wykorzystywana i
+%   ewentualnie korygowana przez interakcyjny program do korekty.
+% \item width (rozmiar gabarytu elementu) --- wykorzystywany i
+%   ewentualnie korygowana przez interakcyjny program do korekty.
+% \item height (rozmiar gabarytu elementu) --- wykorzystywany i
+%   ewentualnie korygowana przez interakcyjny program do korekty.
+% \item baseline (pole tekstowe) --- nieprawidłowe wartości sygnalizują
+%   wystąpienie przekosu lub inne poważne błędy skanowania.
+% \item conf (ufność rozpoznania) --- obiekty o niskiej wartości powinne
+%   być traktowane ze szczególną uwagą.
+% \item dir (kierunek pisma) --- do sprawdzenia tylko w nielicznych
+%   wstawkach w alfabecie hebrajskim.
+% \item lang (język). Często wartość ta będzie oznaczać nie język
+%   tekstu, a język użyty do rozpoznawania.
+% \item font --- informacja istotna, ale w wynikach programu \p{tesseract} informacja
+%   niewiarygodna, o ile nie zostanie on specjalnie wytrenowany na
+%   potrzeby słownika. Informacja ta może jednak być pobrana z wyników
+%   programu \p{FineReader}.
+% \item font size --- nietypowy rozmiar fontu może wskazywać błąd
+%   rozpoznania.
+% \item font style --- informacja bardzo istotna dla analizy tekstu
+%   przede wszystkim dlatego, że kursywą są podawane skróty nazw
+%   cytowanych języków.
+% \item text (rozpoznany tekst w UTF-8) --- niestety niektóre znaki będą
+%   z pewnością rozpoznane błędnie, część z nich dlatego, że nie mają
+%   swoich odpowiedników w standardzie Unicode.
+
+\end{enumerate}
+
+Strony identyfikujemy za pomocą globalnego numeru strony w tomie, z
+uzwględnieniem następujacych reguł:
+\begin{itemize}
+\item w numeracji pomijamy tytularia przedruku,
+\item w numeracji uwzgledniamy tytularia oryginału pominięte w
+  przedruku,
+\item tom szósty, podzielony na dwa wolumeny w przedruku
+  GUTENBERG-PRINT, traktujemy jako jedną całość.
+\end{itemize}
+
+Pomocniczo będziemy korzystać z alternatywnej identyfikacja stron i
+ich własności, które mogą wyglądać następująco:
+
+\begin{enumerate}
+\item Wydanie (reprint GUTENBERG-PRINT traktujemy jako wydanie czwarte
+  --- pole może być pomijane, dopóki pracujemy tylko na jednym
+  wydaniu).
+\item Tom (1--6).
+\item Część tomu (1-2 dla tomu szóstego, dla pozostałych 0 --- pole
+  istotne tylko dla wydania czwartego).
+\item Numer arkusza (ma znaczenie dla analizy układu strony ---
+  wartość początkowa wpisana ręcznie, potem uzupełniana i weryfikowana
+  automatycznie).
+\item Numer strony w arkuszu (pierwsza zawiera sygnaturę główną,
+  trzecia sygnaturę pomocniczą).
+\item Numer sekcji paginacyjnej (zostaną zdefiniowane w osobnym
+  dokumencie).
+\item Typ paginacji (arabska, rzymska, ślepa, mieszana itp. ---
+  zostaną zdefiniowane w osobnym dokumencie i wprowadzone ręcznie).
+\item Numer strony w sekcji paginacyjnej.
+\item Typ układu strony (np. hasłowa z tabelą, wakat - nietypowe
+  wartości wpisane ręcznie, typowe uzupełnione i weryfikowane
+  automatycznie).
+\end{enumerate}
+
+
+
+\section{Poziomy unilateralne}
+\label{sec:poziomy-unilateralne}
+
+
+Obiektami najniższego poziomu są obrazy czcionek na skanach. Mogą one
+być niejednoznaczne z różnych powodów na jednym lub wielu
+egzemplarzach dzieła: skazy papieru, wady druku (za mało lub za dużo
+farby drukarskiej), defekt czcionki. W ogólnym wypadku nieoczywista
+może też być segmentacja skanów na obrazy czcionek. Poziom ten
+nazywamy typograficznym (z segmentacją) lub graficznym (bez
+segmentacji).
+
+Kolejnym poziomem są czcionki odtworzone na podstawie ich
+obrazów. Wierne ich odtworzenie nie jest niezbędne dla dalszych etapów
+dygitalizacji, ale może być przydatne np. do badania proweniencji
+dzieła. Czcionki mają różnorodne własności --- wielkość, krój itp;
+szczególna własnością jest wykaz ich użycia w tekście z dokładną
+lokalizacją na stronie, zarówno względną (wiersz, numer), jak i
+bezwględną (współrzędne w pikselach). Poziom ten nazywamy
+faksymilowym.
+
+Następnym poziomem są znaki kodowe w sensie Unicode; niektórym
+czcionkom niezbędne jest arbitralne przypisanie kodów z obszaru użytku
+prywatnego. Znaki wykorzystujemy jako wierne reprezentacje czcionek
+--- na przykład \textit{vv} lub \textit{rv} w funkcji \textit{w} jest
+reprezentowane jako \textit{vv} lub \textit{rv}. Poziom ten nazywamy
+znakowym.
+
+Wszystkie wymienione poziomy są unilateralne w sensie Saloniego, czyli
+w żaden sposób nie nawiązują do znaczenia odpowiednich napisów.
+
+Do opisu tych poziomów mogą być zaadoptowane narzędzia NPT (Ekstrakcja
+i etykietowanie kształtów znaków --- shape extraction and labelling,
+przeglądarka kształtów znaków --- a shape browser).
+
+Warto podkreślić, że aktualnie nie jest znany pełny repertuar
+występujacych w słowniku znaków. Najbardziej rzuca się w oczy
+nietypowy znak paragrafu (por. \citep[s.~98]{bc347}), w cytatach
+obcojęzycznych występuje długie s, można również spotkać np. wariant
+znaku {\setmainfont{DejaVu Sans} ℟} (RESPONSE, U+211F). Kilka razy
+występuje również {\setmainfont{DejaVu Sans} ⁊}(TIRONIAN SIGN ET,
+U+204A) w kształcie \textit{r rotunda},
+por. \url{https://en.wikipedia.org/wiki/Tironian_notes},
+\url{https://bitbucket.org/jwilk/ocrodjvu/issue/15/}. Sporadycznie
+występuje również znak {\setmainfont{DejaVu Sans} ☞} (WHITE RIGHT
+POINTING INDEX, U+261E).
+
+\section{Segmentacja unilateralna}
+\label{sec:segm-unil}
+
+Segmentacja unilateralna to segmentacja typograficzna czyli podział
+obrazu strony na takie obszary, jak pagina, łamy, sygnatury, przypisy,
+tabele oraz poszczególne wiersze tekstu. Podział ten w zasadzie daje
+się przeprowadzić w sposób obiektywny, choć dostępne narzędzia nie
+pozwalają go uzyskać w sposób w pełni automatyczny.
+
+Do segmentacji typograficznej zaliczamy też segmentację wierszy przez
+odstępy, która jednak nie jest kompletnie jednoznaczna --- z powodu
+ciasnego składu nie zawsze można odróżnić odstępy międzywyrazowe od
+międzyliterowych. Dlatego segmentację na tradycyjne wyrazy zaliczamy do
+poziomów bilateralnych (patrz niżej).
+
+Ważnym efektem ubocznym typograficznej segmentacji unilateralnej jest
+opracowanie intuicyjnej konwencji lokalizacji fragmentu tekstu w
+słowniku. \textbf{Wiersze są najmniejszą jednostką tekstu w~słowniku,
+  które daje się jednoznacznie zidentyfikować na podstawie wyglądu
+  strony}, dlatego należy przydzielić im identyfikatory, np. postaci
+numeru tomu, numeru sekcji, numeru strony, identyfikatora bloku
+(np. łamu) i lokalizacji wiersza w bloku (numer w bloku lub numer
+akapitu i numer w akapicie).
+
+
+\section{Poziomy bilateralne}
+\label{sec:poziomy-bilateralne}
+
+Pierwszym poziomem bilateralnym jest poziom teksteli (por. Bień 2011,
+w druku). Na tym poziomie bierzemy pod uwagę funkcję czcionek, więc
+\textit{vv} lub \textit{rv} w funkcji \textit{w} będzie reprezentowane
+jako \textit{w}, a częsty w słowniku Lindego znak {\setmainfont{DejaVu
+    Sans}\textit{z̓}} (LATIN SMALL LETTER Z, COMBINING COMMA ABOVE)
+będzie reprezentowany przez \textit{ż}.
+
+W przypadku słownika Lindego występuje systematycznie problem częstego
+pomijania diakrytów w wersalikach, które nie zawsze mogą być
+zrekonstruowane jednoznacznie --- por. \citep{bc379}. Na poziomie
+tekstelowym powinne one być w razie potrzeby odtworzone.
+
+Na tym poziomie nadal zachowane są ewentualne ligatury.
+
+\section{Poziomy transkrypcyjne}
+\label{sec:pozi-transkrypcyjne}
+
+Poziomy transkrypcyjne opisują obiekty powstałe z segmentacji na słowa
+strumienia teksteli uporządkowanych w kolejności czytania; oznacza to
+sklejanie wyrazów przenoszonych do nowej linii, kolumny i strony z
+pominięciem dywiza (niewykluczone są jednak przypadki, kiedy
+interpretacja dywizu nie jest jednoznaczna). 
+
+Jedną z naistotniejszych własności słowa jest język.
+
+Do poziomów transkrypcyjnych zaliczamy w szczególności normalizację i
+modernizację pisowni.
+
+\printbibliography
+
+\end{document}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% TeX-engine: xetex
+%%% TeX-PDF-mode: t
+%%% TeX-command-extra-options: "-shell-escape"
+%%% coding: utf-8
+%%% End:
