@@ -1,0 +1,183 @@
+\documentclass[12]{mwart}
+\usepackage{polyglossia}
+\setdefaultlanguage{polish}
+
+\usepackage{enumitem}
+\usepackage{draftwatermark}
+
+\usepackage{xltxtra}
+
+\setmainfont[Mapping=tex-text]{TeX Gyre Termes}
+\setsansfont[Mapping=tex-text]{TeX Gyre Adventor}
+%\setmainfont{TeXGyreTermes}
+%\setmainfont{DejaVu Serif}
+%\setmainfont{Bitstream Vera Serif}
+%\setmonofont{TeX Gyre Cursor}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{draftwatermark}
+
+% \usepackage{bibentry,natbib}
+
+\usepackage{graphicx}
+
+\usepackage{hyperref}
+
+\usepackage{soul}
+
+\usepackage{relsize}
+
+\usepackage[style=authoryear,natbib=true]{biblatex}
+%\addbibresource{JSB2013.bib,typografia.bib}
+\addbibresource{4JSB2014.bib}
+\AtEveryBibitem{\clearfield{note}}
+
+
+
+\newcommand{\program}[1]{\textsf{#1}}
+
+\title{Tryb korekty w \texttt{djview4poliqarp}}
+\author{Janusz S. Bień}
+
+\date{24.03.2014, \ldots, 26.05.2018}
+%  8.04.2014, ??.10.2014}
+
+\begin{document}
+\maketitle
+% \pagestyle{empty}
+
+% no math
+\catcode`\&=12
+\catcode`\_=12
+
+\begin{quote}
+  Tekst na otwartej licencji Creative Commons Uznanie Autorstwa,
+  źródła dostępne w repozytorium
+  \url{https://bitbucket.org/jsbien/linde-info}.
+\end{quote}
+
+\section{Wstęp}
+\label{sec:wstp}
+
+Tryb korekty polega na kolejnym wyświetlaniu haseł z indeksu, przy
+czym dla każdego hasła użytkownik ma 4 możliwości:
+\begin{itemize}
+\item zaakceptować,
+\item odrzucić,
+\item poprawić,
+\item pominąć.
+\end{itemize}
+
+Wybór możliwości powinien być prosty i odbywać przez pojedyncze
+naciśniecie klawisza lub ich kombinacji. Byłoby dobrze, gdyby te
+funkcje klawiszy były konfigurowalne.
+
+Z wyjątkiem poprawiania gabarytów wszystkie operacje powinne dać się
+sprawnie wykonywać z klawiatury.
+
+Pożądana jakaś choćby prymitywna operacja cofania przynajmniej jednej
+ostatniej operacji.
+
+Dla odróżnienia haseł zaakceptowanych, odrzuconych itp. tymczasowo
+możemy stosować obecną konwencję oznaczania haseł ukrytych komentarzem
+zaczynającym się od \texttt{!}. Docelowo chyba dla statusu hasła
+trzeba będzie wprowadzić dodatkowe pole.
+
+\section{Wyświetlanie hasła}
+\label{sec:wywietlanie-hasa}
+
+Sposób wyświetlania hasła powinien być konfigurowalny i obejmować co
+najmniej dwie możliwości.
+
+W najprostszym wypadku wystarczy standardowe wyświetlanie zaznaczenia
+--- będzie to całkowicie wystarczające dla indeksów przeznaczonych do
+weryfikacji rozpoznania układu strony.
+
+Drugi sposób wyswietlania hasła to zaznaczenie uzupełnione o tekst
+ukryty. W tej chwili wymaga to dodatkowego kliknięcia i naciśnięcia
+Shift, poza tym zakres wyświetlanego tekstu nie ma związku z
+zaznaczniem. Tekst wyświetlany w trybie korekty powinien dokładnie
+odpowiadać zaznaczeniu.
+
+Do rozważeni jest również trzeci sposób polegający na wyświetlaniu
+również komentarza hasła, ale na razie nie widać dla niego konkretnych
+zastosowań.
+
+\section{Akceptacja hasła}
+\label{sec:akceptacja-hasa}
+
+Akceptacja hasła polega na jego ukryciu i przejściu do następnego
+hasła. Ukrycie odbywa się przez wstawienie do komentarza na jego
+początku znaków \texttt{!+!}.
+
+Proponowany klawisz: spacja lub Enter.
+
+\section{Odrzucenie hasła}
+\label{sec:odrzucenie-hasa}
+
+Funkcja będzie chyba używana rzadko. Polega na opatrzeniu hasła
+odpowiednim komentarzem, ukryciu go i przejściu do następnego hasła.
+Ukrycie i oznaczeni odbywa się przez wstawienie do komentarza na jego
+początku znaków \texttt{!-!}.
+
+Proponowany klawisz: może Backspace?
+
+\section{Poprawianie hasła}
+\label{sec:poprawianie-hasa}
+
+Nie jest jasne, czy potrzebne będzie jednoczesne poprawianie gabarytów
+i treści hasła, dlatego tego przypadku nie omawiam.
+
+\subsection{Poprawianie gabarytów hasła}
+\label{sec:popr-gabaryt-hasa}
+
+Przypadek ten dotyczy przede wszystkim haseł reprezentujących różne
+elementy układu strony, np. akapity.
+
+Za pomocą myszy poprawiamy gabaryty i akceptujemy hasło w sposób
+opisany wyżej. To jest jedyny przypadek, kiedy do obsługi programu
+jest niezbędna mysz.
+
+\subsection{Poprawianie treści hasła}
+\label{sec:popr-treci-hasa}
+
+Przypadek ten dotyczy przede wszystkim indeksów, w których hasło i
+domyślna treść hasła --- formalnie komentarz --- to segmenty uzyskane
+w wyniku OCR.
+
+Po wybraniu tej opcji powinno się otworzyć okienko do edycji
+komentarza (inne pola chyba powinne być chronione). Okno nie powinno
+przesłaniać skanu z oryginałem - może otwierać je w lewym panelu pod
+indeksem?
+
+Po akceptacji hasło powinno zostać ukryte.
+
+Proponowane klawisze: może Ctrl-spacja lub Ctrl-Enter?
+
+\subsection{Pomijanie hasła}
+\label{sec:pomijanie-hasa}
+
+Stosowane np. gdy hasło wymaga głębszego zastanowienia. Następuje
+przejście do następnego hasła, ale hasło bieżąco pozostaje
+niezmienione --- w szczególności nie zostaje ukryte.
+
+Proponowane klawisze: może Alt-spacja lub Alt-Enter?
+
+
+\section{Zastosowanie}
+\label{sec:zastosowanie}
+
+Indeksy dla programu zostaną wygenerowane z bazy danych informacji
+typograficznych.
+
+Część użytkowników będzie ,,przygodnych'' --- np. studenci
+przeprowadzający korektę na zaliczenie zajęć.
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% TeX-engine: xetex
+%%% TeX-PDF-mode: t
+%%% coding: utf-8
+%%% End:
