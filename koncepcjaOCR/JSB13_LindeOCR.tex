@@ -1,0 +1,894 @@
+\documentclass[12]{mwart}
+\usepackage{polyglossia}
+\setdefaultlanguage{polish}
+
+\usepackage{enumitem}
+\usepackage{draftwatermark}
+
+\usepackage{xltxtra}
+
+\setmainfont[Mapping=tex-text]{TeX Gyre Termes}
+\setsansfont[Mapping=tex-text]{TeX Gyre Adventor}
+%\setmainfont{TeXGyreTermes}
+%\setmainfont{DejaVu Serif}
+%\setmainfont{Bitstream Vera Serif}
+%\setmonofont{TeX Gyre Cursor}
+\setmonofont{DejaVu Sans Mono}
+
+
+%\usepackage{pdfdraftcopy}
+%\draftstring{http://bc.klf.uw.edu.pl}
+
+\usepackage{bibentry,natbib}
+
+\usepackage{graphicx}
+
+\usepackage{hyperref}
+
+\usepackage{soul}
+
+\newcommand{\program}[1]{\textsf{#1}}
+
+\title{Optyczne rozpoznawanie znaków\\ w słowniku Lindego\\
+Koncepcja, narzędzia i realizacja\\(propozycja do dyskusji)}
+
+\author{Janusz S. Bień}
+
+\date{24.03.2014, \ldots, 4.01.2015,26.05.2018}
+
+\begin{document}
+\maketitle
+% \pagestyle{empty}
+
+% no math
+\catcode`\&=12
+\catcode`\_=12
+
+\begin{quote}
+  Tekst na otwartej licencji Creative Commons Uznanie Autorstwa,
+  źródła dostępne w repozytorium
+  \url{https://bitbucket.org/jsbien/linde-info}.
+\end{quote}
+
+\section{Program minimum}
+\label{sec:program-minimum}
+
+  \textbf{W związku z nieotrzymaniem grantu zadania na najbliższą przyszłość
+  muszą być mocno ograniczone.}
+
+\begin{quote}
+  Może wykorzystać jakoś \textit{Bogactwa mowy polskiej}
+  (\url{http://www.osinski.ibi.uw.edu.pl})?
+\end{quote}
+
+Proponowałem poprzednio (8.04.2014):
+\begin{enumerate}
+\item \label{skany}Ulepszenie nowych skanów --- usunięcie zbędnych marginesów,
+  wyprostowanie, może coś jeszcze.
+\item Konwersja na DjVu za pomocą \textsf{didjvu}. Warto najpierw
+  wygenerować same maski i je obejrzeć w celu ustalenia, czy jest sens
+  edytować je ręcznie.
+\item OCR za pomocą \textsf{ocrodjvu} z wykorzystaniem parametrów
+  Tesseracta właściwych dla danego fragmentu. 
+\item Zaadoptowanie konspektu i sekcji ze starych skanów.
+\item Stworzenie dotychczasowymi metodami i udostępnienie korpusu
+  bazującego na nowych wynikach OCR.
+\end{enumerate}
+
+Proponowałem również
+\begin{enumerate}[resume]
+% Ponieważ nie mamy żadnego zewnętrznego terminu, a dobrze byłoby coś
+% zaprezentować w Bolzano na ENeL (19 lipca 2014 r, zebranie m.in. grupy
+% roboczej WG2 \textit{Retro-digitized dictionaries} projektu ISCH COST
+% Action IS1305 \textit{European Network of e-Lexicography}), 
+\item \relax [\ldots] proponuję
+najpierw zrealizować te zadania tylko dla pierwszego tomu.
+\item Równolegle można pracować nad udostępnieniem słownika w EPrints
+(\url{eprints.wbl.klf.uw.edu.pl}) w sposób nadający się do
+harwestowania.
+\item \label{PCSS} Można rozważyć wykonanie eksperymentu z wykorzystaniem danych
+treningowych PCSS
+(\url{http://dl.psnc.pl/download/tesseract_traineddata.zip}).
+\end{enumerate}
+
+\textbf{Przedstawiony program minimum wymaga jednak dalszej minimalizacji oraz
+zmiany kolejności zadań.}
+
+Punkt \ref{skany} w zasadzie został wykonany, punkt \ref{PCSS} odsuwa
+się w nieokreśloną przyszłość. Pozostałe punkty są do realizacji w
+uproszczonej postaci.
+
+% \section{Rozszerzony program minimum}
+% \label{sec:rozsz-progr-minim}
+
+% Można zbadać, czy po odpowiednim skonfigurowaniu \textsf{oXygen}
+% nadaje się do nanoszenia poprawek na hOCR. Ciekawe, czy dałoby się w
+% ten sposób wprowadzać dodatkowe atrybuty (np. język), które mogłyby
+% być wykorzystane do dalszego przetwarzania.
+
+% Można też sprawdzić przydatność fontu \url{http://boingboing.net/2012/10/01/font-designed-for-proofreading.html}.
+
+\section{Planowany wynik ewentualnego grantu lub projektu}
+\label{sec:planowany-wynik}
+
+Długoterminowa koncepcja od 8.04.2014 nie uległa zasadniczym zmianom,
+ale obecnie rozszerzyłbym ją o dwa elementy:
+\begin{enumerate}
+\item wskanowanie oryginałów obu wydań,
+  por. np. \url{http://www.panscan.pl/#onas} (ScanRobot),
+\item rozważenie alternatywnych form udostępnianie tekstowej postaci
+  słownika, por. GoldenDict (\url{http://goldendict.org/}) i czeski
+  system \url{http://sourceforge.net/projects/dict-system/}
+  prezentowany w kilku publikacjach.
+\end{enumerate}
+
+
+Podstawowym celem jest nadal otrzymanie słownika w formacie DjVu z
+wysokiej jakości tekstem ukrytym, wtórnym w stosunku do bogatszego w
+informacje tekstu w hOCR. Choć nadal najważniejsza jest poprawność
+tekstu polskiego, obecnie wydaje się, że droga to tego będzie
+prowadzić przez rozpoznanie innych języków występujących w słowniku,
+przede wszystkim niemieckiego.  
+
+Dokument powinien mieć też konspekt (ang. \textit{outline}), powinien
+mieć też odnotacje zawierające np. rozwinięcia skrótów. 
+
+Słownik w tym
+formacie powinien być udostępniony w Bibliotece Dygitalizacyjnej KLF.
+
+Dodatkowo słownik powinien być udostępniony za pomocą
+\program{Poliqarp dla DjVu}, a utworzony na jego podstawie korpus
+powinien posiadać odpowiednie sekcje. Wskazane byłoby otagowanie
+skrótów ich rozwinięciami. Pożądane byłoby zachowanie informacji o
+fontach, jeśli będziemy nią dysponować.
+
+Do słownika powinien zostać stworzony indeks haseł obsługiwany przez
+\program{djview4poliqarp} bazujący na wstępnej wersji indeksu dla
+tzw. starych skanów (\url{https://bitbucket.org/jsbien/ilindecsv/}).
+
+Do rozważenia jest sporządzenie również innego rodzaju indeksów,
+np. obcojęzycznych odpowiedników haseł --- zwiększyłoby to
+zainteresowanie projektem za granicą.
+
+Poniższe założenia nadal wydają się słuszne, ale mało realne:
+
+\begin{quote}
+  Jeśli Poliqarp 2 zostanie udostępniony dostatecznie wcześnie, warto
+  eksperymentalnie udostępnić część lub całość słownika również za
+  pomocą tego oprogramowania.
+
+  Głównym programistycznym wynikiem projektu powinna być istotnie nowa
+  wersja \program{djview4poliqarp}. Inne narzędzia stworzone na
+  potrzeby projektu też powinne być udostępnione na licencji GNU GPL.
+\end{quote}
+
+\section{Formaty danych}
+\label{sec:formaty-danych-i}
+
+
+Podstawowym formatem dla wyników OCR jest hOCR produkowany przez
+\textsf{tesseract} i \textsf{ocrodjvu}.
+
+Pomocniczo można korzystać z posiadanego przez Katedrę programu
+\program{FineReader}, wtedy dodatkowym formatem pośrednim byłby PDF i
+PDF/A. Więcej informacji zawiera PDF/A, ale program do jego obsługi
+(\url{https://bitbucket.org/tomek87/pdfautils}) dawno nie był przez
+nikogo używany i może wymagać zmian. Teoretycznie jest możliwość
+korzystania również z innych formatów produkowanych przez
+\textsf{FineReader}, ale w obecnych warunkach ydaje się to
+nieopłacalne i nierealne.
+
+\section{Megastruktura słownika}
+\label{sec:megastr-sown-i}
+
+Ze względu na odmienne metadane wskazane jest przechowywanie
+poszczególnych tomów jako odrębnych dokumentów w Bibliotece
+Dygitalizacyjnej KLF. Pożądane jest udostępnienie całego słownika jako
+publikacji zbiorowej, ale Federacja Bibliotek Cyfrowych i Europeana i
+tak obsługują tylko poszczególne tomy, więc sprawa jest
+niskopriorytetowa.
+
+Megastruktura ma również znaczenie praktyczne dla organizacji prac ---
+poszczególne części niehasłowe muszą być traktowane indywidualnie.
+
+\section{Przygotowanie skanów do OCR}
+\label{sec:przyg-skan-do}
+
+Pracujemy na tzw. nowych skanach słownika
+(wykonanych jakiś czas temu na ,,kaudzie'' za pomocą
+\textsf{scanhelper}). 
+
+\subsection{Kadrowanie}
+\label{sec:kadrowanie}
+
+
+
+Przygotowanie skanów składa się z dwóch etapów. Pierwszy to
+zlikwidowanie zbędnych marginesów i ewentualne prostowanie
+(likwidowanie przekosu --- jest nieznaczny, ale widoczny na niektórych
+stronach). Praktycznie jedynym stosownym narzędziem jest \program{Scan
+  Tailor} --- zadanie to już zrealizowała Joanna Bilińska z pewną
+pomocą Mateusza Sarneckiego.
+
+Teoretycznie możliwe było również użycie \textsf{unpaper} z
+interfejsem Chimosza
+(\url{https://bitbucket.org/jsbien/unpaper-gui-fork}), ale byłoby to
+mocno ryzykowne ze względu na brak jakiegokolwiek wsparcia ze strony
+autorów.
+
+\textit{Byłoby najlepiej, gdyby rozmiar w pikselach wszystkich stron był
+identyczny --- czy udało się to osiągnąć?}
+
+\subsection{Binaryzacja}
+\label{sec:binaryzacja}
+
+
+
+Etap drugi to binaryzacja, która może być zrobiona na wiele sposobów
+dając różne rezultaty i w konsekwencji wpływając na wyniki
+OCR. 
+\begin{enumerate}
+\item \program{Scan Tailor}; metoda ta nie nadaje się do
+  bezpośredniego użycia, wyniki programy stanowiłyby tylko maskę dla
+  programu \textsf{didjvu} --- wydaje się, że taka komplikacja nie
+  jest warta ewentualnych korzysci.
+\item \program{didjvu} Jakuba Wilka wykorzystujący m.in. bibliotekę
+  \textsf{Gamera} --- zostały wykonane testy na 50 stronach słownika,
+  a ich wyniki udostępnione pod adresem \url{http://teksty.klf.uw.edu.pl/6/}.
+  \begin{itemize}
+  \item abutaleb --- lepsza od wyników FineReadera,
+  \item bernsten --- wyniki nieakceptowalne wzrokowo,  czcionki --- zwłaszcza duże --- stawały się obwiedniowe.
+  \item djvu (domyślna metoda) --- dla stron tytułówych maska
+    zdecydowanie gorsza od abutaleb, na stronach hasłowych szare
+    marginesy --- niejasny wpływ na OCR.
+  \item niblack --- maska bardzo czysta, duże litery stron tytuowych
+    szarawe, ale binaryzacja tekstu wydaje się lepsza od abutaleb,
+    por. \textit{sedavit} na ostatniej stronie.
+  \item otsu --- maska bardziej kontrastowa niż niblack, dukt grubszy,
+    co czasami powoduje ,,zalanie'', a czasami zachowuje ciągłość
+    znaków, które niblack rozdziela (np. ogonki).
+  \item sauvola --- wydaje się minimalnie lepsze od niblack, zwłaszcza
+    w przypadku ogonków; maska wakatów czystsza od otsu.
+% http://gamera.sourceforge.net/doc/html/binarization.html#sauvola-threshold
+% Sauvola, J. and M. Pietikainen. 2000. Adaptive document image binarization. Pattern Recognition 33: 225--236.
+  \item shading-subtraction --- wszystkie litery obwiedniowe, co jest
+    nieakceptowalne.
+  \item tsai --- zalania podobne do niblack i otsu.
+  \item white-rohrer --- maska z szarym tłem, wydaje się niakceptowalna.
+  \end{itemize}
+\item konwersja na DjVu za pomocą programu \textsf{FineReader} ---
+  bardzo niska kompresja, maska z lukami już na pierwszej stronie,
+  ostatnia strona ,,zapylona'', zdecydowanie ustępuje abutaleb.
+\item Konwersja na DjVu za pomocą programu \textsf{Document Express
+    Desktop} --- prawdopodobnie najlepsza jakość, ale program powolny
+  i niestabilny.
+\end{enumerate}
+
+Najlepszą metodą wydaje się więc sauvola, ale niblack, otsu i tsai są
+bardzo zbliżone.
+
+\subsection{Retusz}
+\label{sec:retusz}
+
+Jednym z elementów przygotowywania skanów może być ,,czyszczenie''
+(ang. \textit{despeckling}). Może być wykonywane jednak na różne
+sposoby również na dalszych etapach, np. tworzenia masek (por. pkt
+\ref{sec:rozw-jzyk-hase}). Roboczo zakładamy, że nie ma to jest aż tak
+istotnego znaczenia dla jakości OCR, i rezygnujemy z tej operacji.
+
+
+Na którymś etapie chyba warto wyretuszować pieczątki na stronach,
+np. w tomie 5 na stronach 764 i 765.
+
+\section{Ocena wyników OCR}
+\label{sec:ocena-wynikow-ocr}
+
+\textbf{Kwestia ta wymaga ponownego przemyślenia.} Niektóre
+prezentowane niżej propozycje nie wydają się obecnie celowe.
+
+Do porównywania wyników np. różnych metod binaryzacji potrzebne jest
+wykorzystanie odpowiednich narzędzi. Być może zadowalające okaże się
+\program{ocrevalUAtion}
+(\url{https://github.com/impactcentre/ocrevalUAtion}). Jego wyniki
+mogą być dodatkowo weryfikowane za pomocą \program{hocr-tools}
+(\url{https://bitbucket.org/jsbien/hocr-tools-tesseract-fix-fork}).
+
+Podstawowym zadaniem tych narzędzi jest porównywanie wyników OCR z
+tekstem wzorcowym (ang. \textit{Ground-Truth}). Wydaje się wskazane
+ręczne stworzenie takiego tekstu. Prawdopodobnie najwygodniej to
+zrobić bazując na fragmentach pierwszego wydania dostępnego w
+WikiŹródłach.
+({\catcode`\%=12\url{http://pl.wikisource.org/wiki/Indeks:Samuel_Bogumi%C5%82_Linde_-_S%C5%82ownik_j%C4%99zyka_polskiego}}).
+
+Uwspółcześniania pisowni można dokonać automatycznie za pomocą
+narzędzia \url{https://bitbucket.org/jsbien/pol}.
+
+Można też rozważać automatyczne porównywanie wyników OCR wykonanych na
+różne sposoby i wybieranie wersji najlepszej. 
+
+Pierwszy krok w tym kierunku został już wykonany przez opracowanie
+skryptu \program{hocr-merge} dostępnego w repozytorium
+\hbox{\url{https://bitbucket.org/jwilk/marasca-wbl}} w gałęzi
+\textsf{wbl}. Program ten obsługuje tylko wyniki programu
+\program{Tesseract} wykonywanego z różnymi parametrami, ale jest
+raczej prymitywny i być może w tej formie nie nadaje się jeszcze do
+użytku.
+
+Nie jest jasne, czy byłoby możliwe i celowe stworzenie programu, który
+w ten sposób porównywałby wyniki programów \program{FineReader 11}
+(Desktop) i \program{Tesseract}. Potencjalnym problemem, występującym
+również w przypadku dwóch przebiegów \program{Tesseracta}, jest
+odmienna segmentacja na słowa --- być może porównania należałoby
+dokonywać na poziomie znaków, co może być kłopotliwe.
+
+Wydaje się, że podobne automatyczne wybieranie najlepszego wyniku było
+stosowane w projekcie \url{http://heml.mta.ca/lace} --- nie ma to dla
+nas praktycznego znaczenia, ale zasługuje na wzmiankę przy publicznej
+prezentacji projektu.
+
+\section{Rozpoznanie struktury strony}
+\label{sec:rozp-strukt-strony}
+
+\textbf{Ten punkt pozostaje nadal aktualny.}
+
+Ten etap ma kluczowe znaczenie dla dalszych prac, ale jego realizacja
+może być kłopotliwa.
+
+
+Dla tzw. starych skanów zadawalające wyniki uzyskał Olejniczak
+(\url{http://bc.klf.uw.edu.pl/223/}, s. 51 i następne), który działał
+na wynikach programu \program{FineReader 11}; opracowane przez niego
+narzędzia dostępne są w prywatnym repozytorium
+\url{https://bitbucket.org/tomek87/skrypty} oraz w publicznym
+repozytorium \url{https://bitbucket.org/tomek87/pdfautils}; w
+repozytorium \url{https://bitbucket.org/wybczu/pdfautils} znajdują się
+nieprzetestowane poprawki. Dokumentacja jest szczątkowa, ale są
+dostępne przykładowe wyniki.
+
+Do wyjaśnienia są następujące kwestie:
+\begin{enumerate}
+\item Czy narzędzia Olejniczaka w ogóle jeszcze działają w obecnym środowisku.
+\item Czy dają się dostatecznie łatwo użyć i dostosować do obecnych
+  celów (zmiany wymaga co najmniej format wyników).
+\item Czy dają się przystosować do pracy --- pośrednio lub
+  bezpośrednio --- na wynikach \program{Tesseracta}.
+\end{enumerate}
+wykorzystując tylko ogólne idee Olejniczaka.
+
+Ze względu na wagę tego etapu jego wyniki powinne być starannie
+zweryfikowane, zwłaszcza dla stron nietypowych (przede wszystkim dla
+stron z ,,tabelami rdzeni''). W pewnym stopniu może to być wykonane
+automatycznie i być może nawet jest już to robione przez narzędzia
+Olejniczaka. Nie należy jednak wykluczać weryfikacji ręcznej. Program
+do tego celu został nawet stworzony przez Olejniczaka, ale okazał się
+niewygodny (nie pamiętam teraz jego lokalizacji, gdzieś mam zrzuty
+ekranu --- nawet jeśli nie ma on praktycznego znaczenia, zasługuje na
+wzmiankę w opisie projektu).
+
+Z informatycznego punktu widzenia stworzenie takiego narzędzia nie
+wydaje się trudne, ale jego specyfikacja powinna być dobrze
+przemyślana. Otwarte pytanie, czy powinien to być odrębny program, czy
+też jedna z funkcji programu o ogólniejszym przeznaczeniu. W tym
+drugim przypadku może to być program \program{djview4poliqarp} (lub
+\textsf{djview4}) uzupełniony o funkcję pokazywania struktury strony
+na ekranie i przewijanie po kolumnach zamiast po stronach
+(por. \url{https://sourceforge.net/p/djvu/discussion/103286/thread/77392e32/?limit=25#ca7d/ac15}).
+
+Być może warto na wszelki wypadek zrealizować postulat
+\url{https://bitbucket.org/mrudolf/djview-poliqarp/issue/28/editing-sidecar-hocr-file-s}
+(dostęp ograniczony):
+\begin{quote}
+  The most needed function is adjusting (or creating) the borders of
+  \verb|ocr_careas| (content areas, in particular columns) which in
+  the general case can be isothetic polygons. Examples:
+
+1. An \verb|ocr_table| (highlighted), a rectangular \verb|ocr_area| (left column), an isothetic \verb|ocr_area| (right column), running heads and page number:
+
+ % \url{http://eprints.wbl.klf.uw.edu.pl/44/1/iLinde1FR11.djvu?djvuopts=&amp;page=page0184.djvu&amp;zoom=78&amp;showposition=0.49,0.49&amp;highlight=2635,4186,455,555}
+ \url{http://eprints.wbl.klf.uw.edu.pl/44/1/iLinde1FR11.djvu?djvuopts=&page=page0184.djvu&zoom=78&showposition=0.49,0.49&highlight=2635,4186,455,555}
+
+2. Two isothetic \verb|ocr_areas| (left and right columns), additional
+problem posed by the common parts - the easiest way out seem to
+interpret the page as overlapping columns (using \verb|ocr_linear| is
+probably also possible):
+
+ \url{http://eprints.wbl.klf.uw.edu.pl/44/1/iLinde1FR11.djvu?djvuopts=&page=page0082.djvu}
+
+3. A slightly simpler example:
+
+\url{http://eprints.wbl.klf.uw.edu.pl/44/1/iLinde1FR11.djvu?djvuopts=&page=page0081.djvu}
+
+\end{quote}
+
+Komentarz:
+
+
+\begin{quote}
+  \small
+  Termin \textit{isothetic} jest używany w literaturze
+  dygitalizacyjnej, a przynajmniej w dokumentacji jednego z programów
+  używanych w projekcie IMPACT.
+
+  Według Wikipedii: \textit{An isothetic polygon is a polygon whose
+    alternate sides belong to two parametric families of straight
+    lines which are pencils of lines with centers at two points
+    (possibly in the infinity). The most well-known example of
+    isothetic polygons are rectilinear polygons, and the former term
+    is commonly used as a synonym for the latter one}.
+
+  W praktyce chodzi więc o wielobok o kątach prostych.
+\end{quote}
+
+Rozpoznanie struktury strony pozwala stworzyć indeks haseł głównych
+oraz wydzielić żywą paginę, kustosze i śródtytuły. W dalszych etapach
+należy wykorzystać redundancję zawartą w tych elementach, a indeks
+skonfrontować z indeksem stworzonym na podstawie danych przygotowanych
+za pomocą narzędzi Olejniczaka.
+
+\section{Analiza i korekta struktury stron}
+\label{sec:korekta-strukt-stron}
+
+Niezbędne wydaje się wsadowe uzyskanie podstawowych statystyk na temat
+struktury stron.
+
+Prawdopodobnie w tym samy przebiegu można przygotować dane do
+rekonstrukcji wyrazów niespójnych.
+
+Można rozważyć tymczasową konwersję struktury strony na adnotacje i
+edytować je na jeden z kilku dostępnych sposobów:
+
+  \begin{itemize}
+  \item \textsf{djvusmooth}
+  \item \textsf{Emacs} (\url{http://elpa.gnu.org/packages/djvu.html})
+  \item \textsf{WebDjVuTextEd} (\url{http://sourceforge.net/projects/webdjvutexted/})
+%  \item \textsf{PoCoTo}\url{https://github.com/thorstenv/PoCoTo}
+  % \item \url{https://github.com/impactcentre/ocrevalUAtion}
+  % \item \url{https://github.com/impactcentre/inventory-extraction.git}
+  % \item \url{http://vietocr.sourceforge.net/}
+  % \item \url{http://gamera.informatik.hsnr.de/}
+  \end{itemize}
+
+
+\section{Rozpoznanie kursywy i korekta wyników}
+\label{sec:rozpoznanie-kursywy}
+
+
+\subsection{Rozpoznanie kursywy}
+\label{sec:rozpoznanie-kursywy-1}
+
+\textbf{Kluczowe znaczenie dla projektu ma poprawne rozpoznanie wszystkich
+skrótów --- rozpoznanie kursywy wydawało się dobrą drogą do tego, ale
+nie jest to obecnie oczywiste.}
+
+Z dotychczasowych eksperymentów wynika, że \program{FineReader}
+rozpoznaje kursywę dość dobrze, a \program{Tesseract} praktycznie w
+ogóle.
+
+Rozwiązaniem najbardziej eleganckim byłoby wytrenowanie
+\program{Tesseracta} do rozpoznawania kursywy jako dodatkowego
+,,języka''. Zadanie nie wymaga wiedzy informatycznej, ale niezbędne
+jest zrozumienie dość skąpej dokumentacji z pomocą m.in. archiwum
+listy dyskusyjnej użytkowników programu i przeprowadzenie pewnej
+liczby eksperymentów. Jest dużo różnych narzędzi do trenowania,
+niektóre z nich dostępne są również dla MS Windows --- np. autor
+programu \program{VietOCR} (\url{http://vietocr.sourceforge.net/})
+bardzo go zachwala, może rzeczywiście jest dobry. Warunkiem sukcesu
+jest biegłość w obsłudze komputera i podejście do zadania ,,z
+sercem''.
+
+Selekcja kursywy do trenowania i testowania \program{Tesseracta} teoretycznie może
+się odbywać na kilka sposobów:
+\begin{enumerate}
+\item \program{djview4poliqarp} Chimosza
+  (\url{https://bitbucket.org/chimi/djview-fork-klf-uw},
+  \url{https://bitbucket.org/chimi/djvulibre-fork-klf-uw}), dostępny
+  na demonstracyjnej maszynie wirtualnej z KMD, ale niestabilny,
+\item \program{djview4shapes} Rudolfa --- przestał działać pod
+  nowszymi wersjami Linuksa, działa na demonstracyjnej maszynie
+  wirtualnej (\url{hg-robocze/Linde4tesseract/}),
+\item programy Sikory
+  (\url{/mnt/MyBookT2/z_MyBookT1/MyBookT1/new-backup/galicja/hdd5-sarge-home/jsbien/Neof/}, kłopotliwe w instalacji,
+  zaporowo wolne w działaniu)
+\item korpus \textit{font-sensitive} --- jedna wersja niedostępna z
+  powodu awarii serwera, druga w formie maszyny wirtualnej z
+  usterkami, zasadniczym problem jest jednak redukcja rozdzielczości,
+\item inne narzędzia, np. \program{Gamera}, \program{PaRADIIT}.
+\end{enumerate}
+Preferowany jest program Rudolfa, zwłaszcza jeśli błędy zostaną
+usunięte szybko i będą dodane nowe funkcje. Jednak już w obecnej
+wersji na maszynie wirtualnej jest on używalny, należy jednak chyba
+działać na przetworzonej wersji skanów ze względu na minimalne --- ale
+może istotne dla jakości OCR --- ,,przekosy''.
+
+Tak czy inaczej warto w ten czy inny sposób wykorzystać
+\program{FineReadera}, jeśli będzie to możliwe technicznie,
+
+Dla słów pisanych kursywą należy utworzyć listę frekwencyjną i ją
+ręcznie zweryfikować, oddzielając skróty od np. słów łacińskich.
+Istniejący wykaz skrótów można wykorzystać jako słownik do OCR.
+
+\subsection{Korekta wyników}
+\label{sec:korekta-wynikow}
+
+Pierwotna koncepcja była następująca:
+
+\begin{quote}
+  Otwartą kwestią jest metoda nanoszenia poprawek. Ewidentne
+  systematyczne błędy OCR można korygować globalnym podstawieniem na
+  tekście ukrytym. W przypadkach wątpliwych można chyba wykorzystać
+  nieznacznie zmodyfikowaną funkcję tworzenia indeksów w programie
+  \program{djview4poliqarp}.  Indeks zawierający poprawki musiałby być
+  potem przetworzony na odpowiednie podstawienia w tekście ukrytym ---
+  dla informatyka zadanie to powinno być bardzo łatwe.
+\end{quote}
+
+Obecnie uważam za optymalną metodę użycie zmodyfikowanego programu
+\program{djview4poliqarp} --- specyfikacja modyfikacji w
+przygotowaniu.
+
+Można też rozważać użycie
+\textsf{PoCoTo}\url{https://github.com/thorstenv/PoCoTo}.
+
+\section{Rozpoznawanie wersalików i korekta wyników}
+\label{sec:rozp-wers-i}
+
+Wersalikami pisane są hasła --- ze względu na udostępnienie indeksu
+haseł (\url{https://bitbucket.org/jsbien/ilindecsv}) zadanie to ma
+obecnie wysoki priorytet. Wymaga ono jednak albo uruchomienia narzędzi
+Olejniczaka albo stworzenie nowych o podobnej funkcji.
+
+Należy w szczególności uwzględnić przenoszenie wyrazów hasłowych do
+nowego wiersza, nowej kolumny lub nowej strony.
+
+\section{Wstępne rozwarstwienie językowe haseł}
+\label{sec:wstpne-rozw-jzyk}
+
+\textbf{Wydzielenie tego etapu i nadanie mu wysokiego priorytetu do zmiana w
+stosunku do poprzedniej koncepcji.}
+
+Chodzi o wydzielenie --- dzięki informacji uzyskanej za pomocą
+programu \textsf{tesseract} --- tekstu niemieckiego pisanego fakturą,
+który nie jest w żadny inny sposób wydzielony formalnie.
+
+Dla tak wydzielonego tekstu należy sporządzić listę frekwencyjną i
+zweryfikować ją za pomocą dostępnych programów (można konsultować się
+w ENeL i IMPACT), co pozwoli wyeliminować błędne rozpoznanie innych
+krojów pism jako fraktury.
+
+Jak się wydaje, fraktura jest błędnie traktowana jako łacinka w
+przypadku krótkich słów niezawierających charakterystycznych dla
+fraktury liter. Być może słowa te dadzą się łatwo zauważyć na liście
+frekwencyjnej. Wskazane będzie poprawienie w jakiś sposób tych błędów.
+
+\section{Podstawowe rozwarstwienie językowe haseł}
+\label{sec:rozw-jzyk-hase}
+
+\textbf{Ten etap nie tylko jest również kluczowy dla projektu, ale
+charakteryzuje się oryginalnością podejścia, co należałoby wykorzystać
+do przygotowania publikacji dla renomowanego czasopisma.
+}
+
+Dysponując wiarygodnym OCR  skrótów językowych,
+oraz wiarygodnym podziałem strony na łamy, dzięki pracy doktorskiej
+J. Bilińskiej można rozpoznać w hasłach fragmenty
+obcojęzyczne. Powstaje oczywiście pytanie, co robić z rozpoznanymi
+fragmentami.
+
+Dokument w formacie DjVu składa się z czterech warstw, oprócz tekstu
+ukrytego mamy tło, zadruk i maskę. Binarna maska jest niewidoczna dla
+użytkownika, ale to ona właśnie stanowi dane wejściowe dla
+\program{ocrodjvu}, a w konsekwencji dla
+\program{Tesseracta}. Zmieniając domyślną maskę na taką, która zawiera
+tylko tekst w wybranym języku, wyznaczamy tzw. ROI
+(ang. \textit{region of interest}) dla OCR, przy czym użytkownik nadal
+widzi w całości oryginalny tekst (ale można za pomocą specjalnych
+adnotacji podświetlić lub w inny sposób wyróżnić ROI).
+
+Dysponując tak rozwarstwionym słownikiem możemy wykonywać OCR dla
+każdego języka osobno.
+
+Ta prosta koncepcyjnie operacja w praktyce będzie skomplikowana i
+żmudna ze względu na konieczność operowania dużą liczbą plików.
+
+Pierwotne maski można tworzyć na kilka sposób, najprostszy --- choć
+niekoniecznie najlepszy --- to użycie odpowiedniej funkcji programu
+\program{didjvu}. Do tworzenia masek ,,jednojęzykowych'' potrzebny
+jest specjalny program --- zadanie dla informatyka, ale dość łatwe.
+Złożenie nowych masek z obrazem graficznym można wykonać również za
+pomocą \program{didjvu}.
+
+Etap rozwarstwiania jest dobrym momentem na stworzenie listy wyrazów
+przenoszonych do nowego wiersza do wykorzystania w dalszych etapach.
+
+Ze względu na dużą liczbę plików i powtarzalność operacji wydzielania
+języków wskazane jest stworzenie jakiś przemyślanych narzędzi
+wspomagających --- zadanie dla informatyka, przy dobrej specyfikacji
+raczej łatwe.
+
+Całą operację dobrze jest wcześniej przetestować na dwujęzycznych
+tekstach wstępnych, por pkt. \ref{sec:nieh-fragm-sown}.
+
+
+\section{Wyodrębnienie i korekta polszczyzny w hasłach}
+\label{sec:wyodrbn-polszczyzny}
+
+\textbf{Zmiana koncepcji,
+  por. pkt. \ref{sec:wstpne-rozw-jzyk}!}. Poniższe informacje są
+jednak nadal aktualne.
+
+Na tym etapie wykorzystujemy fakt, że \program{Tesseract} całkiem
+dobrze odróżnia font gotycki od innych krojów pisma. Wykorzystując
+wyniki programu rozwarstwiamy tekst na tekst gotycki i pozostałość,
+prawdopodobnie w całości polskojęzyczną.
+
+Szczegóły są do ustalenia po wykonaniu eksperymentów i ich ocenie. Nie
+jest jasne, czy lepiej na początku podawać parametr
+\textsf{deu-frak+pol} (niemiecki gotykiem i polski --- kolejność
+wydaje się istotna), czy \textsf{pol+de-frak}, czy też wykonać osobne
+przebiegi dla \textsf{deu-frak} oraz \textsf{pol} i następnie
+skomasować je za pomocą \program{hocr-merge}.
+
+Tekst polskojęzyczny weryfikujemy najpierw na podstawie listy
+frekwencyjnej, potem --- w razie potrzeby --- kontekstowo.
+
+Gdyby liczba błędów była bardzo duża, można rozważyć wytrenowanie
+\program{Tesseracta} specjalnie do polskojęzycznego tekstu słownika,
+nie jestem jednak w stanie ocenić stopnia trudności i opłacalności
+tego zadania.
+
+Wydaje się, że podobnie jak w przypadku korekty kursywy, poprawki
+można nanosić za pomocą \program{djview4poliqarp}.
+
+Teoretycznie możliwe, ale chyba nieopłacalne, jest użycie
+\program{djvusmooth} (tylko dla Linuksa) lub jakiegoś narzędzia
+pomocniczego \program{Tesseracta}.
+
+Niektóre narzędzia do korekty zrealizowane w ramach projektu IMPACT są
+sensowne, ale zniechęcają zamkniętymi licencjami, brakiem dokumentacji
+i bazowaniem na formatach innych niż hOCR, mogą być jednak
+wykorzystane jako inspiracja. Jedno z takich narzędzi jest dostępne
+tutaj: \url{https://github.com/impactcentre/PoCoTo}.
+
+\section{Korekta niemieckiego w hasłach}
+\label{sec:korekta-niemieckiego}
+
+\textbf{Zmiana koncepcji,
+  por. pkt. \ref{sec:wstpne-rozw-jzyk}!}.
+
+
+\section{OCR i korekta innych języków w hasłach}
+\label{sec:ocr-i-korekta}
+
+\textbf{Obecnie uważam, że priorytetem powinno być wydzielenie
+  niełacińskich alfabetów.}
+
+Warto wykonać OCR dla wszystkich języków, dla których to będzie łatwe
+z technicznego punktu widzenia. Korekta wyników byłaby wykonywana
+tylko w miarę możliwości --- tj. kompetencji zespołu i możliwości
+czasowych. 
+
+Wcześniejsze stanowisko
+\begin{quote}
+  Wydaje się, że na tym etapie warto wykorzystać \program{FineReadera}
+  do OCR języków nie obsługiwanych przez \program{Tesseracta}.
+\end{quote}
+prawdopodobnie wymaga modyfikacji.
+
+Jeśli nanoszenie korekty za pomocą \textsf{djview4poliqap} okaże się
+dostatecznie wygodne, ten etap może być wykonywany z pomocą
+wolontariuszy i/lub studentów.
+
+\section{Niehasłowe fragmenty słownika}
+\label{sec:nieh-fragm-sown}
+
+Jak było wspomniane, muszą one być traktowane indywidualnie. Nie jest
+jasne, czy opłaca się korzystać z fragmentów pierwszego wydania
+dostępnych w WikiŹródłach --- chyba nie.
+
+Nietypowy podział na kolumny może być uwzględniony przez ręczną edycję
+masek.
+
+Można się obawiać, że wielojęzyczne \textit{Prawidła etymologii} będę
+zawierać wiele błędów OCR, a metoda rozwarstwiania na języki w tym
+wypadku jest nieopłacalna --- pozostaje chyba tylko ręczna edycja
+tekstów. Wybór narzędzi jest taki sam, jak w przypadku
+\ref{sec:korekta-wynikow}.
+
+
+\section{Komasowanie wyników}
+\label{sec:komasowanie-wynikow}
+
+Uzyskanie zbiorczego tekstu ukrytego na podstawie zweryfikowanych
+tekstów wielojęzycznych wymaga specjalnego programu --- dość łatwe
+zadanie dla informatyka.
+
+Specjalnego programu będzie wymagać też naniesienie adnotacji ---
+\program{djview4poliqarp} może być rozszerzony o ich obsługę.
+
+\section{Konwersja na korpus}
+\label{sec:konwersja-na-korpus}
+
+Istotnym elementem nowej koncepcji jest zrobienie wspólnego korpusu
+dla starych i nowych skanów.
+
+\subsection{Metadane}
+\label{sec:metadane}
+
+\begin{itemize}
+\item author
+\item editors
+\item title (inny dla całości, inny dla tomów)
+\item edition
+\item place
+\item year
+\item version (1 --- stare skany, 2 --- nowe)
+\end{itemize}
+
+\subsection{Tagi}
+\label{sec:tagi}
+
+Pole form hasłowych wykorzystujemy na rekonstrukcję wyrazów
+podzielonych, por. \ref{sec:wyrazy-przen-dow}.
+
+
+Poniższa propozycja jest nieznaczną modyfikacją propozycji Wilka z
+mejla z 29 kwietnia 2013 r. (skróty języków zgodne z BCP 47),
+ograniczoną do potrzeb pierwszego etapu pracy:
+
+\begin{itemize}
+\item \texttt{orig}: źródło tekstu, por. koncepcję pseudohomonimów
+  (pkt. \ref{sec:pseudohomonimy}). Przykładowe propozycje wartości:
+  \texttt{FR10pol} (stare skany), \texttt{tess3.3deu-frak+pol} (nowe
+  skany), \texttt{indeks} (wyraz potwierdzony przez indeks \textit{a
+    tergo}) itp.
+\item \texttt{lang}: \texttt{�} (REPLACEMENT CHARACTER, U+FFFD:
+  oznaczenie nierozpoznanego języka), \texttt{de} (niemiecki); dla
+  interpunkcji i skrótów należy przemyśleć, jaka wartość byłaby optymalna.
+\item \texttt{script}: \texttt{�} (REPLACEMENT CHARACTER, U+FFFD:
+  oznaczenie nierozpoznanego pisma), \texttt{latf} (łacinka fraktura).
+\item \texttt{series}: aktualnie tylko \texttt{�}, później także
+  \texttt{medium} i \texttt{bold}.
+\item \texttt{shape}: aktualnie tylko \texttt{�}, później także
+  \texttt{upright} i \texttt{italic}.
+\item \texttt{size}: aktualnie tylko \texttt{�}.
+\item \texttt{wconf} (\textit{word confidence}: \texttt{0}, \ldots,
+  \texttt{9} (wyliczone na podstawie wartości dostarczanych przez
+  program \textsf{tesseract}, oznaczające odpowiednie wartości z
+  przedziału 0--0,1 itd.), \texttt{�} (brak informacji o ufności),
+  \texttt{✓} (CHECK MARK, U+2713: rozpoznanie powierdzone w jakiś
+  dodatkowy sposób). Przykład użycia: \texttt{wconf='[5-9]'}.
+\end{itemize}
+
+Konwersja na korpus będzie wymagać specjalnego programu --- chyba dość
+łatwe zadanie dla informatyka. można się wzorować na istniejących
+programach.
+
+\subsection{Segmentacja na tokeny}
+\label{sec:segm-na-tokeny}
+
+Do rozważenia jest przypisanie każdemu tokenowi identyfikatora: numer
+tomu, numer strony, numer kolumny, numer wiersza, numer we
+wierszu. Dane te mogą zostać zapisane w formie arkusza kalkulacyjnego
+lub tabeli w bazie danych.
+
+
+\subsection{Wyrazy niespójne}
+\label{sec:wyrazy-przen-dow}
+
+Chodzi o wyrazy przenoszone do nowego wiersza, nowej kolumny lub strony.
+
+Pole formy hasłowej pierwszego członu wyrazu niespójnego zawiera całą
+zrekonstruowaną formę, dla pozostałych członów pola te są puste
+(wydaje się to technicznie możliwe).
+
+
+W \program{Poliqarp 2} ten problem ma być rozwiązywalny
+elegancko, ale przystosowanie \program{djview4poliqarp} do współpracy
+z \program{Poliqarp 2} może być nietrywialne.
+
+\subsection{Pseudohomonimy}
+\label{sec:pseudohomonimy}
+
+Ograniczenie do tylko dwóch pól tekstowych w całostce można obejść
+wprowadzając całości będące z technicznego punktu widzenia homonimami.
+Jest to na pewno możliwe w programie \textsf{Poliqarp}, należy
+sprawdzić --- chyba doświadczalnie --- czy jest to obsługiwane również
+przez \textsf{marasca}. Dalej zakładamy odpowiedź pozytywną.
+
+
+% Pewnie już Pana o to kilka razy pytałem, ale nie pamiętam odpowiedzi... 
+% Mógłbym to sprawdzić doświadczalnie, ale Pan pewnie odpowie z pamięci.
+
+% Powoli dojrzewamy do robienia korpusu dla nowego OCR nowych skanów słownika Lindego i mam w związku z tym dwa pomysły:
+
+% 1. Zamiast mergować hOCR z róźnych przebiegów potraktować te wyniki jako homonimy (czywiscie jesli segmentacja jest identyczna) odsuwając wybór właściwej wersji na jakiś późniejszy etap.
+
+% 2. Obejść ograniczenie na dwa pola tekstowe dla tokenu traktując np. Boh jako trzy homonimiczne jednostki:
+
+% Boh - "normalny" token, jakieś konwencjonalne pos
+% Boh - pos np. abbr, lemma Bohemice, ewentualnie jeszcze inne tagi
+% Boh - pos np. abbrsense, lemma cs
+
+% Czy to da się zrobić?
+
+% Pozdrawiam
+
+
+\section{Uwagi końcowe}
+\label{sec:uwagi-kocowe}
+
+Priorytem jest obecnie wybór jednej lub kilku metod binaryzacji i
+wykonanie OCR za pomocą programu \textsf{tesseract}.
+
+Można uniknąć podejmowania decyzji stosując wszystkie metody
+jednocześnie --- czasochłonne, ale proste koncepcyjnie.
+
+Nie jest niestety jasne, czy OCR za pomocą programu \textsf{FineReader}
+jest wart zachodu.
+
+
+\end{document}
+
+On Mon, Apr 29 2013 at 19:37 CEST, jwilk@jwilk.net writes:
+> OK. W takim razie moja propozycja tagsetu jest taka:
+>
+> [attr]
+> lang = und pl de ru
+> script = latn latf cyrl
+> series = medium bold
+> shape = upright italic
+> wconf = 0 1 2 3 4 5 6 7 8 9
+>
+> [pos]
+> ign = lang script series shape wconf
+>
+
+lang = und de (pl ru - a skróty mają język?)
+script = und latn latf cyrl?
+series = und medium bold
+shape = und upright italic
+size = und
+wconf = und 0 1 2 3 4 5 6 7 8 9  
+Unicode Character 'CHECK MARK' (U+2713)
+	
+
+transliteracja?
+
+textel = lang script series shape size wconf
+abbr = sense abbrlang script series shape size wconf
+
+==============================================================
+Quote/Cytat - Jakub Wilk <jwilk@jwilk.net> (Mon 15 Dec 2014 09:47:45 PM CET):
+
+> Przepraszam za późną odpowiedź...
+>
+> * Janusz S. Bien <jsbien@mimuw.edu.pl>, 2014-10-21, 08:07:
+>> 1. Zamiast mergować hOCR z róźnych przebiegów potraktować te wyniki 
+>> jako homonimy (czywiście jeśli segmentacja jest identyczna) 
+>> odsuwając wybór właściwej wersji na jakiś późniejszy etap.
+>>
+>> 2. Obejść ograniczenie na dwa pola tekstowe dla tokenu traktując np. 
+>> Boh jako trzy homonimiczne jednostki:
+>>
+>> Boh - "normalny" token, jakieś konwencjonalne pos do "zawieszenia" 
+>> standardowych tagów,
+>> Boh - pos np. abbr, lemma Bohemice, ewentualnie jeszcze inne tagi
+>> Boh - pos np. abbrsense, lemma cs
+>>
+>> Czy to da się zrobić?
+>
+> Wydaje mi się, że tak.
+>
+> -- 
+> Jakub Wilk
+>
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% TeX-engine: xetex
+%%% TeX-PDF-mode: t
+%%% coding: utf-8
+%%% End:
