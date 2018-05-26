@@ -1,0 +1,1033 @@
+\documentclass[12]{mwart}
+\usepackage{polyglossia}
+\setdefaultlanguage{polish}
+
+\usepackage{enumitem}
+\usepackage{draftwatermark}
+
+\usepackage{xltxtra}
+
+\setmainfont[Mapping=tex-text]{TeX Gyre Termes}
+\setsansfont[Mapping=tex-text]{TeX Gyre Adventor}
+%\setmainfont{TeXGyreTermes}
+%\setmainfont{DejaVu Serif}
+%\setmainfont{Bitstream Vera Serif}
+%\setmonofont{TeX Gyre Cursor}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{draftwatermark}
+
+% \usepackage{bibentry,natbib}
+
+\usepackage{graphicx}
+
+\usepackage{hyperref}
+
+\usepackage{soul}
+
+\usepackage{relsize}
+
+\usepackage[style=authoryear,natbib=true]{biblatex}
+%\addbibresource{JSB2013.bib,typografia.bib}
+\addbibresource{4JSB2014.bib}
+\AtEveryBibitem{\clearfield{note}}
+
+
+
+\newcommand{\program}[1]{\textsf{#1}}
+
+\title{Megastruktura słownika Lindego}
+\author{Janusz S. Bień}
+
+\date{2013,\ldots,26.05.2018}
+
+\begin{document}
+\maketitle
+% \pagestyle{empty}
+
+% no math
+\catcode`\&=12
+\catcode`\_=12
+
+\begin{quote}
+  Tekst na otwartej licencji Creative Commons Uznanie Autorstwa,
+  źródła dostępne w repozytorium
+  \url{https://bitbucket.org/jsbien/linde-info}.
+\end{quote}
+
+\section{Wstęp}
+\label{sec:wstp}
+
+\begin{quote}
+  \textbf{Do wyjaśnienia jest kwestia paginacji oryginału --- wygląda
+    na to, że oba reprinty pomijają dwie strony. Może kontrtytuł?}
+\end{quote}
+
+
+% Mirosław Bańko, dr hab., prof. UW Instytut Języka Polskiego UW m.banko@uw.edu.pl
+% Warszawa, 1 czerwca 2013
+% Recenzja pracy doktorskiej mgr Joanny Bilińskiej pt. „Analiza i leksykograficzny opis struktury słownika Lindego na potrzeby dygitalizacji"
+
+% [...]
+
+% Rozdział 3 nosi tytuł Budowa słownika Lindego i zgodnie z nim dotyczy
+% struktury słownika. Jest ona tu rozpatrywana - by tak rzec - z lotu
+% ptaka, przedmiotem opisu staje się bowiem podział na woluminy (różnie
+% numerowane w różnych wydaniach), ich objętość i zawartość
+% (zróżnicowana zwłaszcza w tomie 1), a także graficzne rozplanowanie
+% strony, z uwzględnieniem podziału na łamy, marginesów i tytulików
+% otwierających poszczególne litery i mniejsze bloki haseł oraz tabel
+% spotykanych w tomie 1, zwanych radic. Doktorantka informuje o
+% różnicach między wydaniem pierwszym (warszawskim) a drugim (lwowskim),
+% w tym o modernizacji pisowni. Opis cechuje się znacznym stopniem
+% szczegółowości, przy tym jest to szczegółowość podyktowana zamiarem
+% wykorzystania go w przyszłej dygitalizacji słownika. Omawiając różne
+% elementy struktury słownika, doktorantka zwraca uwagę na problemy,
+% jakie może stwarzać ich automatyczne rozpoznanie, ale też na pożytki,
+% jakie można osiągnąć z informacji pozornie nieużytecznych (np. cenne
+% spostrzeżenie dotyczy wykorzystania sygnatur do sprawdzenia, czy
+% podczas skanowania nie została pominięta żadna strona).
+
+% Uważam, że zawartość rozdziału 3 lepiej charakteryzowałby inny tytuł,
+% mianowicie: Megastruktura, a dodatkową korzyścią z takiej zamiany
+% byłby paralelizm w stosunku do dwóch następnych rozdziałów, których
+% tytuły brzmią: Makr o struktur a i Mikrostruktura. W rozdziale 4
+% bowiem zakres opisu się zawęża, dotyczy on tu tzw. makrostruktury,
+% czyli uporządkowania artykułów hasłowych. Tu chciałbym zgłosić kolejną
+% propozycję nazewniczą i sugerować, aby autorka pisała o artykułach
+% hasłowych i wyrażeniach hasłowych, unikała zaś dwuznacznego terminu
+% hasło, którego sens tylko z kontekstu można wyczytać. Porządek wyrażeń
+% hasłowych został w pracy opisany bardzo dokładnie, z uwzględnieniem
+% innej niż współczesna zasady alfabetyzacji oraz znaków ignorowanych
+% przy sortowaniu alfabetycznym. Doktorantka szczegółowo wyliczyła też
+% rodzaje wyrażeń hasłowych, zwróciła uwagę na hasła homonimiczne,
+% neologizmy i poetyzmy oznaczane w szczególny sposób, a także na
+% artykuły hasłowe odsyłaczowe i odesłania wewnątrz samodzielnych
+% haseł. Wiele uwagi poświęciła żywej paginie jako źródłu potencjalnie
+% cennych informacji umożliwiających automatyczną kontrolę poprawności
+% skanowania i rozpoznania tekstu.
+
+Termin \textit{megastruktura} zaproponował Mirosław Bańko w
+niepublikowanej recenzji z 1 czerwca 2013~r. pracy doktorskiej mgr
+Joanny Bilińskiej pt. \textit{Analiza i leksykograficzny opis
+  struktury słownika Lindego na potrzeby dygitalizacji} \citep{bc347}
+pisząc na s.~3--4:
+\begin{quote}
+  Rozdział 3 nosi tytuł Budowa słownika Lindego i zgodnie z nim dotyczy
+struktury słownika. Jest ona tu rozpatrywana - by tak rzec - z lotu
+ptaka, przedmiotem opisu staje się bowiem podział na woluminy (różnie
+numerowane w różnych wydaniach), ich objętość i zawartość
+(zróżnicowana zwłaszcza w tomie 1), [\ldots]
+
+Uważam, że zawartość rozdziału 3 lepiej charakteryzowałby inny tytuł,
+mianowicie: Megastruktura, a dodatkową korzyścią z takiej zamiany
+byłby paralelizm w stosunku do dwóch następnych rozdziałów, których
+tytuły brzmią: Makrostruktura i Mikrostruktura. 
+\end{quote}
+
+Niniejszy opis megastruktury ma kilka celów, jednym z nich jest
+zaproponowanie jednoznacznych intuicyjnych identyfikatorów stron w
+słowniku.  W tym celu wyróżniamy w tomach słownika \textit{sekcje
+  paginacyjne}, czyli strony jawnie lub niejawnie numerowane
+sekwencyjnie. 
+% Dopuszczamy przypisanie jednej stronie kilku
+% identyfikatorów.
+
+Innym celem jest przygotowanie danych do szczegółowego spisu treści,
+który może stanowić osobny dokument lub być zintegorwany jako
+\textit{outline} z tomami słownika.
+
+Opis dotyczy przedruku drugiego wydania słownika wykonanego w latach
+1994--1995 przez wydawnictwo GUTENBERG-PRINT (ISBN 83-86381-50-7),
+które uznajemy za czwarte wydanie slownika. W razie potrzeby możemy to
+oznaczać jawnie poprzedzają opisany niżej identyfikator strony
+prefiksem \texttt{GB-} lub \texttt{4-}.
+
+%Wakaty nie są wymieniane jawnie w wykazie.
+
+\section{Tom pierwszy}
+
+Identyfikator stron tomu pierwszego zaczyna się od \texttt{1---}, co
+pozwoli w razie potrzeby prosto sortować identyfikatory, por. ???
+
+\subsection{Nieliczbowane tytularia przedruku}
+\label{sec:niel-tytul-przedr}
+
+% page identifier
+% tom wymaga \case!!!
+\newcommand{\pai}[2]{http://teksty.klf.uw.edu.pl/20/2/LindeIIGP#1ocri.djvu?djvuopts=\&page=#2\&zoom=page}
+
+% nie działa:
+% \newcommand{\pail}[3]{\href{http://teksty.klf.uw.edu.pl/20/2/LindeIIGP#1ocri.djvu?djvuopts=\&page=#1\&zoom=page}{\texttt}{#3}}
+
+t???
+
+Strony te oznaczamy literą \texttt{d} (od \textit{dodane}) i
+jednocyfrową liczbą:
+\begin{itemize}
+\item \href{\pai{1}{1}}{\texttt{d1}} ozdobna strona tytułowa.
+% http://teksty.klf.uw.edu.pl/20/2/LindeIIGP1ocri.djvu?djvuopts=&page=1&zoom=width&showposition=0.5,0.2
+\item \href{\pai{1}{2}}{\texttt{d2}} wakat.
+\item \href{\pai{1}{3}}{\texttt{d3}} strona tytułowa.
+\item \href{\pai{1}{4}}{\texttt{d4}} ISBN słownika i tomu, adres drukarni
+\end{itemize}
+
+Typ paginacji to oczywiscie \textbf{nlb}.
+
+\subsection{Nieliczbowane tytularia oryginału}
+\label{sec:tytularia-oryginau}
+
+Strony te oznaczamy literą \texttt{o} (od \textit{oryginał}) i
+jednocyfrową liczbą:
+\begin{itemize}
+\item \href{\pai{1}{5}}{\texttt{o1}}  strona tytułowa.
+\item \href{\pai{1}{6}}{\texttt{o2}} wakat.
+\end{itemize}
+
+Typ paginacji to oczywiscie \textbf{nlb}.
+
+
+\subsection{Uzupełnienia  Bielowskiego}
+\label{sec:przedm-biel}
+
+% Jest  w pracy JB:!!!
+
+Fragment ten ma paginację arabską od [1] do [40], strony te oznaczamy
+literą \texttt{u} (od \textit{uzupełnienia}) i co najmniej dwucyfrową
+liczbą:
+\begin{itemize}
+\item \href{\pai{1}{07}}{\texttt{u01}}  \textbf{Przedmowa}.
+  \begin{itemize}
+  \item \href{\pai{1}{09}}{\texttt{u03}} List Maurycego Dzieduszyckiego do Józefa Goreckiego.
+  \item \href{\pai{1}{10}}{\texttt{u04}} List rodziny Goreckich do Maurycego Dzieduszyckiego.
+  \item \href{\pai{1}{20}}{\texttt{u14}} Objaśnienie oznaczeń redaktorów drugiego wydania.
+  \end{itemize}
+\item \href{\pai{1}{21}}{\texttt{u15}}  \textbf{Żywot Samuela Bogumiła Lindego}
+  \begin{itemize}
+  \item \href{\pai{1}{26}}{\texttt{u20}} List Lindego do Józefa Ossolińskiego z 12.07.1799~r.
+  \item \href{\pai{1}{28}}{\texttt{u22}} List Lindego do Józefa Ossolińskiego z 30.07.1799~r. (fragment).
+  \item \href{\pai{1}{29}}{\texttt{u23}} List Lindego do Józefa Ossolińskiego z 5.08.1799~r.
+  \item \href{\pai{1}{30}}{\texttt{u24}} List Lindego do Józefa Ossolińskiego z 25.08.1799~r.
+  \item \href{\pai{1}{34}}{\texttt{u28}} List Ossolińskiego do brata
+    Lindego z 1.12.1803~r. (fragment)
+  \item \href{\pai{1}{35}}{\texttt{u29}} List Ossolińskiego do
+    Reptowskiego z 1.12.1803~r. (fragment)
+  \item \href{\pai{1}{36}}{\texttt{u30}} List Lindego do Józefa
+    Ossolińskiego z 11.02.1804~r.
+  \item \href{\pai{1}{37}}{\texttt{u31}} List Józefa Ossolińskiego do
+    Lindego z lutego 1808~r.
+  \item \href{\pai{1}{39}}{\texttt{u33}} treść napisu na medalu.
+  \item \href{\pai{1}{42}}{\texttt{u36}} \textbf{Druki.}
+  \item \href{\pai{1}{43}}{\texttt{u37}} \textbf{Rękopisma.}
+  \end{itemize}
+\item \href{\pai{1}{46}}{\texttt{u40}}  \textbf{Sprostowanie}.
+\end{itemize}
+
+Nie wszystkie strony mają wydrukowane numery i dobrze byłoby to
+wyrazić formalnie w typie paginacji. Roboczo proponujemy
+\textbf{nlb2-a}: pierwsza i ostatnia strona nieliczbowana, poza tym
+paginacja arabska.
+
+\subsection{Nieliczbowane dedykacje}
+\label{sec:niel-dedyk}
+
+\begin{itemize}
+\item \href{\pai{1}{47}}{\texttt{d1}} Dedykacja Adamowi Czartoryskiemu.
+\item \href{\pai{1}{48}}{\texttt{d2}} wakat
+\item \href{\pai{1}{49}}{\texttt{d3}} Dedykacja Józefowi Czartoryskiemu.
+\item \href{\pai{1}{50}}{\texttt{d4}} wakat
+\item \href{\pai{1}{51}}{\texttt{d5}} Uzasadnienie dedykacji.
+\end{itemize}
+
+Typ paginacji to oczywiscie \textbf{nlb}.
+
+\subsection{Nieliczbowane wykazy}
+\label{sec:nieliczbowane-wykazy}
+
+% w!!!
+
+
+
+\begin{itemize}
+\item \href{\pai{1}{53}}{\texttt{w1}} \textbf{Imiona osób, które nadzwyczajném
+  wsparciem dzieło to łaskawie zaszczycić raczyły}.
+\item \href{\pai{1}{54}}{\texttt{w1}} \textbf{Rejestr prenumeratorów}.
+\item \href{\pai{1}{56}}{\texttt{w1}} wakat.
+\end{itemize}
+
+Typ paginacji to oczywiscie \textbf{nlb}.
+
+
+\subsection{Arkusze rzymskie}
+\label{sec:arkusze-rzymskie}
+
+% r
+\begin{itemize}
+\item \item \href{\pai{1}{57}}{\texttt{r1}} \textbf{Wstęp do słownika
+    polskiego} ([I] -- XIV).
+\item \href{\pai{1}{71}}{\texttt{r15}} \textbf{Ueber die Tendenz dieses
+    Werks} --- \textbf{Sur l'objet de cet ouvrage} ([XV] -- XVII)
+\item \href{\pai{1}{74}}{\texttt{r18}} wakat
+\item \href{\pai{1}{75}}{\texttt{r19}} \textbf{Prawidła etymologii
+    przystosowane do języka polskiego} --- \textbf{Grundsätze de
+    Wortforschung angewandt auf die Polnische Sprache} ([XIX] -- [????]
+  \begin{itemize}
+  \item \href{\pai{1}{76}}{\texttt{r20}} wakat
+  \item \href{\pai{1}{77}}{\texttt{r21}} Dedykacja Józefowi Ossolińskiemu
+  \item \href{\pai{1}{79}}{\texttt{r23}} \textbf{Prawidła etymologii} --- \textbf{Grundsätze de
+    Wortforschung}
+    \begin{itemize}
+    \item XXXIV --- nietypowa dwujęzyczność bez podziału na kolumny
+      (\textit{nie przemiena się w głoski} \ldots
+    \item \href{\pai{1}{91}}{\texttt{r34a}} tabela do strony XXXIV
+    \item \href{\pai{1}{92}}{\texttt{r34b}} wakat
+    \item XXXV --- nietypowa dwujęzyczność: naprzemiennie przez obie kolumny
+    \end{itemize}
+  \end{itemize}
+\item \href{\pai{1}{120}}{\texttt{r62}} \textbf{Objaśnienie przywiedzionych dyalektów i języków}
+\item \href{\pai{1}{123}}{\texttt{r65}} \textbf{Poczet pism polskich, w słowniku przytaczanych}
+\item \href{\pai{1}{131}}{\texttt{r73}} \textbf{Skróceń Grammatycznych wyłuszczenie}
+\end{itemize}
+
+Typ paginacji wstępnie oznaczamy przez \textbf{nlbN-a}, gdzie N to
+liczna stron bez wydrukowanego numeru.
+
+
+\subsection{Arkusze arabskie}
+\label{sec:arkusze-arabskie}
+
+%h
+
+Hasła
+\begin{itemize}
+\item \href{\pai{1}{133}}{\texttt{h001}} \textbf{A}
+  \begin{itemize}
+  \item \href{\pai{1}{133}}{\texttt{h001}} \textbf{A}
+  \item \href{\pai{1}{133}}{\texttt{h001}} \textbf{AA}
+  \item \href{\pai{1}{133}}{\texttt{h001}} \textbf{AB}
+    \begin{itemize}
+    \item \href{\pai{1}{134}}{\texttt{h002}} Tabela przy haśle ABO
+    \end{itemize}
+  \item \href{\pai{1}{135}}{\texttt{h003}} \textbf{AC}
+  \item \href{\pai{1}{136}}{\texttt{h004}} \textbf{AD}
+    \begin{itemize}
+    \item \href{\pai{1}{136}}{\texttt{h004}} Tabela przy haśle ĄD
+    \end{itemize}
+  \item \href{\pai{1}{138}}{\texttt{h006}} \textbf{AF}
+  \item \href{\pai{1}{139}}{\texttt{h007}} \textbf{AG}
+  \item \href{\pai{1}{140}}{\texttt{h008}} \textbf{AH}
+  \item \href{\pai{1}{140}}{\texttt{h008}} \textbf{AJ}
+  \item \href{\pai{1}{140}}{\texttt{h008}} \textbf{AK}
+  \item \href{\pai{1}{142}}{\texttt{h010}} \textbf{AL}
+  \item \href{\pai{1}{147}}{\texttt{h015}} \textbf{AM}
+  \item \href{\pai{1}{149}}{\texttt{h017}} \textbf{AN}
+     \begin{itemize}
+    \item \href{\pai{1}{151}}{\texttt{h019}} Tabela przy haśle ANIOŁ
+    \end{itemize}
+  \item \href{\pai{1}{154}}{\texttt{h022}} \textbf{AP}
+  \item \href{\pai{1}{156}}{\texttt{h024}} \textbf{AR}
+  \item \href{\pai{1}{163}}{\texttt{h031}} \textbf{AS}
+  \item \href{\pai{1}{165}}{\texttt{h033}} \textbf{AT}
+  \item \href{\pai{1}{166}}{\texttt{h034}} \textbf{AU}
+  \item \href{\pai{1}{167}}{\texttt{h035}} \textbf{AW}
+  \item \href{\pai{1}{168}}{\texttt{h036}} \textbf{AX}
+  \item \href{\pai{1}{168}}{\texttt{h036}} \textbf{AŻ}
+  \end{itemize}
+\item \href{\pai{1}{169}}{\texttt{h037}} \textbf{B}
+     \begin{itemize}
+     \item \href{\pai{1}{169}}{\texttt{h037}} \textbf{B, b}
+     \item \href{\pai{1}{169}}{\texttt{h037}} \textbf{BA}
+       \begin{itemize}
+    \item \href{\pai{1}{184}}{\texttt{h052}} Tabela przy haśle BANIA
+    \item \href{\pai{1}{187}}{\texttt{h055}} Tabela przy haśle BARAN
+    \item \href{\pai{1}{190}}{\texttt{h058}} Tabela przy haśle BARK
+    \item \href{\pai{1}{192}}{\texttt{h060}} Tabela przy haśle BARWA
+    \item \href{\pai{1}{198}}{\texttt{h066}} Tabela przy haśle BAŻANT
+       \end{itemize}
+     \item \href{\pai{1}{198}}{\texttt{h066}} \textbf{BD}
+     \item \href{\pai{1}{199}}{\texttt{h067}} \textbf{BE}
+       \begin{itemize}
+       \item \href{\pai{1}{199}}{\texttt{h067}} Tabela przy haśle BĘBEN
+       \item \href{\pai{1}{201}}{\texttt{h069}} Tabela przy haśle BECZKA
+       \item \href{\pai{1}{201}}{\texttt{h069}} Tabela przy haśle BEDNARKA
+       \end{itemize}
+     \item \href{\pai{1}{225}}{\texttt{h093}} \textbf{BI}
+     \item \href{\pai{1}{245}}{\texttt{h113}} \textbf{BL}
+     \item \href{\pai{1}{263}}{\texttt{h131}} \textbf{BO}
+       \begin{itemize}
+       \item \href{\pai{1}{263}}{\texttt{h131}} Tabela przy haśle BOB
+       \item \href{\pai{1}{267}}{\texttt{h135}} Tabela przy haśle 1. BÓG
+       \end{itemize}
+     \item \href{\pai{1}{286}}{\texttt{h154}} \textbf{BR}
+     \item \href{\pai{1}{320}}{\texttt{h188}} \textbf{BU}
+     \item \href{\pai{1}{336}}{\texttt{h204}} \textbf{BY}
+     \item \href{\pai{1}{345}}{\texttt{h213}} \textbf{BZ}
+    \end{itemize}
+ \item \href{\pai{1}{346}}{\texttt{h214}} \textbf{C}
+   \begin{itemize}
+   \item \href{\pai{1}{346}}{\texttt{h214}} \textbf{C, c}
+   \item \href{\pai{1}{347}}{\texttt{h215}} \textbf{CA}
+   \item \href{\pai{1}{353}}{\texttt{h221}} \textbf{CC}
+   \item \href{\pai{1}{353}}{\texttt{h221}} \textbf{CE}
+   \item \href{\pai{1}{364}}{\texttt{h232}} \textbf{CH}
+   \item \href{\pai{1}{416}}{\texttt{h284}} \textbf{CI}
+   \item \href{\pai{1}{448}}{\texttt{h316}} \textbf{CK}
+   \item \href{\pai{1}{448}}{\texttt{h316}} \textbf{CL}
+   \item \href{\pai{1}{449}}{\texttt{h317}} \textbf{CM}
+   \item \href{\pai{1}{450}}{\texttt{h318}} \textbf{CN}
+   \item \href{\pai{1}{451}}{\texttt{h319}} \textbf{CO}
+   \item \href{\pai{1}{456}}{\texttt{h324}} \textbf{CU}
+   \item \href{\pai{1}{463}}{\texttt{h331}} \textbf{CW}
+   \item \href{\pai{1}{468}}{\texttt{h336}} \textbf{CY}
+   \item \href{\pai{1}{476}}{\texttt{h344}} \textbf{CZ}
+   \end{itemize}
+\item \href{\pai{1}{533}}{\texttt{h401}} \textbf{D}
+  \begin{itemize}
+  \item \href{\pai{1}{533}}{\texttt{h401}} \textbf{D, d}
+  \item \href{\pai{1}{533}}{\texttt{h401}} \textbf{DA}
+  \item \href{\pai{1}{551}}{\texttt{h419}} \textbf{DB}
+  \item \href{\pai{1}{551}}{\texttt{h419}} \textbf{DE}
+  \item \href{\pai{1}{561}}{\texttt{h429}} \textbf{DI}
+  \item \href{\pai{1}{562}}{\texttt{h430}} \textbf{DL}
+  \item \href{\pai{1}{568}}{\texttt{h436}} \textbf{DM}
+  \item \href{\pai{1}{569}}{\texttt{h437}} \textbf{DN}
+  \item \href{\pai{1}{571}}{\texttt{h439}} \textbf{DO}
+  \item \href{\pai{1}{657}}{\texttt{h525}} \textbf{DR}
+  \item \href{\pai{1}{683}}{\texttt{h551}} \textbf{DU}
+  \item \href{\pai{1}{696}}{\texttt{h564}} \textbf{DW}
+  \item \href{\pai{1}{708}}{\texttt{h576}} \textbf{DY}
+  \item \href{\pai{1}{720}}{\texttt{h588}} \textbf{DZ}
+  \end{itemize}
+\item \href{\pai{1}{758}}{\texttt{h626}} \textbf{E}
+\item \href{\pai{1}{768}}{\texttt{h636}} \textbf{F}
+  \begin{itemize}
+  \item \href{\pai{1}{788}}{\texttt{h656}} \textbf{FL}
+  \item \href{\pai{1}{792}}{\texttt{h660}} \textbf{FO}
+  \item \href{\pai{1}{801}}{\texttt{h669}} \textbf{FR}
+  \item \href{\pai{1}{808}}{\texttt{h676}} \textbf{FU}
+  \end{itemize}
+  \item \href{\pai{1}{814}}{\texttt{h672}} wakat
+\end{itemize}
+
+% tabele głosek radykalnych za JB
+
+Typ paginacji \textbf{nlb2-a}.
+
+\subsection{Nieliczbowane strony końcowe}
+\label{sec:niel-strony-kocowe}
+
+% k??
+
+\begin{itemize}
+\item \href{\pai{1}{815}}{\texttt{k1}} \textbf{Ogłoszenie}
+\end{itemize}
+
+\href{\pai{1}{815}}{\texttt{k2}} ostatnia strona (815 w numeracji ciągłej)
+
+Typ paginacji to oczywiscie \textbf{nlb}.
+
+
+\section{Tom drugi (1855)}
+\label{sec:tom-drugi}
+
+% http://teksty.klf.uw.edu.pl/20/6/LindeIIGP2ocri.djvu
+\newcommand{\paii}[2]{http://teksty.klf.uw.edu.pl/20/6/LindeIIGP#1ocri.djvu?djvuopts=\&page=#2\&zoom=page}
+
+\subsection{Nieliczbowane tytularia przedruku}
+\label{sec:niel-tytul-przedr-1}
+
+\begin{itemize}
+\item \href{\paii{2}{1}}{\texttt{d1}} ozdobna strona tytułowa.
+% http://teksty.klf.uw.edu.pl/20/2/LindeIIGP1ocri.djvu?djvuopts=&page=1&zoom=width&showposition=0.5,0.2
+\item \href{\paii{2}{2}}{\texttt{d1}} wakat.
+\item \href{\paii{2}{3}}{\texttt{d1}} strona tytułowa.
+\item \href{\paii{1}{4}}{\texttt{d1}} ISBN słownika i tomu, adres drukarni
+\end{itemize}
+
+\subsection{Nieliczbowane tytularia oryginału}
+\label{sec:niel-tytul-oryg}
+
+\begin{itemize}
+\item \href{\paii{2}{5}}{\texttt{o1}}  strona tytułowa.
+\item \href{\paii{2}{6}}{\texttt{o2}} motto
+\end{itemize}
+
+\subsection{Nieliczbowana dedykacja}
+\label{sec:niel-dedyk-1}
+
+\begin{itemize}
+\item \href{\paii{2}{7}}{\texttt{o3}}  Dedykacja Stanisławowi Zamojskiemu
+\item \href{\paii{2}{8}}{\texttt{o4}}  wakat
+\item \href{\paii{2}{9}}{\texttt{o5}}  Uzasadnienie dedykacji.
+
+\end{itemize}
+
+
+\subsection{Uzupełnienia  Bielowskiego}
+\label{sec:uzup-biel}
+
+Paginacja rzymska
+
+\begin{itemize}
+\item \href{\paii{2}{11}}{\texttt{u01}}  Przedmowa
+\item \href{\paii{2}{16}}{\texttt{o16}}  Objaśnienie oznaczeń redaktorów drugiego wydania (znak ręki!).
+\end{itemize}
+
+\subsection{Nieliczbowany wykaz}
+\label{sec:nieliczbowany-wykaz}
+
+\begin{itemize}
+\item \href{\paii{2}{17}}{\texttt{w1}}  Dalszy ciąg prenumerantów
+%\item \href{\paii{2}{18}}{\texttt{w2}}  
+\end{itemize}
+
+\subsection{Hasła}
+\label{sec:hasa}
+
+\begin{itemize}
+\item \href{\paii{2}{19}}{\texttt{h011}}  \textbf{G} !!!!!
+  \begin{itemize}
+  \item \href{\paii{2}{40}}{\texttt{h032}}  \textbf{GB, GD}
+  \item \href{\paii{2}{43}}{\texttt{h035}}  \textbf{GĘ}
+  \item \href{\paii{2}{50}}{\texttt{h042}}  \textbf{GI}
+  \item \href{\paii{2}{55}}{\texttt{h047}}  \textbf{GŁ}
+  \item \href{\paii{2}{78}}{\texttt{h070}}  \textbf{GM}
+  \item \href{\paii{2}{80}}{\texttt{h072}}  \textbf{GN}
+  \item \href{\paii{2}{87}}{\texttt{h079}}  \textbf{GO}
+  \item \href{\paii{2}{118}}{\texttt{h111}}  \textbf{GR}
+  \item \href{\paii{2}{158}}{\texttt{h150}}  \textbf{GU}
+  \item \href{\paii{2}{162}}{\texttt{h154}}  \textbf{GW}
+  \item \href{\paii{2}{169}}{\texttt{h161}}  \textbf{GZ}
+  \end{itemize}
+\item \href{\paii{2}{171}}{\texttt{h163}}  \textbf{H}
+  \begin{itemize}
+  \item \href{\paii{2}{171}}{\texttt{h163}}  \textbf{H}
+  \item \href{\paii{2}{184}}{\texttt{h176}}  \textbf{HE}
+  \item \href{\paii{2}{189}}{\texttt{h181}}  \textbf{HI}
+  \item \href{\paii{2}{190}}{\texttt{h182}}  \textbf{HO}
+  \item \href{\paii{2}{195}}{\texttt{h187}}  \textbf{HR}
+  \item \href{\paii{2}{196}}{\texttt{h188}}  \textbf{HU}
+  \item \href{\paii{2}{201}}{\texttt{h193}}  \textbf{HY}
+  \end{itemize}
+\item \href{\paii{2}{203}}{\texttt{h195}}  \textbf{I}
+  \begin{itemize}
+  \item \href{\paii{2}{203}}{\texttt{h195}}  \textbf{I}
+  \item \href{\paii{2}{204}}{\texttt{h196}}  \textbf{IB, IF}
+  \item \href{\paii{2}{205}}{\texttt{h197}}  \textbf{IG}
+  \item \href{\paii{2}{207}}{\texttt{h199}}  \textbf{IŁ}
+  \item \href{\paii{2}{208}}{\texttt{h200}}  \textbf{IM}
+  \item \href{\paii{2}{212}}{\texttt{h204}}  \textbf{IN}
+  \item \href{\paii{2}{220}}{\texttt{h212}}  \textbf{IS}
+  \item \href{\paii{2}{228}}{\texttt{h220}}  \textbf{IW}
+  \item \href{\paii{2}{228}}{\texttt{h220}}  \textbf{IZ}
+  \end{itemize}
+\item \href{\paii{2}{229}}{\texttt{h221}}  \textbf{J}
+  \begin{itemize}
+  \item \href{\paii{2}{229}}{\texttt{h221}}  \textbf{J}
+  \item \href{\paii{2}{257}}{\texttt{h249}}  \textbf{JE}
+  \item \href{\paii{2}{283}}{\texttt{h275}}  \textbf{JI}
+  \item \href{\paii{2}{283}}{\texttt{h275}}  \textbf{JO}
+  \item \href{\paii{2}{284}}{\texttt{h276}}  \textbf{JU}
+  \item \href{\paii{2}{290}}{\texttt{h282}}  \textbf{JW}
+  \end{itemize}
+\item \href{\paii{2}{291}}{\texttt{h283}}  \textbf{K}
+  \begin{itemize}
+  \item \href{\paii{2}{291}}{\texttt{h283}}  \textbf{K}
+  \item \href{\paii{2}{352}}{\texttt{h344}}  \textbf{KĘ}
+  \item \href{\paii{2}{354}}{\texttt{h346}}  \textbf{KI}
+  \item \href{\paii{2}{369}}{\texttt{h361}}  \textbf{KL}
+  \item \href{\paii{2}{394}}{\texttt{h386}}  \textbf{KM}
+  \item \href{\paii{2}{396}}{\texttt{h388}}  \textbf{KN}
+  \item \href{\paii{2}{398}}{\texttt{h390}}  \textbf{KO}
+  \item \href{\paii{2}{484}}{\texttt{h476}}  \textbf{KP}
+  \item \href{\paii{2}{485}}{\texttt{h477}}  \textbf{KR}
+  \item \href{\paii{2}{536}}{\texttt{h528}}  \textbf{KS}
+  \item \href{\paii{2}{543}}{\texttt{h535}}  \textbf{KT}
+  \item \href{\paii{2}{545}}{\texttt{h537}}  \textbf{KU}
+  \item \href{\paii{2}{569}}{\texttt{h561}}  \textbf{KW}
+  \end{itemize}
+\item \href{\paii{2}{580}}{\texttt{h572}}  \textbf{L}
+  \begin{itemize}
+  \item \href{\paii{2}{580}}{\texttt{h572}}  \textbf{L}
+  \item \href{\paii{2}{580}}{\texttt{h572}}  \textbf{L}
+  \item \href{\paii{2}{614}}{\texttt{h606}}  \textbf{ŁB, ŁE}
+  \item \href{\paii{2}{637}}{\texttt{h629}}  \textbf{ŁG, LG}
+  \item \href{\paii{2}{638}}{\texttt{h630}}  \textbf{LI}
+  \item \href{\paii{2}{659}}{\texttt{h651}}  \textbf{ŁK, LN, LO}
+  \item \href{\paii{2}{675}}{\texttt{h667}} \textbf{LS}
+  \item \href{\paii{2}{675}}{\texttt{h667}} \textbf{LU}
+  \item \href{\paii{2}{692}}{\texttt{h684}} \textbf{LW}
+  \item \href{\paii{2}{693}}{\texttt{h685}} \textbf{ŁY}
+  \item \href{\paii{2}{697}}{\texttt{h689}} \textbf{LZ}
+  \end{itemize}
+\end{itemize}
+\href{\paii{2}{700}}{\texttt{h692}} wakat
+
+\subsection{Nieliczbowane strony końcowe}
+\label{sec:niel-strony-kocowe-1}
+
+\begin{itemize}
+\item \href{\paii{2}{701}}{\texttt{k1}} \textbf{Poprawki do tomu I}
+\item \href{\paii{2}{701}}{\texttt{k1}} \textbf{Poprawki do tomu II}
+\item \href{\paii{2}{702}}{\texttt{k2}} wakat
+\item \href{\paii{2}{703}}{\texttt{k3}} \textbf{Spis osób które nabyły ten słownik w kancelaryi Zakładu}
+\item \href{\paii{2}{704}}{\texttt{k4}} wakat
+\end{itemize}
+
+\section{Tom trzeci  (1857)}
+\label{sec:tom-trzeci}
+
+\subsection{Nieliczbowane tytularia przedruku}
+\label{sec:niel-tytul-przedr-2}
+
+\newcommand{\paiii}[2]{http://teksty.klf.uw.edu.pl/20/10/LindeIIGP#1ocri.djvu?djvuopts=\&page=#2\&zoom=page}
+
+t???!!!
+
+\begin{itemize}
+\item \href{\paiii{3}{1}}{\texttt{t1}} ozdobna strona tytułowa.
+\item \href{\paiii{3}{2}}{\texttt{t2}} wakat.
+\item \href{\paiii{3}{3}}{\texttt{t3}} strona tytułowa.
+\item \href{\paiii{3}{4}}{\texttt{t4}} ISBN słownika i tomu, adres drukarni
+\end{itemize}
+
+\subsection{Nieliczbowane tytularia oryginału}
+\label{sec:niel-tytul-oryg-1}
+
+\begin{itemize}
+\item \href{\paiii{3}{5}}{\texttt{o1}}  strona tytułowa.
+\item \href{\paiii{3}{6}}{\texttt{o2}}  motto
+\end{itemize}
+
+brak kontrtytułu????
+
+\subsection{Niejawna paginacja arabska???}
+\label{sec:niej-pagin-arabska}
+
+\begin{itemize}
+\item \href{\paiii{3}{7}}{\texttt{d1}} Dedykacja Stanisławowi Kostce Potockiemu
+\item \href{\paiii{3}{8}}{\texttt{d2}} wakat
+\item \href{\paiii{3}{9}}{\texttt{d5}} Uzasadnienie dedykacji.
+\item \href{\paiii{3}{13}}{\texttt{d5}} Dalszy ciąg prenumerantów
+\item \href{\paiii{3}{14}}{\texttt{d5}} Uwaga autora
+\end{itemize}
+
+Hasła
+
+\begin{itemize}
+\item \href{\paiii{3}{14}}{\texttt{h013}} \textbf{M}
+  \begin{itemize}
+  \item \href{\paiii{3}{15}}{\texttt{h013}} \textbf{M}
+  \item \href{\paiii{3}{65}}{\texttt{h063}} \textbf{MC, MD, ME}
+  \item \href{\paiii{3}{77}}{\texttt{h075}} \textbf{MG}
+  \item \href{\paiii{3}{78}}{\texttt{h076}} \textbf{MI}
+  \item \href{\paiii{3}{132}}{\texttt{h130}} \textbf{MK}
+  \item \href{\paiii{3}{133}}{\texttt{h131}} \textbf{ML}
+  \item \href{\paiii{3}{142}}{\texttt{h140}} \textbf{MN}
+  \item \href{\paiii{3}{146}}{\texttt{h144}} \textbf{MO}
+  \item \href{\paiii{3}{173}}{\texttt{h171}} \textbf{MR}
+  \item \href{\paiii{3}{177}}{\texttt{h175}} \textbf{MS}
+  \item \href{\paiii{3}{179}}{\texttt{h177}} \textbf{MU}
+  \item \href{\paiii{3}{189}}{\texttt{h187}} \textbf{MY}
+  \item \href{\paiii{3}{196}}{\texttt{h194}} \textbf{MZ}
+  \end{itemize}
+\item \href{\paiii{3}{197}}{\texttt{h195}} \textbf{N}
+  \begin{itemize}
+  \item \href{\paiii{3}{197}}{\texttt{h195}} \textbf{N}
+  \item \href{\paiii{3}{313}}{\texttt{h311}} \textbf{NE}
+  \item \href{\paiii{3}{316}}{\texttt{h314}} \textbf{NI}
+  \item \href{\paiii{3}{351}}{\texttt{h349}} \textbf{NO}
+  \item \href{\paiii{3}{365}}{\texttt{h363}} \textbf{NU}
+  \item \href{\paiii{3}{369}}{\texttt{h367}} \textbf{NY}
+  \end{itemize}
+\item \href{\paiii{3}{369}}{\texttt{h367}} \textbf{O}
+    \begin{itemize}
+    \item \href{\paiii{3}{369}}{\texttt{h367}} \textbf{O}
+    \item \href{\paiii{3}{371}}{\texttt{h369}} \textbf{OB}
+    \item \href{\paiii{3}{432}}{\texttt{h430}} \textbf{OC}
+    \item \href{\paiii{3}{445}}{\texttt{h443}} \textbf{OD}
+    \item \href{\paiii{3}{512}}{\texttt{h510}} \textbf{OF}
+    \item \href{\paiii{3}{514}}{\texttt{h512}} \textbf{OG}
+    \item \href{\paiii{3}{525}}{\texttt{h523}} \textbf{OH}
+    \item \href{\paiii{3}{526}}{\texttt{h524}} \textbf{OJ}
+    \item \href{\paiii{3}{529}}{\texttt{h527}} \textbf{OK}
+    \item \href{\paiii{3}{546}}{\texttt{h544}} \textbf{OL}
+    \item \href{\paiii{3}{551}}{\texttt{h549}} \textbf{OM}
+    \item \href{\paiii{3}{556}}{\texttt{h554}} \textbf{ON}
+    \item \href{\paiii{3}{558}}{\texttt{h556}} \textbf{OP}
+    \item \href{\paiii{3}{579}}{\texttt{h577}} \textbf{OR}
+    \item \href{\paiii{3}{586}}{\texttt{h584}} \textbf{OS}
+    \item \href{\paiii{3}{623}}{\texttt{h621}} \textbf{OT}
+    \item \href{\paiii{3}{631}}{\texttt{h629}} \textbf{OW}
+    \item \href{\paiii{3}{636}}{\texttt{h634}} \textbf{OZ}
+    \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\item \href{\paiii{3}{643}}{\texttt{h641}} \textbf{Dalszy ciąg spisu
+    osób, które nabyły ten słownik}
+\item \href{\paiii{3}{644}}{\texttt{h642}} \textbf{Poprawki}
+\end{itemize}
+
+
+\section{Tom czwarty}
+
+\newcommand{\paiv}[2]{http://teksty.klf.uw.edu.pl/20/14/LindeIIGP#1ocri.djvu?djvuopts=\&page=#2\&zoom=page}
+
+Hasła do uzupełnienia
+
+\begin{itemize}
+\item \href{\paiv{4}{15}}{\texttt{h13}} \textbf{P}
+\item \href{\paiv{4}{15}}{\texttt{h13}} \textbf{PA}
+\item \href{\paiv{4}{15}}{\texttt{h69}} \textbf{PC}
+\item \href{\paiv{4}{15}}{\texttt{h70}} \textbf{PE}
+\item \href{\paiv{4}{15}}{\texttt{h83}} \textbf{PF}
+\item \href{\paiv{4}{15}}{\texttt{h83}} \textbf{PI}
+\item \href{\paiv{4}{15}}{\texttt{h136}} \textbf{PL}
+\item \href{\paiv{4}{15}}{\texttt{h171}} \textbf{PN}
+\item \href{\paiv{4}{15}}{\texttt{h171}} \textbf{PO}
+\item \href{\paiv{4}{15}}{\texttt{h451}} \textbf{PR}
+\item \href{\paiv{4}{15}}{\texttt{h708}} \textbf{PS}
+\item \href{\paiv{4}{15}}{\texttt{h715}} \textbf{PT}
+\item \href{\paiv{4}{15}}{\texttt{h716}} \textbf{PU}
+\item \href{\paiv{4}{15}}{\texttt{h731}} \textbf{PY}
+\item \href{\paiv{4}{15}}{\texttt{h735}} \textbf{Q}
+\item \href{\paiv{4}{15}}{\texttt{h735}} \textbf{Q}
+\item \href{\paiv{4}{15}}{\texttt{h736}} wakat
+\item \href{\paiv{4}{15}}{\texttt{h736}} \textbf{Poprawki}
+\item \href{\paiv{4}{15}}{\texttt{h736}} wakat
+\item \href{\paiv{4}{15}}{\texttt{h13}} \textbf{Domówienie}
+\item \href{\paiv{4}{15}}{\texttt{h13}} \textbf{Dalszy ciąg spisu osób które nabyły ten słownik}
+\end{itemize}
+
+
+\section{Tom piąty}
+\label{sec:tom-pity}
+
+\newcommand{\pav}[2]{http://teksty.klf.uw.edu.pl/20/18/LindeIIGP#1ocri.djvu?djvuopts=\&page=#2\&zoom=page}
+
+
+\begin{itemize}
+\item \href{\pav{5}{15}}{\texttt{}} Motto (po francusku)
+% Hasła  13 przesunięcie 2 zamiast 8
+\item \href{\pav{5}{21}}{\texttt{013}} \textbf{R}
+\item \href{\pav{5}{41}}{\texttt{033}} \textbf{RA}
+\item \href{\pav{5}{41}}{\texttt{033}} \textbf{RD}
+\item \href{\pav{5}{42}}{\texttt{034}} \textbf{RE}
+\item \href{\pav{5}{156}}{\texttt{148}} \textbf{RO}
+\item \href{\pav{5}{165}}{\texttt{157}} \textbf{RT}
+\item \href{\pav{5}{165}}{\texttt{157}} \textbf{RU}
+\item \href{\pav{5}{177}}{\texttt{169}} \textbf{RW}
+\item \href{\pav{5}{177}}{\texttt{169}} \textbf{RY}
+\item \href{\pav{5}{189}}{\texttt{181}} \textbf{RZ}
+\item \href{\pav{5}{210}}{\texttt{202}} \textbf{S}
+\item \href{\pav{5}{210}}{\texttt{202}} \textbf{SA}
+\item \href{\pav{5}{231}}{\texttt{223}} \textbf{SC}
+\item \href{\pav{5}{243}}{\texttt{235}} \textbf{SE}
+\item \href{\pav{5}{256}}{\texttt{248}} \textbf{SF}
+\item \href{\pav{5}{257}}{\texttt{249}} \textbf{SI}
+\item \href{\pav{5}{282}}{\texttt{274}} \textbf{SK}
+\item \href{\pav{5}{316}}{\texttt{308}} \textbf{SL}
+\item \href{\pav{5}{347}}{\texttt{339}} \textbf{SM}
+\item \href{\pav{5}{364}}{\texttt{356}} \textbf{SN}
+\item \href{\pav{5}{369}}{\texttt{361}} \textbf{SO}
+\item \href{\pav{5}{377}}{\texttt{369}} \textbf{SP}
+\item \href{\pav{5}{424}}{\texttt{416}} \textbf{SR}
+\item \href{\pav{5}{431}}{\texttt{423}} \textbf{SS}
+\item \href{\pav{5}{431}}{\texttt{423}} \textbf{ST}
+\item \href{\pav{5}{503}}{\texttt{495}} \textbf{SU}
+\item \href{\pav{5}{516}}{\texttt{508}} \textbf{SW}
+\item \href{\pav{5}{544}}{\texttt{536}} \textbf{SY}
+\item \href{\pav{5}{549}}{\texttt{541}} \textbf{SZ}
+\item \href{\pav{5}{642}}{\texttt{634}} \textbf{T}
+\item \href{\pav{5}{643}}{\texttt{635}} \textbf{TA}
+\item \href{\pav{5}{666}}{\texttt{658}} \textbf{TC}
+\item \href{\pav{5}{668}}{\texttt{660}} \textbf{TE}
+\item \href{\pav{5}{680}}{\texttt{672}} \textbf{TF itd.}
+\item \href{\pav{5}{680}}{\texttt{672}} \textbf{TK}
+\item \href{\pav{5}{683}}{\texttt{675}} \textbf{TL}
+\item \href{\pav{5}{688}}{\texttt{680}} \textbf{TM}
+\item \href{\pav{5}{688}}{\texttt{680}} \textbf{TN}
+\item \href{\pav{5}{688}}{\texttt{680}} \textbf{TO}
+\item \href{\pav{5}{691}}{\texttt{691}} \textbf{TR}
+\item \href{\pav{5}{745}}{\texttt{737}} \textbf{TU}
+\item \href{\pav{5}{749}}{\texttt{741}} \textbf{TW}
+\item \href{\pav{5}{758}}{\texttt{750}} \textbf{TY}
+
+
+
+\end{itemize}
+
+
+            % ("Tom piąty R-T" "#2907" 
+            %  ("Motto" "#2912") 
+            %  ("Dedykacja Józefowi Poniatowskiemu" 
+            %   "#2913" ) 
+            %  ("Dalszy ciąg prenumerantów" 
+            %   "#2919" ) 
+            %  ("Hasła" "#2921" 
+            %   ("R" "#2921" 
+            %    ("R" "#2921") 
+            %    ("RA" "#2921") 
+            %    ("RD" "#2941") 
+            %    ("RE" "#2942") 
+            %    ("RO" "#2956") 
+            %    ("RT" "#3065") 
+            %    ("RU" "#3065") 
+            %    ("RW" "#3077") 
+            %    ("RY" "#3077") 
+            %    ("RZ" "#3089") ) 
+            %   ("S" "#3110" 
+            %    ("S" "#3110") 
+            %    ("SA" "#3110") 
+            %    ("SC" "#3131") 
+            %    ("SE" "#3143") 
+            %    ("SF" "#3156") 
+            %    ("SI" "#3157") 
+            %    ("SK" "#3182") 
+            %    ("SL" "#3216") 
+            %    ("SM" "#3247") 
+            %    ("SN" "#3264") 
+            %    ("SO" "#3269") 
+            %    ("SP" "#3277") 
+            %    ("SR" "#3324") 
+            %    ("SS" "#3331") 
+            %    ("ST" "#3331") 
+            %    ("SU" "#3403") 
+            %    ("SW" "#3416") 
+            %    ("SY" "#3444") 
+            %    ("SZ" "#3449") ) 
+            %   ("T" "#3542" 
+            %    ("T" "#3542") 
+            %    ("TA" "#3543") 
+            %    ("TC" "#3566") 
+            %    ("TE" "#3568") 
+            %    ("TF itd" "#3580") 
+            %    ("TK" "#3580") 
+            %    ("TL" "#3583") 
+            %    ("TM" "#3588") 
+            %    ("TN" "#3588") 
+            %    ("TO" "#3588") 
+            %    ("TR" "#3599") 
+            %    ("TU" "#3645") 
+            %    ("TW" "#3652") 
+            %    ("TY" "#3658") ) ) 
+            %  ("Domówienie (August Bielowski)" 
+            %   "#3667" ) 
+            %  ("Poprawki i uzupełnienia do tomu I" 
+            %   "#3669" ) 
+            %  ("Dalszy ciąg spisu osób które nabyły ten słownik" 
+            %   "#3671" ) ) 
+
+
+\section{Tom szósty --- część pierwsza (U--W. 1860)}
+\label{sec:tom-szosty-cz}
+
+\subsection{Nieliczbowane tytularia przedruku}
+\label{sec:niel-tytul-przedr}
+\newcommand{\pavia}[2]{http://teksty.klf.uw.edu.pl/20/22/LindeIIGP#1ocri.djvu?djvuopts=\&page=#2\&zoom=page}
+
+Strony te oznaczamy literą \texttt{d} (od \textit{dodane}) i
+jednocyfrową liczbą:
+\begin{itemize}
+\item \href{\pavia{6-1}{1}}{\texttt{d1}} ozdobna strona tytułowa.
+\item \href{\pavia{6-1}{2}}{\texttt{d2}} wakat.
+\item \href{\pavia{6-1}{3}}{\texttt{d3}} strona tytułowa.
+\item \href{\pavia{6-1}{4}}{\texttt{d4}} ISBN słownika i tomu, adres drukarni
+\end{itemize}
+
+\subsection{Pominięte tytularia ogyginału}
+\label{sec:pomin-tytul-ogyg}
+
+\begin{itemize}
+\item {\pavia{6-1}{1}}{\texttt{1}} Kontrtytuł?
+\item {\pavia{6-1}{2}}{\texttt{2}} wakat?
+\end{itemize}
+
+
+
+\subsection{Nieliczbowane jawnie strony oryginału}
+\label{sec:tytularia-oryginau}
+
+\begin{itemize}
+\item \href{\pavia{6-1}{5}}{\texttt{3}}  strona tytułowa.
+\item \href{\pavia{6-1}{6}}{\texttt{4}} motta: polskie i łacińskie.
+\item \href{\pavia{6-1}{7}}{\texttt{5}} \textbf{Zakończenie listy prenumerantów}
+\item \href{\pavia{6-1}{8}}{\texttt{6}} wakat
+\end{itemize}
+
+\subsection{Liczbowane strony oryginału}
+\label{sec:liczb-strony-oryg}
+
+\begin{itemize}
+\item \href{\pavia{6-1}{9}}{\texttt{7}} \textbf{Zdanie sprawy z całego ciągu pracy}
+  \begin{itemize}
+   \item \href{\pavia{6-1}{11}}{\texttt{9}} krótkie cytaty gotykiem
+   \item \href{\pavia{6-1}{15}}{\texttt{13}} List hr. Ossolińskiego do
+     xiędza Lindego pastora w Gdańsku z Wiednia 1go grudnia
+     1805. (Znajduje się ten list poźniej umieszczony w -dziele pod
+     tytułem: Polnische Sprachlehre für Deutsche, von Christoph
+     Coelestin Mrongovius, zweyte Auflage, Königsberg 1805, pag. 211.)
+     {\relsize{-2}\url{http://europeana.eu/portal/record/03486/BibliographicResource_1000128962115.html}}
+   \item \href{\pavia{6-1}{15}}{\texttt{13}} List hr. Ossolińskiego do
+     ś. p. xiędza kanonika Reptowskiego dnia 1. grudnia 1803.
+   \item \href{\pavia{6-1}{16}}{\texttt{14}} zaświadczenie Ossolińskiego, po łacinie
+% do poprawy!!!
+   \item \href{\pavia{6-1}{18}}{\texttt{16}} odezwa xięcia Adama Czartoryskiego, po francusku
+   \item \href{\pavia{6-1}{19}}{\texttt{17}} list Stanisława Potockiego
+   \item \href{\pavia{6-1}{21}}{\texttt{19}} dyplom królewsko Czeskiej akademii w Pradze, po niemiecku
+   \item \href{\pavia{6-1}{21}}{\texttt{19}} list xięcia generała Czartoryskiego z dnia 4go stycznia 1808
+   \item \href{\pavia{6-1}{22}}{\texttt{20}} list Józefa hr. Ossolińskiego z lutego 1808 r.
+   \item \href{\pavia{6-1}{23}}{\texttt{21}} list Silvestre de Sacy, 5 Juin 1808, po francusku.
+   \item \href{\pavia{6-1}{25}}{\texttt{22}} list Silvestre de Sacy, 23 Mai 1812, po francusku.
+   \item \href{\pavia{6-1}{25}}{\texttt{22}} list le Baron de Serra, 1
+     Sept. 1811, po francusku.
+   \item \href{\pavia{6-1}{25}}{\texttt{22}} Konstanty Wolski: tłumaczenie recenzyi
+     gazety literackiej Helskiej, z przypiskami do niej
+     \begin{itemize}
+     \item \href{\pavia{6-1}{25}}{\texttt{22}} \textbf{Do redaktora Pamiętnika}.
+     \item \href{\pavia{6-1}{26}}{\texttt{24}} \textbf{Wypis z gazety}\ldots
+     \item \href{\pavia{6-1}{37}}{\texttt{35}} Posłowie 
+     \end{itemize}
+   \item \href{\pavia{6-1}{39}}{\texttt{37}} list Johan v. Müller, l4 Febr. 1809, po niemiecku.
+   \item \href{\pavia{6-1}{39}}{\texttt{37}} list Ergebenster Heyne,
+     26 Januar 1809, po niemiecku.  
+   \item \href{\pavia{6-1}{39}}{\texttt{37}} list C. G. Heyne, den 18 Februar 1809, po niemiecku
+   \item \href{\pavia{6-1}{40}}{\texttt{38}} tłumaczenie recenzyi Götyngskiej (W tymże pamiętniku od karty 206)
+     \begin{itemize}
+     \item \href{\pavia{6-1}{41}}{\texttt{39}} list Adama
+       Czartoryskiego 27 marca 1809 r.
+       \begin{itemize}
+       \item cytat po niemiecku: xiądz Dabrowski 5go maja 1812
+       \item cytat po niemiecku: Jana de Müller, 19go kwietnia 1808
+       \end{itemize}
+     \end{itemize}
+     \item \href{\pavia{6-1}{45}}{\texttt{43}} recenzja Jenaische Allgemeine Litteratur-Zeitung den 47. Aug. 4810., po niemiecku
+     \item \href{\pavia{6-1}{58}}{\texttt{56}} recenzja Ergänzungsbläuer zur allgemeinen Litteratur Zeitung den 45 December 1810, po niemiecku
+     \item \href{\pavia{6-1}{59}}{\texttt{57}} recenzja Ergänzungshlätter, den 14 Nov. 1811, po niemiecku
+       \begin{itemize}
+       \item \href{\pavia{6-1}{60}}{\texttt{58}} Wyciąg téj recensyi znajduje się w Gazecie Warszawskiej
+         Nro. 99, 40 grudnia 4814.  LIST D0 REDAKTORA GAZETY
+         WARSZAWSKIEJ.
+       \end{itemize}
+     \item \href{\pavia{6-1}{62}}{\texttt{60}} recenzja Leipziger Literatur-Zeitung 4845. Nro 445, 4 May, po niemiecku
+     \item \href{\pavia{6-1}{62}}{\texttt{60}} Annalen der Literatur und Kunst in dem Oesterreichischen Kaiserthume 1809, po niemiecku
+     \item \href{\pavia{6-1}{70}}{\texttt{68}} wypis Annalen der Literatur und Kunst in dem Oesterreichischen Kaiserthume, po niemiecku
+     \item \href{\pavia{6-1}{71}}{\texttt{69}} Dobrowski S1owanka zur
+       Kenntniss der allen und neuen Slawischen Litteratur, der
+       Sprachkunde nach allen Mundarten, der Geschichte und
+       Alterthümer, od karty 243 umieścił następującą recenzyą, po niemiecku.
+     \item \href{\pavia{6-1}{72}}{\texttt{70}} list Joseph Dobrowski 23 April 1808, po niemiecku
+     \item \href{\pavia{6-1}{73}}{\texttt{71}} Korespondent Hamburski
+       R. 1809 Nro 15. takie zawiera zdanie, po niemiecku.
+     \item \href{\pavia{6-1}{74}}{\texttt{72}} Gazeta literacka Lipska
+       z roku 1813 w listopadzie pod Nrem 293 od karty 2341 , dając
+       recenzyą siódmego tomu roczników Król. Tow. Warszawskiego
+       Przyjaciół Nauk, gdzie się Wstęp do Słownika na posiedzeniu
+       publicznim tegoi Towarzystwa w treści czytany znajduje,
+       następujące zdanie wyraża:, po niemiecku
+\item \href{\pavia{6-1}{75}}{\texttt{73}} cytat
+     \item \href{\pavia{6-1}{76}}{\texttt{74}} ') Myśl ta używania
+       dyalektów do wzajemnego ich wzbogacenia i objaśnienia, nie może
+       być dokładniej wysta- wioną , jak się znajduje w recenzyi
+       sławnego Słownika dyalektów oryentalnych Geseniusza , w Gazecie
+       Litera- ckiej powszechnej Halskiej Nr. 340, dnia t4 grudnia
+       1810, zwłaszcza że tam się wskazuje jeden i tenże sposób
+       postępowania z dyalektami oryentalnemi jak z Słowiańskiemi lub
+       Germańskiemi. po niemiecku
+  \end{itemize}
+\end{itemize}
+
+\printbibliography
+
+\end{document}
+
+
+
+79             ("Hasła" "#3751" 
+              ("U" "#3751" 
+               ("U" "#3751") 
+               ("UB" "#3751") 
+               ("UC" "#3758") 
+               ("UD" "#3773") 
+               ("UF" "#3779") 
+               ("UG" "#3780") 
+               ("UH" "#3785") 
+               ("UI" "#3785") 
+               ("UJ" "#3785") 
+               ("UK" "#3790") 
+               ("UL, UŁ" "#3798") 
+               ("UM" "#3806") 
+               ("UN" "#3816") 
+               ("UP" "#3819") 
+               ("UR" "#3834") 
+               ("US" "#3844") 
+               ("UT" "#3861") 
+               ("UW" "#3866") 
+               ("UZ" "#3871") ) 
+              ("W" "#3877" 
+               ("WA" "#3880") 
+               ("WB" "#3911") 
+               ("WC" "#3911") 
+               ("WD" "#3915") 
+               ("WE" "#3920") 
+               ("WG" "#3940") 
+               ("WH" "#3940") 
+               ("WI" "#3940") 
+               ("WJ" "#4017") 
+               ("WK" "#4018") 
+               ("WM" "#4035") 
+               ("WN" "#4037") 
+               ("WO" "#4042") 
+               ("WP" "#4067") 
+               ("WR" "#4072") 
+               ("WS" "#4084") 
+               ("WT" "#4116") 
+               ("WU" "#4119") 
+               ("WW" "#4119") 
+               ("WY" "#4121") 
+               ("WZ" "#4336") ) ) ) 
+            ("Tom szósty (cz. II) X-Ż" 
+             "#4359" 
+             ("X" "#4365") 
+             ("Y" "#4365") 
+             ("Z" "#4365" 
+              ("ZA" "#4371") 
+              ("ZB" "#4644") 
+              ("ZC" "#4661") 
+              ("ZD" "#4661") 
+              ("ZE" "#4679") 
+              ("ZF" "#4713") 
+              ("ZG" "#4713") 
+              ("ZH" "#4730") 
+              ("ZI" "#4731") 
+              ("ZK" "#4750") 
+              ("ZL" "#4751") 
+              ("ZM" "#4777") 
+              ("ZN" "#4795") 
+              ("ZO" "#4810") 
+              ("ZP" "#4825") 
+              ("ZR" "#4825") 
+              ("ZS" "#4838") 
+              ("ZT" "#4842") 
+              ("ZU" "#4842") 
+              ("ZW" "#4850") 
+              ("ZY" "#4879") 
+              ("ZZ" "#4897") ) 
+             ("Uzupełnienia i sprostowania" 
+              "#4900" ) 
+             ("Domówienie (August Bielowski)" 
+              "#4903" ) 
+             ("Poczet pism polskich przytaczanych w sprostowaniach" 
+              "#4911" ) 
+             ("Dokończenie spisu osób które nabyły ten słownik" 
+              "#4913" ) ) ))
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% TeX-engine: xetex
+%%% TeX-PDF-mode: t
+%%% coding: utf-8
+%%% End:
