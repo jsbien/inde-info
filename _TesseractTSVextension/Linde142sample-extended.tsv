@@ -1,0 +1,18 @@
+level	page_num	block_num	par_num	line_num	word_num	left	top	width	height	conf	text	lang	x_font	x_fsize	emph
+1	1	0	0	0	0	0	0	4760	6388	-1					
+2	1	1	0	0	0	4	4073	11	2256	-1	deu-frak				
+3	1	1	1	0	0	4	4073	11	2256	-1	deu-frak				
+4	1	1	1	1	0	4	4073	11	2256	-1	deu-frak				
+5	1	1	1	1	1	4	4073	11	2256	95	 	deu-frak	Century_Schoolbook_L_Bold	135	strong
+2	1	2	0	0	0	207	498	2048	698	-1					
+3	1	2	1	0	0	207	498	2048	698	-1	pol				
+4	1	2	1	1	0	892	498	682	65	-1		pol	Century_Schoolbook_L_Bold	10	strong
+5	1	2	1	1	1	892	499	48	63	85	A	pol	Century_Schoolbook_L_Bold	10	strong
+5	1	2	1	1	2	968	501	45	62	95	L	pol	Century_Schoolbook_L_Bold	10	strong
+5	1	2	1	1	3	1040	499	48	64	87	A	pol	Century_Schoolbook_L_Bold	10	strong
+5	1	2	1	1	4	1114	500	45	62	89	B	pol	Century_Schoolbook_L_Bold	10	strong
+5	1	2	1	1	5	1188	499	50	63	81	A	pol	Century_Schoolbook_L_Bold	10	strong
+5	1	2	1	1	6	1283	536	37	12	88	—-	deu-frak	Century_Schoolbook_L_Bold	10	strong
+5	1	2	1	1	7	1365	498	47	63	87	A	pol	Times_New_Roman	10	
+5	1	2	1	1	8	1441	500	43	60	93	L	pol	Century_Schoolbook_L_Bold	10	
+5	1	2	1	1	9	1512	499	62	62	90	B.	pol	Century_Schoolbook_L_Bold	10	
