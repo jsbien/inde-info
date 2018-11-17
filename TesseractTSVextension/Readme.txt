@@ -1,6 +1,8 @@
 The data in this directory contain in particular the simulation of the
 extended TSV output (just a fragment of a page from Linde's
-dictionary).
+dictionary). Cf. also
+https://github.com/tesseract-ocr/tesseract/issues/1861 and
+https://github.com/tesseract-ocr/tesseract/issues/1862.
 
 $ tesseract --version
 tesseract 4.0.0
