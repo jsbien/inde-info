@@ -1,0 +1,47 @@
+{% load i18n %}
+
+<div class='acknowledgments'>
+
+{% blocktrans %}<p> Search can be limited to a specific volume in two
+ways: using sections, e.g. <code>within vol1</code>,..., <code>within
+vol6</code>, <code>within vol6part1</code> or <code>within
+vol6part2</code>, or using metadata, e.g. <code>meta volume=6</code> .
+</p>{% endblocktrans %}
+
+{% blocktrans %}<p>
+The <code>within</code> clause can
+be also used to limit the search to the following <a href='..'>sections</a>:
+<code>body</code>,
+<code>errata</code>,
+<code>intro</code>,
+<code>info</code>,
+<code>varia</code>,
+<code>front</code>,
+<code>back</code>.
+</p>
+{% endblocktrans %}
+
+{% blocktrans %}<p>
+The <code>meta</code> clause can
+be also used to limit the search using other <a href='..'> metadata fields</a>, but it's not practical.:
+</p>
+{% endblocktrans %}
+
+
+
+
+{% blocktrans %}<p>
+Every token has the following attributes:
+<code>orth</code>, the tekst segment according to UAX 29;
+<code>base</code>, the same as <code>orth</code>
+<code>lang</code>, possible values: <code>de</code>, <code>fr</code>, <code>pl</code>, <code>ru</code>, <code>en</code>;
+<code>script</code>, possible values: <code>latn</code>, <code>latf</code>, <code>cyrl</code>;
+<code>series</code>, possible values: <code>medium</code>, <code>bold</code>;
+<code>shape</code>, possible values: <code>upright</code>, <code>italic</code>;
+<code>wconf</code>, the value is a digit.
+</p>
+{% endblocktrans %}
+
+</div>
+
+{# vim:set ts=4 sw=4 et: #}

@@ -1,0 +1,37 @@
+{% load i18n %}
+
+{% blocktrans %}<p> Search can be limited to a specific volume using metadata, e.g. <code>meta volume=6</code> .
+</p>{% endblocktrans %}
+
+{% blocktrans %}<p>
+The <code>meta</code> clause can
+be also used to limit the search using other  metadata fields, but it's not practical.
+</p>
+{% endblocktrans %}
+
+
+
+
+{% blocktrans %}<p>
+Every token has the following attributes:
+<ul>
+<li><code>orth</code>, the text segment according
+to <a href='http://unicode.org/reports/tr29/'>Unicode® Standard Annex
+#29 Unicode Text Segmentation</a>
+<li><code>base</code>, the same as <code>orth</code>
+<li><code>lang</code>, possible values: <code>de</code> (rather
+reliable), <code>fr</code> (rather reliable), <code>pl</code> (all
+other languages including Polish), <code>ru</code> (not yet used), <code>en</code> (not used);
+<li><code>script</code>, possible values: <code>latn</code> (normal Latin
+script and misrecognized other script), <code>latf</code> (German
+Fraktur), <code>cyrl</code> (not yet used);
+<li><code>series</code>, possible values, rather unreliable: <code>medium</code>, <code>bold</code>;
+<li><code>shape</code>, possible values, very unreliable: <code>upright</code>, <code>italic</code>;
+<li><code>wconf</code> word recognition confidence, the value is a digit,
+you can query it with such regular expressions like [8-9] (meaning
+highly confident recognition); this representation has been proposed
+by Jakub Wilk.
+</ul>
+</p>
+{% endblocktrans %}
+

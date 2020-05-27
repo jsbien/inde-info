@@ -1,0 +1,855 @@
+# This is the existing outline.
+# Edit it and store it with command:
+#   $ djvused foo.djvu -f thisfile -s
+# The following line is the djvused command
+# to set the outline and the rest is the outline
+set-outline
+(bookmarks
+ ("Spis treści"
+  "..//tytularia/1.djvu"
+  ("Tytularia reprintu"
+   "..//tytularia/1.djvu?djvuopts&zoom=page"
+   ("Tom pierwszy A-F"
+    "..//tytularia/1.djvu?djvuopts&zoom=page" )
+   ("Tom drugi G-L"
+    "..//tytularia/2.djvu?djvuopts&zoom=page" )
+   ("Tom trzeci M-O"
+    "..//tytularia/3.djvu?djvuopts&zoom=page" )
+   ("Tom czwarty P"
+    "..//tytularia/4.djvu?djvuopts&zoom=page" )
+   ("Tom piąty R-T"
+    "..//tytularia/5.djvu?djvuopts&zoom=page" )
+   ("Tom szósty (cz. I) U-W"
+    "..//tytularia/6-1.djvu?djvuopts&zoom=page" )
+   ("Tom szósty (cz. II) X-Ż)"
+    "..//tytularia/6-2.djvu?djvuopts&zoom=page" ) )
+  ("Słownik"
+   "..//01/index.djvu?djvuopts&zoom=page&page=3"
+   ("Tom pierwszy A-F"
+    "..//01/index.djvu?djvuopts&zoom=page&page=3"
+    ("Przedmowa (August Bielowski)"
+     "..//01/index.djvu?djvuopts&zoom=page&page=5"
+     ("List Maurycego Dzieduszyckiego do Józefa Goreckiego"
+      "..//01/index.djvu?djvuopts&zoom=page&page=7" )
+     ("List rodziny Goreckich do Maurycego Dzieduszyckiego"
+      "..//01/index.djvu?djvuopts&zoom=page&page=8" )
+     ("Objaśnienie oznaczeń redaktorów drugiego wydania"
+      "..//01/index.djvu?djvuopts&zoom=page&page=18" ) )
+    ("Żywot Samuela Bogumiła Lindego (August Bielowski)"
+     "..//01/index.djvu?djvuopts&zoom=page&page=19"
+     ("List Lindego do Józefa Ossolińskiego z 12.07.1799 r."
+      "..//01/index.djvu?djvuopts&zoom=page&page=24" )
+     ("List Lindego do Józefa Ossolińskiego z 30.07.1799r. (fragment)"
+      "..//01/index.djvu?djvuopts&zoom=page&page=26" )
+     ("List Lindego do Józefa Ossolińskiego z 5.08.1799 r."
+      "..//01/index.djvu?djvuopts&zoom=page&page=27" )
+     ("List Lindego do Józefa Ossolińskiego z 25.08.1799 r."
+      "..//01/index.djvu?djvuopts&zoom=page&page=28" )
+     ("List Ossolińskiego do brata Lindego z 1.12.1803 r. (fragment)"
+      "..//01/index.djvu?djvuopts&zoom=page&page=32" )
+     ("List Ossolińskiego do Reptowskiego z 1.12.1803 r. (fragment)"
+      "..//01/index.djvu?djvuopts&zoom=page&page=33" )
+     ("List Lindego do Józefa Ossolińskiego z 11.02.1804 r."
+      "..//01/index.djvu?djvuopts&zoom=page&page=34" )
+     ("List Józefa Ossolińskiego do Lindego z lutego 1808~r."
+      "..//01/index.djvu?djvuopts&zoom=page&page=35" )
+     ("Treść napisu na medalu"
+      "..//01/index.djvu?djvuopts&zoom=page&page=37" )
+     ("Druki"
+      "..//01/index.djvu?djvuopts&zoom=page&page=40" )
+     ("Rękopisma"
+      "..//01/index.djvu?djvuopts&zoom=page&page=43" )
+     ("Sprostowanie [do przedmowy]"
+      "..//01/index.djvu?djvuopts&zoom=page&page=46" ) )
+    ("Dedykacje"
+     "..//01/index.djvu?djvuopts&zoom=page&page=45"
+     ("Dedykacja Adamowi Czartoryskiemu"
+      "..//01/index.djvu?djvuopts&zoom=page&page=45" )
+     ("Dedykacja Józefowi Czartoryskiemu"
+      "..//01/index.djvu?djvuopts&zoom=page&page=47" )
+     ("Uzasadnienie dedykacji"
+      "..//01/index.djvu?djvuopts&zoom=page&page=49" ) )
+    ("Imiona osób..."
+     "..//01/index.djvu?djvuopts&zoom=page&page=51" )
+    ("Rejestr prenumeratorów"
+     "..//01/index.djvu?djvuopts&zoom=page&page=52" )
+    ("Wstęp do słownika polskiego"
+     "..//01/index.djvu?djvuopts&zoom=page&page=55" )
+    ("Ueber die Tendenz dieses Werks"
+     "..//01/index.djvu?djvuopts&zoom=page&page=69" )
+    ("Sur l'objet de cet ouvrage"
+     "..//01/index.djvu?djvuopts&zoom=page&page=69" )
+    ("Prawidła etymologii przystosowane do języka polskiego"
+     "..//01/index.djvu?djvuopts&zoom=page&page=73"
+     ("Dedykacja Józefowi Ossolińskiemu"
+      "..//01/index.djvu?djvuopts&zoom=page&page=75" )
+     ("Prawidła etymologii"
+      "..//01/index.djvu?djvuopts&zoom=page&page=77" )
+     ("Grundsätze de Wortforschung angewandt auf die Polnische Sprache"
+      "..//01/index.djvu?djvuopts&zoom=page&page=73" )
+     ("Grundsätze de Wortforschung"
+      "..//01/index.djvu?djvuopts&zoom=page&page=77" ) )
+    ("Objaśnienie przywiedzionych dyalektów i języków"
+     "..//01/index.djvu?djvuopts&zoom=page&page=118 " )
+    ("Poczet pism polskich, w słowniku przytaczanych"
+     "..//01/index.djvu?djvuopts&zoom=page&page=121 " )
+    ("Skróceń Grammatycznych wyłuszczenie"
+     "..//01/index.djvu?djvuopts&zoom=page&page=129 " )
+    ("Hasła"
+     "..//01/index.djvu?djvuopts&zoom=page&page=131"
+     ("A"
+      "..//01/index.djvu?djvuopts&zoom=page&page=131"
+      ("A"
+       "..//01/index.djvu?djvuopts&zoom=page&page=131" )
+      ("AA"
+       "..//01/index.djvu?djvuopts&zoom=page&page=131" )
+      ("AB"
+       "..//01/index.djvu?djvuopts&zoom=page&page=131" )
+      ("AC"
+       "..//01/index.djvu?djvuopts&zoom=page&page=133" )
+      ("AD"
+       "..//01/index.djvu?djvuopts&zoom=page&page=134" )
+      ("AF"
+       "..//01/index.djvu?djvuopts&zoom=page&page=136" )
+      ("AG"
+       "..//01/index.djvu?djvuopts&zoom=page&page=137" )
+      ("AH"
+       "..//01/index.djvu?djvuopts&zoom=page&page=138" )
+      ("AJ"
+       "..//01/index.djvu?djvuopts&zoom=page&page=138" )
+      ("AK"
+       "..//01/index.djvu?djvuopts&zoom=page&page=138" )
+      ("AL"
+       "..//01/index.djvu?djvuopts&zoom=page&page=140" )
+      ("AM"
+       "..//01/index.djvu?djvuopts&zoom=page&page=145" )
+      ("AN"
+       "..//01/index.djvu?djvuopts&zoom=page&page=147" )
+      ("AP"
+       "..//01/index.djvu?djvuopts&zoom=page&page=152" )
+      ("AR"
+       "..//01/index.djvu?djvuopts&zoom=page&page=154" )
+      ("AS"
+       "..//01/index.djvu?djvuopts&zoom=page&page=161" )
+      ("AT"
+       "..//01/index.djvu?djvuopts&zoom=page&page=163" )
+      ("AU"
+       "..//01/index.djvu?djvuopts&zoom=page&page=164" )
+      ("AW"
+       "..//01/index.djvu?djvuopts&zoom=page&page=165" )
+      ("AX"
+       "..//01/index.djvu?djvuopts&zoom=page&page=166" )
+      ("AŻ"
+       "..//01/index.djvu?djvuopts&zoom=page&page=166" ) )
+     ("B"
+      "..//01/index.djvu?djvuopts&zoom=page&page=167"
+      ("B,b"
+       "..//01/index.djvu?djvuopts&zoom=page&page=167" )
+      ("BA"
+       "..//01/index.djvu?djvuopts&zoom=page&page=167" )
+      ("BD"
+       "..//01/index.djvu?djvuopts&zoom=page&page=196" )
+      ("BE"
+       "..//01/index.djvu?djvuopts&zoom=page&page=197" )
+      ("BI"
+       "..//01/index.djvu?djvuopts&zoom=page&page=223" )
+      ("BL"
+       "..//01/index.djvu?djvuopts&zoom=page&page=243" )
+      ("BO"
+       "..//01/index.djvu?djvuopts&zoom=page&page=261" )
+      ("BR"
+       "..//01/index.djvu?djvuopts&zoom=page&page=284" )
+      ("BU"
+       "..//01/index.djvu?djvuopts&zoom=page&page=318" )
+      ("BY"
+       "..//01/index.djvu?djvuopts&zoom=page&page=334" )
+      ("BZ"
+       "..//01/index.djvu?djvuopts&zoom=page&page=343" ) )
+     ("C"
+      "..//01/index.djvu?djvuopts&zoom=page&page=344"
+      ("C, c"
+       "..//01/index.djvu?djvuopts&zoom=page&page=344" )
+      ("CA"
+       "..//01/index.djvu?djvuopts&zoom=page&page=345" )
+      ("CC"
+       "..//01/index.djvu?djvuopts&zoom=page&page=351" )
+      ("CE"
+       "..//01/index.djvu?djvuopts&zoom=page&page=351" )
+      ("CH"
+       "..//01/index.djvu?djvuopts&zoom=page&page=362" )
+      ("CI"
+       "..//01/index.djvu?djvuopts&zoom=page&page=414" )
+      ("CK"
+       "..//01/index.djvu?djvuopts&zoom=page&page=446" )
+      ("CL"
+       "..//01/index.djvu?djvuopts&zoom=page&page=446" )
+      ("CM"
+       "..//01/index.djvu?djvuopts&zoom=page&page=447" )
+      ("CN"
+       "..//01/index.djvu?djvuopts&zoom=page&page=448" )
+      ("CO"
+       "..//01/index.djvu?djvuopts&zoom=page&page=449" )
+      ("CU"
+       "..//01/index.djvu?djvuopts&zoom=page&page=454" )
+      ("CW"
+       "..//01/index.djvu?djvuopts&zoom=page&page=461" )
+      ("CY"
+       "..//01/index.djvu?djvuopts&zoom=page&page=466" )
+      ("CZ"
+       "..//01/index.djvu?djvuopts&zoom=page&page=474" ) )
+     ("D"
+      "..//01/index.djvu?djvuopts&zoom=page&page=531"
+      ("D, d"
+       "..//01/index.djvu?djvuopts&zoom=page&page=531" )
+      ("DA"
+       "..//01/index.djvu?djvuopts&zoom=page&page=531" )
+      ("DB"
+       "..//01/index.djvu?djvuopts&zoom=page&page=549" )
+      ("DE"
+       "..//01/index.djvu?djvuopts&zoom=page&page=549" )
+      ("DI"
+       "..//01/index.djvu?djvuopts&zoom=page&page=559" )
+      ("DL"
+       "..//01/index.djvu?djvuopts&zoom=page&page=560" )
+      ("DM"
+       "..//01/index.djvu?djvuopts&zoom=page&page=566" )
+      ("DN"
+       "..//01/index.djvu?djvuopts&zoom=page&page=567" )
+      ("DO"
+       "..//01/index.djvu?djvuopts&zoom=page&page=569" )
+      ("DR"
+       "..//01/index.djvu?djvuopts&zoom=page&page=655" )
+      ("DU"
+       "..//01/index.djvu?djvuopts&zoom=page&page=681" )
+      ("DW"
+       "..//01/index.djvu?djvuopts&zoom=page&page=694" )
+      ("DY"
+       "..//01/index.djvu?djvuopts&zoom=page&page=706" )
+      ("DZ"
+       "..//01/index.djvu?djvuopts&zoom=page&page=718" ) )
+     ("E"
+      "..//01/index.djvu?djvuopts&zoom=page&page=756" )
+     ("F"
+      "..//01/index.djvu?djvuopts&zoom=page&page=766"
+      ("FL"
+       "..//01/index.djvu?djvuopts&zoom=page&page=786" )
+      ("FO"
+       "..//01/index.djvu?djvuopts&zoom=page&page=790" )
+      ("FR"
+       "..//01/index.djvu?djvuopts&zoom=page&page=799" )
+      ("FU"
+       "..//01/index.djvu?djvuopts&zoom=page&page=806" ) ) )
+    ("Ogłoszenie"
+     "..//01/index.djvu?djvuopts&zoom=page&page=813" ) )
+   ("Tom drugi G-L"
+    "..//02/index.djvu?djvuopts&zoom=page&page=3"
+    ("Motto"
+     "..//02/index.djvu?djvuopts&zoom=page&page=4" )
+    ("Dedykacja Stanisławowi Zamojskiemu"
+     "..//02/index.djvu?djvuopts&zoom=page&page=5" )
+    ("Przedmowa (August Bielowski)"
+     "..//02/index.djvu?djvuopts&zoom=page&page=9" )
+    ("Objaśnienie oznaczeń redaktorów drugiego wydania"
+     "..//02/index.djvu?djvuopts&zoom=page&page=14" )
+    ("Dalszy ciąg prenumerantów"
+     "..//02/index.djvu?djvuopts&zoom=page&page=15" )
+    ("Hasła"
+     "..//02/index.djvu?djvuopts&zoom=page&page=17"
+     ("G"
+      "..//02/index.djvu?djvuopts&zoom=page&page=17"
+      ("G"
+       "..//02/index.djvu?djvuopts&zoom=page&page=17" )
+      ("GB, GD"
+       "..//02/index.djvu?djvuopts&zoom=page&page=38" )
+      ("GĘ"
+       "..//02/index.djvu?djvuopts&zoom=page&page=41" )
+      ("GI"
+       "..//02/index.djvu?djvuopts&zoom=page&page=48" )
+      ("GŁ"
+       "..//02/index.djvu?djvuopts&zoom=page&page=53" )
+      ("GM"
+       "..//02/index.djvu?djvuopts&zoom=page&page=76" )
+      ("GN"
+       "..//02/index.djvu?djvuopts&zoom=page&page=78" )
+      ("GO"
+       "..//02/index.djvu?djvuopts&zoom=page&page=85" )
+      ("GR"
+       "..//02/index.djvu?djvuopts&zoom=page&page=117" )
+      ("GU"
+       "..//02/index.djvu?djvuopts&zoom=page&page=156" )
+      ("GW"
+       "..//02/index.djvu?djvuopts&zoom=page&page=160" )
+      ("GZ"
+       "..//02/index.djvu?djvuopts&zoom=page&page=167" ) )
+     ("H"
+      "..//02/index.djvu?djvuopts&zoom=page&page=169"
+      ("H"
+       "..//02/index.djvu?djvuopts&zoom=page&page=169" )
+      ("HE"
+       "..//02/index.djvu?djvuopts&zoom=page&page=182" )
+      ("HI"
+       "..//02/index.djvu?djvuopts&zoom=page&page=187" )
+      ("HO"
+       "..//02/index.djvu?djvuopts&zoom=page&page=188" )
+      ("HR"
+       "..//02/index.djvu?djvuopts&zoom=page&page=193" )
+      ("HU"
+       "..//02/index.djvu?djvuopts&zoom=page&page=194" )
+      ("HY"
+       "..//02/index.djvu?djvuopts&zoom=page&page=199" ) )
+     ("I"
+      "..//02/index.djvu?djvuopts&zoom=page&page=201"
+      ("IB, IF"
+       "..//02/index.djvu?djvuopts&zoom=page&page=202" )
+      ("IG"
+       "..//02/index.djvu?djvuopts&zoom=page&page=203" )
+      ("IŁ"
+       "..//02/index.djvu?djvuopts&zoom=page&page=205" )
+      ("IM"
+       "..//02/index.djvu?djvuopts&zoom=page&page=206" )
+      ("IN"
+       "..//02/index.djvu?djvuopts&zoom=page&page=210" )
+      ("IS"
+       "..//02/index.djvu?djvuopts&zoom=page&page=218" )
+      ("IW"
+       "..//02/index.djvu?djvuopts&zoom=page&page=226" )
+      ("IZ"
+       "..//02/index.djvu?djvuopts&zoom=page&page=226" ) )
+     ("J"
+      "..//02/index.djvu?djvuopts&zoom=page&page=227"
+      ("J"
+       "..//02/index.djvu?djvuopts&zoom=page&page=227" )
+      ("JE"
+       "..//02/index.djvu?djvuopts&zoom=page&page=255" )
+      ("JL"
+       "..//02/index.djvu?djvuopts&zoom=page&page=281" )
+      ("JO"
+       "..//02/index.djvu?djvuopts&zoom=page&page=281" )
+      ("JU"
+       "..//02/index.djvu?djvuopts&zoom=page&page=282" )
+      ("JW"
+       "..//02/index.djvu?djvuopts&zoom=page&page=288" ) )
+     ("K"
+      "..//02/index.djvu?djvuopts&zoom=page&page=289"
+      ("K"
+       "..//02/index.djvu?djvuopts&zoom=page&page=289" )
+      ("KĘ"
+       "..//02/index.djvu?djvuopts&zoom=page&page=350" )
+      ("KI"
+       "..//02/index.djvu?djvuopts&zoom=page&page=352" )
+      ("KL"
+       "..//02/index.djvu?djvuopts&zoom=page&page=367" )
+      ("KM"
+       "..//02/index.djvu?djvuopts&zoom=page&page=392" )
+      ("KN"
+       "..//02/index.djvu?djvuopts&zoom=page&page=394" )
+      ("KO"
+       "..//02/index.djvu?djvuopts&zoom=page&page=396" )
+      ("KP"
+       "..//02/index.djvu?djvuopts&zoom=page&page=482" )
+      ("KR"
+       "..//02/index.djvu?djvuopts&zoom=page&page=483" )
+      ("KS"
+       "..//02/index.djvu?djvuopts&zoom=page&page=534" )
+      ("KT"
+       "..//02/index.djvu?djvuopts&zoom=page&page=541" )
+      ("KU"
+       "..//02/index.djvu?djvuopts&zoom=page&page=543" )
+      ("KW"
+       "..//02/index.djvu?djvuopts&zoom=page&page=567" ) )
+     ("L"
+      "..//02/index.djvu?djvuopts&zoom=page&page=578"
+      ("Ł"
+       "..//02/index.djvu?djvuopts&zoom=page&page=578" )
+      ("ŁB, ŁE"
+       "..//02/index.djvu?djvuopts&zoom=page&page=612" )
+      ("ŁG, LG"
+       "..//02/index.djvu?djvuopts&zoom=page&page=635" )
+      ("LI"
+       "..//02/index.djvu?djvuopts&zoom=page&page=636" )
+      ("ŁK, LN, LO"
+       "..//02/index.djvu?djvuopts&zoom=page&page=657" )
+      ("LS"
+       "..//02/index.djvu?djvuopts&zoom=page&page=673" )
+      ("LU"
+       "..//02/index.djvu?djvuopts&zoom=page&page=673" )
+      ("LW"
+       "..//02/index.djvu?djvuopts&zoom=page&page=690" )
+      ("ŁY"
+       "..//02/index.djvu?djvuopts&zoom=page&page=691" )
+      ("LZ"
+       "..//02/index.djvu?djvuopts&zoom=page&page=695" ) ) )
+    ("Poprawki do tomu I"
+     "..//02/index.djvu?djvuopts&zoom=page&page=699" )
+    ("Poprawki do tomu II"
+     "..//02/index.djvu?djvuopts&zoom=page&page=699" )
+    ("Spis osób które nabyły ten słownik..."
+     "..//02/index.djvu?djvuopts&zoom=page&page=701" ) )
+   ("Tom trzeci M-O"
+    "#3"
+    ("Motto"
+     "#4" )
+    ("Dedykacja Stanisławowi Kostce Potockiemu"
+     "#5" )
+    ("Dalszy ciąg prenumerantów"
+     "#11" )
+    ("Uwaga autora"
+     "#12" )
+    ("Hasła"
+     "#13"
+     ("M"
+      "#13"
+      ("M"
+       "#13" )
+      ("MC, MD, ME"
+       "#63" )
+      ("MG"
+       "#75" )
+      ("MI"
+       "#76" )
+      ("MK"
+       "#130" )
+      ("ML"
+       "#131" )
+      ("MN"
+       "#140" )
+      ("MO"
+       "#144" )
+      ("MR"
+       "#171" )
+      ("MS"
+       "#175" )
+      ("MU"
+       "#177" )
+      ("MY"
+       "#187" )
+      ("MZ"
+       "#194" ) )
+     ("N"
+      "#195"
+      ("N"
+       "#195" )
+      ("NE"
+       "#311" )
+      ("NI"
+       "#314" )
+      ("NO"
+       "#349" )
+      ("NU"
+       "#363" )
+      ("NY"
+       "#367" ) )
+     ("O"
+      "#367"
+      ("O"
+       "#367" )
+      ("OB"
+       "#369" )
+      ("OC"
+       "#430" )
+      ("OD"
+       "#443" )
+      ("OF"
+       "#510" )
+      ("OG"
+       "#512" )
+      ("OH"
+       "#523" )
+      ("OJ"
+       "#524" )
+      ("OK"
+       "#527" )
+      ("OL"
+       "#544" )
+      ("OM"
+       "#549" )
+      ("ON"
+       "#554" )
+      ("OP"
+       "#556" )
+      ("OR"
+       "#577" )
+      ("OS"
+       "#584" )
+      ("OT"
+       "#621" )
+      ("OW"
+       "#629" )
+      ("OZ"
+       "#634" ) ) )
+    ("Poprawki"
+     "#641" )
+    ("Dalszy ciąg spisu osób, które nabyły ten słownik"
+     "#642" ) )
+   ("Tom czwarty P"
+    "..//04/index.djvu?djvuopts&zoom=page&page=3"
+    ("Motto"
+     "..//04/index.djvu?djvuopts&zoom=page&page=4" )
+    ("Dedykacja Adamowi Czartoryskiemu"
+     "..//04/index.djvu?djvuopts&zoom=page&page=5" )
+    ("Dalszy ciąg prenumerantów"
+     "..//04/index.djvu?djvuopts&zoom=page&page=11" )
+    ("Hasła"
+     "..//04/index.djvu?djvuopts&zoom=page&page=13"
+     ("P"
+      "..//04/index.djvu?djvuopts&zoom=page&page=13"
+      ("P"
+       "..//04/index.djvu?djvuopts&zoom=page&page=13" )
+      ("PA"
+       "..//04/index.djvu?djvuopts&zoom=page&page=13" )
+      ("PC"
+       "..//04/index.djvu?djvuopts&zoom=page&page=69" )
+      ("PE"
+       "..//04/index.djvu?djvuopts&zoom=page&page=70" )
+      ("PF"
+       "..//04/index.djvu?djvuopts&zoom=page&page=83" )
+      ("PI"
+       "..//04/index.djvu?djvuopts&zoom=page&page=83" )
+      ("PL"
+       "..//04/index.djvu?djvuopts&zoom=page&page=136" )
+      ("PN"
+       "..//04/index.djvu?djvuopts&zoom=page&page=171" )
+      ("PO"
+       "..//04/index.djvu?djvuopts&zoom=page&page=171" )
+      ("PR"
+       "..//04/index.djvu?djvuopts&zoom=page&page=451" )
+      ("PS"
+       "..//04/index.djvu?djvuopts&zoom=page&page=708" )
+      ("PT"
+       "..//04/index.djvu?djvuopts&zoom=page&page=715" )
+      ("PU"
+       "..//04/index.djvu?djvuopts&zoom=page&page=716" )
+      ("PY"
+       "..//04/index.djvu?djvuopts&zoom=page&page=731" )
+      ("Q"
+       "..//04/index.djvu?djvuopts&zoom=page&page=735" ) ) )
+    ("Poprawki"
+     "..//04/index.djvu?djvuopts&zoom=page&page=737" )
+    ("Domówienie (August Bielowski)"
+     "..//04/index.djvu?djvuopts&zoom=page&page=739" )
+    ("Dalszy ciąg spisu osób które nabyły ten słownik"
+     "..//04/index.djvu?djvuopts&zoom=page&page=741" ) )
+   ("Tom piąty R-T"
+    "..//05/index.djvu?djvuopts&zoom=page&page=3"
+    ("Motto"
+     "..//05/index.djvu?djvuopts&zoom=page&page=4" )
+    ("Dedykacja Józefowi Poniatowskiemu"
+     "..//05/index.djvu?djvuopts&zoom=page&page=5" )
+    ("Dalszy ciąg prenumerantów"
+     "..//05/index.djvu?djvuopts&zoom=page&page=11" )
+    ("Hasła"
+     "..//05/index.djvu?djvuopts&zoom=page&page=13"
+     ("R"
+      "..//05/index.djvu?djvuopts&zoom=page&page=13"
+      ("R"
+       "..//05/index.djvu?djvuopts&zoom=page&page=13" )
+      ("RA"
+       "..//05/index.djvu?djvuopts&zoom=page&page=13" )
+      ("RD"
+       "..//05/index.djvu?djvuopts&zoom=page&page=33" )
+      ("RE"
+       "..//05/index.djvu?djvuopts&zoom=page&page=34" )
+      ("RO"
+       "..//05/index.djvu?djvuopts&zoom=page&page=48" )
+      ("RT"
+       "..//05/index.djvu?djvuopts&zoom=page&page=157" )
+      ("RU"
+       "..//05/index.djvu?djvuopts&zoom=page&page=157" )
+      ("RW"
+       "..//05/index.djvu?djvuopts&zoom=page&page=169" )
+      ("RY"
+       "..//05/index.djvu?djvuopts&zoom=page&page=169" )
+      ("RZ"
+       "..//05/index.djvu?djvuopts&zoom=page&page=181" ) )
+     ("S"
+      "..//05/index.djvu?djvuopts&zoom=page&page=202"
+      ("S"
+       "..//05/index.djvu?djvuopts&zoom=page&page=202" )
+      ("SA"
+       "..//05/index.djvu?djvuopts&zoom=page&page=202" )
+      ("SC"
+       "..//05/index.djvu?djvuopts&zoom=page&page=223" )
+      ("SE"
+       "..//05/index.djvu?djvuopts&zoom=page&page=235" )
+      ("SF"
+       "..//05/index.djvu?djvuopts&zoom=page&page=248" )
+      ("SI"
+       "..//05/index.djvu?djvuopts&zoom=page&page=249" )
+      ("SK"
+       "..//05/index.djvu?djvuopts&zoom=page&page=274" )
+      ("SL"
+       "..//05/index.djvu?djvuopts&zoom=page&page=308" )
+      ("SM"
+       "..//05/index.djvu?djvuopts&zoom=page&page=339" )
+      ("SN"
+       "..//05/index.djvu?djvuopts&zoom=page&page=356" )
+      ("SO"
+       "..//05/index.djvu?djvuopts&zoom=page&page=361" )
+      ("SP"
+       "..//05/index.djvu?djvuopts&zoom=page&page=369" )
+      ("SR"
+       "..//05/index.djvu?djvuopts&zoom=page&page=416" )
+      ("SS"
+       "..//05/index.djvu?djvuopts&zoom=page&page=423" )
+      ("ST"
+       "..//05/index.djvu?djvuopts&zoom=page&page=423" )
+      ("SU"
+       "..//05/index.djvu?djvuopts&zoom=page&page=495" )
+      ("SW"
+       "..//05/index.djvu?djvuopts&zoom=page&page=508" )
+      ("SY"
+       "..//05/index.djvu?djvuopts&zoom=page&page=536" )
+      ("SZ"
+       "..//05/index.djvu?djvuopts&zoom=page&page=541" ) )
+     ("T"
+      "..//05/index.djvu?djvuopts&zoom=page&page=634"
+      ("T"
+       "..//05/index.djvu?djvuopts&zoom=page&page=634" )
+      ("TA"
+       "..//05/index.djvu?djvuopts&zoom=page&page=635" )
+      ("TC"
+       "..//05/index.djvu?djvuopts&zoom=page&page=658" )
+      ("TE"
+       "..//05/index.djvu?djvuopts&zoom=page&page=660" )
+      ("TF itd"
+       "..//05/index.djvu?djvuopts&zoom=page&page=672" )
+      ("TK"
+       "..//05/index.djvu?djvuopts&zoom=page&page=672" )
+      ("TL"
+       "..//05/index.djvu?djvuopts&zoom=page&page=675" )
+      ("TM"
+       "..//05/index.djvu?djvuopts&zoom=page&page=680" )
+      ("TN"
+       "..//05/index.djvu?djvuopts&zoom=page&page=680" )
+      ("TO"
+       "..//05/index.djvu?djvuopts&zoom=page&page=680" )
+      ("TR"
+       "..//05/index.djvu?djvuopts&zoom=page&page=691" )
+      ("TU"
+       "..//05/index.djvu?djvuopts&zoom=page&page=737" )
+      ("TW"
+       "..//05/index.djvu?djvuopts&zoom=page&page=744" )
+      ("TY"
+       "..//05/index.djvu?djvuopts&zoom=page&page=750" ) ) )
+    ("Domówienie (August Bielowski)"
+     "..//05/index.djvu?djvuopts&zoom=page&page=759" )
+    ("Poprawki i uzupełnienia do tomu I"
+     "..//05/index.djvu?djvuopts&zoom=page&page=761" )
+    ("Dalszy ciąg spisu osób które nabyły ten słownik"
+     "..//05/index.djvu?djvuopts&zoom=page&page=763" ) )
+   ("Tom szósty  U-W"
+    "..//06/index.djvu?djvuopts&zoom=page&page=3"
+    ("Motta"
+     "..//06/index.djvu?djvuopts&zoom=page&page=4" )
+    ("Zakończenie listy prenumerantów"
+     "..//06/index.djvu?djvuopts&zoom=page&page=5" )
+    ("Zdanie sprawy z całego ciągu pracy"
+     "..//06/index.djvu?djvuopts&zoom=page&page=7"
+     ("List hr. Ossolińskiego do xiędza Lindego pastora w Gdańsku z Wiednia 1go grudnia 1805"
+      "..//06/index.djvu?djvuopts&zoom=page&page=13" )
+     ("List hr. Ossolińskiego do ś. p. xiędza kanonika Reptowskiego dnia 1. grudnia 1803"
+      "..//06/index.djvu?djvuopts&zoom=page&page=13" )
+     ("Zaświadczenie Ossolińskiego"
+      "..//06/index.djvu?djvuopts&zoom=page&page=14" )
+     ("Odezwa xięcia Adama Czartoryskiego"
+      "..//06/index.djvu?djvuopts&zoom=page&page=16" )
+     ("List Stanisława Potockiego"
+      "..//06/index.djvu?djvuopts&zoom=page&page=17" )
+     ("Dyplom królewsko Czeskiej akademii w Pradze"
+      "..//06/index.djvu?djvuopts&zoom=page&page=19" )
+     ("List xięcia generała Czartoryskiego z dnia 4go stycznia 1808"
+      "..//06/index.djvu?djvuopts&zoom=page&page=19" )
+     ("List Józefa hr. Ossolińskiego z lutego 1808 r."
+      "..//06/index.djvu?djvuopts&zoom=page&page=20" )
+     ("List Silvestre de Sacy, 5 Juin 1808"
+      "..//06/index.djvu?djvuopts&zoom=page&page=21" )
+     ("List Silvestre de Sacy, 23 Mai 1812"
+      "..//06/index.djvu?djvuopts&zoom=page&page=22" )
+     ("list le Baron de Serra, 1 Sept. 1811"
+      "..//06/index.djvu?djvuopts&zoom=page&page=22" )
+     ("Konstanty Wolski: tłumaczenie recenzyi gazety literackiej Helskiej, z przypiskami do niej"
+      "..//06/index.djvu?djvuopts&zoom=page&page=23"
+      ("Do redaktora Pamiętnika"
+       "..//06/index.djvu?djvuopts&zoom=page&page=23" )
+      ("Wypis z gazety"
+       "..//06/index.djvu?djvuopts&zoom=page&page=24" )
+      ("Posłowie"
+       "..//06/index.djvu?djvuopts&zoom=page&page=35" ) )
+     ("List: Johan v. Müller, l4 Febr. 1809"
+      "..//06/index.djvu?djvuopts&zoom=page&page=37" )
+     ("List: Ergebenster Heyne, 26 Januar 1809"
+      "..//06/index.djvu?djvuopts&zoom=page&page=38" )
+     ("List: C. G. Heyne, den 18 Februar 1809"
+      "..//06/index.djvu?djvuopts&zoom=page&page=38" )
+     ("Tłumaczenie recenzyi Götyngskiej"
+      "..//06/index.djvu?djvuopts&zoom=page&page=38"
+      ("List Adama Czartoryskiego 27 marca 1809 r."
+       "..//06/index.djvu?djvuopts&zoom=page&page=39" ) )
+     ("Recenzja Jenaische Allgemeine Litteratur-Zeitung den 47. Aug. 1810"
+      "..//06/index.djvu?djvuopts&zoom=page&page=43" )
+     ("Recenzja Ergänzungsbläuer zur allgemeinen Litteratur Zeitung den 45 December 1810"
+      "..//06/index.djvu?djvuopts&zoom=page&page=54" )
+     ("Recenzja Ergänzungshlätter, den 14 Nov. 1811"
+      "..//06/index.djvu?djvuopts&zoom=page&page=55"
+      ("LIST D0 REDAKTORA GAZETY WARSZAWSKIEJ"
+       "..//06/index.djvu?djvuopts&zoom=page&page=58" ) )
+     ("Recenzja Leipziger Literatur-Zeitung 4845. Nro 445, 4 May"
+      "..//06/index.djvu?djvuopts&zoom=page&page=60" )
+     ("Recenzja Annalen der Literatur und Kunst in dem Oesterreichischen Kaiserthume 1809"
+      "..//06/index.djvu?djvuopts&zoom=page&page=64" )
+     ("Wypis z Annalen der Literatur und Kunst in dem Oesterreichischen Kaiserthume"
+      "..//06/index.djvu?djvuopts&zoom=page&page=68" )
+     ("Recenzja: Joseph Dobrowski"
+      "..//06/index.djvu?djvuopts&zoom=page&page=68" )
+     ("List: Joseph Dobrowski,  23 April 1808"
+      "..//06/index.djvu?djvuopts&zoom=page&page=70" )
+     ("Cytat: Korespondent Hamburski R. 1809 Nro 15"
+      "..//06/index.djvu?djvuopts&zoom=page&page=71" )
+     ("Cytat: Gazeta literacka Lipska z roku 1813 w listopadzie pod Nrem 293"
+      "..//06/index.djvu?djvuopts&zoom=page&page=72" )
+     ("Cytat: Gazeta Literacka powszechna Halska Nr. 340, dnia 14 grudnia 1810"
+      "..//06/index.djvu?djvuopts&zoom=page&page=74" ) )
+    ("Hasła"
+     "..//06/index.djvu?djvuopts&zoom=page&page=77"
+     ("U"
+      "..//06/index.djvu?djvuopts&zoom=page&page=77"
+      ("U"
+       "..//06/index.djvu?djvuopts&zoom=page&page=77" )
+      ("UB"
+       "..//06/index.djvu?djvuopts&zoom=page&page=77" )
+      ("UC"
+       "..//06/index.djvu?djvuopts&zoom=page&page=84" )
+      ("UD"
+       "..//06/index.djvu?djvuopts&zoom=page&page=99" )
+      ("UF"
+       "..//06/index.djvu?djvuopts&zoom=page&page=105" )
+      ("UG"
+       "..//06/index.djvu?djvuopts&zoom=page&page=106" )
+      ("UH"
+       "..//06/index.djvu?djvuopts&zoom=page&page=111" )
+      ("UI"
+       "..//06/index.djvu?djvuopts&zoom=page&page=111" )
+      ("UJ"
+       "..//06/index.djvu?djvuopts&zoom=page&page=111" )
+      ("UK"
+       "..//06/index.djvu?djvuopts&zoom=page&page=116" )
+      ("UL, UŁ"
+       "..//06/index.djvu?djvuopts&zoom=page&page=124" )
+      ("UM"
+       "..//06/index.djvu?djvuopts&zoom=page&page=132" )
+      ("UN"
+       "..//06/index.djvu?djvuopts&zoom=page&page=142" )
+      ("UP"
+       "..//06/index.djvu?djvuopts&zoom=page&page=145" )
+      ("UR"
+       "..//06/index.djvu?djvuopts&zoom=page&page=160" )
+      ("US"
+       "..//06/index.djvu?djvuopts&zoom=page&page=170" )
+      ("UT"
+       "..//06/index.djvu?djvuopts&zoom=page&page=187" )
+      ("UW"
+       "..//06/index.djvu?djvuopts&zoom=page&page=192" )
+      ("UZ"
+       "..//06/index.djvu?djvuopts&zoom=page&page=197" ) )
+     ("W"
+      "..//06/index.djvu?djvuopts&zoom=page&page=203"
+      ("WA"
+       "..//06/index.djvu?djvuopts&zoom=page&page=206" )
+      ("WB"
+       "..//06/index.djvu?djvuopts&zoom=page&page=237" )
+      ("WC"
+       "..//06/index.djvu?djvuopts&zoom=page&page=237" )
+      ("WD"
+       "..//06/index.djvu?djvuopts&zoom=page&page=241" )
+      ("WE"
+       "..//06/index.djvu?djvuopts&zoom=page&page=246" )
+      ("WG"
+       "..//06/index.djvu?djvuopts&zoom=page&page=266" )
+      ("WH"
+       "..//06/index.djvu?djvuopts&zoom=page&page=266" )
+      ("WI"
+       "..//06/index.djvu?djvuopts&zoom=page&page=266" )
+      ("WJ"
+       "..//06/index.djvu?djvuopts&zoom=page&page=343" )
+      ("WK"
+       "..//06/index.djvu?djvuopts&zoom=page&page=344" )
+      ("WM"
+       "..//06/index.djvu?djvuopts&zoom=page&page=361" )
+      ("WN"
+       "..//06/index.djvu?djvuopts&zoom=page&page=363" )
+      ("WO"
+       "..//06/index.djvu?djvuopts&zoom=page&page=368" )
+      ("WP"
+       "..//06/index.djvu?djvuopts&zoom=page&page=393" )
+      ("WR"
+       "..//06/index.djvu?djvuopts&zoom=page&page=398" )
+      ("WS"
+       "..//06/index.djvu?djvuopts&zoom=page&page=410" )
+      ("WT"
+       "..//06/index.djvu?djvuopts&zoom=page&page=442" )
+      ("WU"
+       "..//06/index.djvu?djvuopts&zoom=page&page=445" )
+      ("WW"
+       "..//06/index.djvu?djvuopts&zoom=page&page=445" )
+      ("WY"
+       "..//06/index.djvu?djvuopts&zoom=page&page=447" )
+      ("WZ"
+       "..//06/index.djvu?djvuopts&zoom=page&page=662" )
+      ("X"
+       "..//06/index.djvu?djvuopts&zoom=page&page=685" )
+      ("Y"
+       "..//06/index.djvu?djvuopts&zoom=page&page=685" )
+      ("Z"
+       "..//06/index.djvu?djvuopts&zoom=page&page=685"
+       ("ZA"
+        "..//06/index.djvu?djvuopts&zoom=page&page=691" )
+       ("ZB"
+        "..//06/index.djvu?djvuopts&zoom=page&page=964" )
+       ("ZC"
+        "..//06/index.djvu?djvuopts&zoom=page&page=981" )
+       ("ZD"
+        "..//06/index.djvu?djvuopts&zoom=page&page=981" )
+       ("ZE"
+        "..//06/index.djvu?djvuopts&zoom=page&page=999" )
+       ("ZF"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1033" )
+       ("ZG"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1033" )
+       ("ZH"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1050" )
+       ("ZI"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1051" )
+       ("ZK"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1070" )
+       ("ZL"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1071" )
+       ("ZM"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1097" )
+       ("ZN"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1115" )
+       ("ZO"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1130" )
+       ("ZP"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1145" )
+       ("ZR"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1145" )
+       ("ZS"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1158" )
+       ("ZT"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1162" )
+       ("ZU"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1162" )
+       ("ZW"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1170" )
+       ("ZY"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1199" )
+       ("ZZ"
+        "..//06/index.djvu?djvuopts&zoom=page&page=1217" ) )
+      ("Uzupełnienia i sprostowania"
+       "..//06/index.djvu?djvuopts&zoom=page&page=1220" )
+      ("Domówienie (August Bielowski)"
+       "..//06/index.djvu?djvuopts&zoom=page&page=1223" )
+      ("Poczet pism polskich przytaczanych w sprostowaniach"
+       "..//06/index.djvu?djvuopts&zoom=page&page=1231" )
+      ("Dokończenie spisu osób które nabyły ten słownik"
+       "..//06/index.djvu?djvuopts&zoom=page&page=1233" ) ) ) ) ) ) )

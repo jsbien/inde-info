@@ -1,0 +1,106 @@
+TO BE VERIFIED AND IMPROVED!
+
+
+Poliqarp source
+===============
+
+Cloning e.g. Poliqarp from sourceforge:
+
+https://sourceforge.net/p/forge/documentation/Mercurial/
+
+http://hg.code.sf.net/p/PROJECTNAME/REPOSITORY/
+
+(replace PROJECTNAME with the UNIX group name of the project, and the default REPOSITORY is 'code')
+
+https://sourceforge.net/projects/poliqarp/
+
+Poliqarp:
+
+http://jwilk.net/software/poliqarp
+
+code repository:
+
+http://poliqarp.hg.sourceforge.net/hgweb/poliqarp/poliqarp/
+
+
+age	author	description
+2014-01-13	Jakub Wilk	Fix a compiler warning.default
+
+Works:
+
+hg clone http://poliqarp.hg.sourceforge.net/hgweb/poliqarp/poliqarp/
+
+Building Poliqarp Debian packages
+=================================
+
+http://serverfault.com/questions/127625/given-a-debian-source-package-how-do-i-install-the-build-deps
+
+pbuilder (and others)
+
+http://ask.debian.net/questions/how-to-install-a-package-s-build-dependencies
+
+http://www.rcramer.com/tech/linux/deb.shtml
+
+https://wiki.ubuntu.com/PbuilderHowto
+
+apt-get install pbuilder debootstrap devscripts
+
+NOTE: devscripts is not necessary to install along with pbuilder,
+however if you are serious about using pbuilder and creating and
+maintaining packages for Ubuntu or Debian, you will want to install
+devscripts.
+
+pbuilder create
+
+To more closely mimic the environment of the official build machines, you can use the '--variant=buildd' option when creating the base tarball.
+
+sudo pbuilder create --debootstrapopts --variant=buildd
+
+The buildd variant will install the build-essential packages in the chroot environment, which is probably what you want, since you will be compiling packages.
+
+If you want to build Debian packages on Ubuntu, you need to install Debian archive keys and add Debian distribution name, Debian mirror and key location to pbuilder command line like this:
+
+sudo apt-get install debian-archive-keyring
+
+
+sudo pbuilder create --distribution squeeze --mirror ftp://ftp.us.debian.org/debian/ --debootstrapopts "--keyring=/usr/share/keyrings/debian-archive-keyring.gpg"
+
+https://www.debian.org/doc/manuals/maint-guide/build.en.html
+
+ Let's customize the pbuilder package as follows:
+
+    setting the /var/cache/pbuilder/result directory writable by your user account.
+
+    creating a directory, e.g. /var/cache/pbuilder/hooks, writable by the user, to place hook scripts in.
+
+    configuring ~/.pbuilderrc or /etc/pbuilderrc to include the following.
+
+AUTO_DEBSIGN=${AUTO_DEBSIGN:-no}
+HOOKDIR=/var/cache/pbuilder/hooks
+
+irst let's initialize the local pbuilder chroot system as follows:
+
+$ sudo pbuilder create
+
+ If you have an updated source tree but have not generated the matching source package, issue the following commands in the source directory where the debian directory exists, instead:
+
+$ sudo pbuilder --update
+$ pdebuild
+
+ pbuilder-satisfydepends-dummy : Depends: python-support which is a virtual package and is not provided by any available package
+
+                                 Depends: openjdk-7-jdk which is a virtual package and is not provided by any available package
+ or
+                                          openjdk-6-jdk which is a virtual package and is not provided by any available package
+ or
+                                          sun-java6-jdk which is a virtual package and is not provided by any available package
+ or
+                                          sun-java5-jdk which is a virtual package and is not provided by any available package
+ or
+                                          sun-j2sdk1.5 which is a virtual package and is not provided by any available package
+
+
+python-support was removed from Debian and later from Ubuntu. Please use dh_python2 from dh-python package instead.
+
+https://wiki.debian.org/Python/TransitionToDHPython2
+

@@ -1,0 +1,21 @@
+select
+set-meta
+author "Samuel Bogumił Linde"
+title "Słownik języka polskiego"
+subtitle "Wydanie drugie, poprawne i pomnożone staraniem i nakładem Zakładu Narodowego imienia Ossolińskich"
+volume-title "Tom czwarty. P."
+volume "4"
+date "1858"
+place "Lwów"
+publisher "Drukarnia Zakładu Ossolińskich"
+pages "742"
+reprint-date "1999"
+reprint-place "Warszawa"
+reprint-publisher "Wydawnictwo GUTENBERG-PRINT"
+reprint-ISBN "83-86381-50-7"
+volume-ISBN "83-86381-54-X"
+digitization "Formal Linguistics Department, University of Warsaw"
+dygitalizacja "Katedra Lingwistyki Formalnej Uniwersytetu Warszawskiego"
+team "Janusz S. Bień, Joanna Bilińska, Michał Rudolf"
+tools "scahelper, scantailor, didjvu, ocrodjvu, Tesseract"
+.
