@@ -21,3 +21,5 @@ https://www.researchgate.net/publication/325348345_Rozwiniecia_skrotow_nazw_etno
 https://www.researchgate.net/publication/325348093_Rozwiniecia_skrotow_redakcyjnych_w_II_wydaniu_slownika_Lindego
 
 https://www.zotero.org/groups/2192423/sownik_lindego
+
+Wcześniej repozytorium znajdowalo się pod adresem https://bitbucket.org/jsbien/linde-info/.
