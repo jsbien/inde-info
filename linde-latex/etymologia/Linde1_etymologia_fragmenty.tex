@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage{polyglossia}
+\setdefaultlanguage{polish}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{soul}
+ \usepackage{xcolor}
+
+\setmainfont{FreeSerif}
+\setsansfont{FreeSans}
+\setmonofont{FreeMono}
+
+\catcode`\|=13
+\catcode`\@=13
+
+\def|#1{\textit{#1}}
+
+\def@#1{\textsf{#1}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\obeylines
+
+\section{087 XXXIII}
+\label{sec:087-xxxiii}
+\input Linde1_087_XXXIII_etym
+
+\section{093--097 XXXVII--XLI}
+\label{sec:093-xxxvii}
+\input Linde1_093_XXXVII_etym
+\newpage
+\input Linde1_094_XXXVIII_etym
+\newpage
+\input Linde1_095_XXXIX_etym
+\newpage
+\input Linde1_096_XL_etym
+\newpage
+\input Linde1_097_XLI_etym
+
+\section{099 XLIII}
+\label{sec:099-xliii}
+\input Linde1_099_XLIII_etym
+
+
+\section{101-102 XLV--XLVI}
+\label{sec:101-xlv}
+\input Linde1_101_XLV_etym
+\newpage
+\input Linde1_102_XLVI_etym
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-engine: xetex
+%%% TeX-master: t
+%%% TeX-PDF-mode: t
+%%% End:
