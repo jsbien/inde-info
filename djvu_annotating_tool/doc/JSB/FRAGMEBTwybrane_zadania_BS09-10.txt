@@ -1,0 +1,29 @@
+% $Id: wybrane_zadania_BS09-10.txt,v 1.3 2010/03/29 07:49:12 jsbien Exp $
+
+NORBERT POTOCKI:
+
+1. Skróty w 33 tomie SpXVIw
+
+Tom 33 słownika znajduje się pod adresem
+http://kpbc.umk.pl/publication/33857.  Plik tekstowy ze skrótami
+(niekoniecznie wszystkimi) znajduje się pod adresem
+https://moodle.mimuw.edu.pl/file.php?file=%2F193%2Fzasoby%2FSpXVIw%2FspXVIw32zrodla.txt.gz.
+
+Za pomocą djvused należy nanieść skróty wzorując się na przykładach:
+
+https://moodle.mimuw.edu.pl/file.php?file=%2F193%2Fzasoby%2FDjVu%2FSpXVI_tom_33_p13abt.djvu
+
+https://moodle.mimuw.edu.pl/file.php?file=%2F193%2Fzasoby%2FDjVu%2FSpXVI_tom_33_p16e.djvu
+
+Różne kategorie skrótów powinne mieć różne formy.
+
+Skróty źródeł, np.  BierEz, powinne być zawsze zaznaczone.
+
+Inicjały autorów haseł i inne skróty powinne być widoczne po
+najechaniu myszą.
+
+Szczegóły jeszcze do uzgodnienia!!!
+
+%%% Local Variables: 
+%%% coding: utf-8-unix
+%%% End: 

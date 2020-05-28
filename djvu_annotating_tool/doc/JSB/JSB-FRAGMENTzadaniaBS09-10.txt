@@ -1,0 +1,21 @@
+Zasady ogólne:
+
+Wyniki na licencji GNU lub innej swobodnej.
+
+Wyniki udostępniane sukcesywnie, najlepiej za pomocą jakiegoś systemu
+zarządzania wersjami
+
+Warunek koniecznym (ale nie wystarczającym) uzyskania oceny bardzo
+dobrej jest dostarczenie ostatecznej wersji na 4 tygodnie przed końcem
+zajęć.
+
+Zadania:
+
+NORBERT POTOCKI:
+
+1. Skróty w 33 tomie SpXVIw
+- patrz wybrane_zadania_BS09-10.txt.
+
+%%% Local Variables: 
+%%% coding: utf-8-unix
+%%% End: 
