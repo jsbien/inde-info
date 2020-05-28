@@ -1,0 +1,56 @@
+#!/usr/bin/python
+
+import os
+import sys
+from optparse import OptionParser
+
+TEXT_DIR = "text"
+LIGS_DIR = "ligs"
+WEB_DIR = "/var/www/hists"
+
+def main(argv):
+	usage = "%prog [OPTIONS] DIRECTORY_WITH_PAGE2ALL_OUTPUT"
+	parser = OptionParser(usage = usage, version = "hist 0.1")
+	parser.add_option("-n", "--names-file", help="File with character names", dest="names")
+	parser.add_option("-o", "--output-name", help="Name of resulting file", dest="file", default=None)
+	(options, args) = parser.parse_args(argv)
+	if len(args) != 2:
+		parser.print_help()
+		exit()
+	path = args[1]
+	batchName = str.split(path, "/")
+	batchName = batchName[len(batchName) - 1]
+	textPath = path + "/" + TEXT_DIR
+	ligsPath = path + "/" + LIGS_DIR
+	if options.names == None:
+		print "Name file not given"
+		exit()
+	options.names = os.path.abspath(options.names)
+	if not os.path.exists(options.names):
+		print "File", options.names, "does not exist"
+		exit()
+	if not os.path.isdir(path):
+		print "Directory", path, "does not exist"
+		exit()
+	if not os.path.isdir(textPath):
+		print "Directory", path, "does not contain", TEXT_DIR
+		exit()
+	cwd = os.getcwd()
+	os.chdir(textPath)
+	os.system("cat 0* > tmp.txt")
+	if options.file != None:
+	    batchName = options.file
+	os.system("unihistext -nc -S " + options.names + " -i tmp.txt > chars.txt")
+	if not os.path.isdir(WEB_DIR):
+		os.mkdir(WEB_DIR)
+	os.system("mv chars.txt " + WEB_DIR + "/codes_" + batchName + ".txt")
+	os.system("rm tmp.txt")
+	os.chdir(cwd + "/" + ligsPath)
+	os.system("cat 0* > tmp.txt")
+	os.system("unihistext -nc -S " + options.names + " -i tmp.txt > chars.txt")
+	os.system("mv chars.txt " + WEB_DIR + "/codes_ligs_" + batchName + ".txt")
+	os.system("rm tmp.txt")
+
+if __name__ == "__main__":
+	main(sys.argv)
+

@@ -1,0 +1,187 @@
+#!/usr/bin/python
+import os
+import sys
+from optparse import OptionParser
+
+CORPUS_RT_DIR = "_run-time"
+CORPUS_DATA_DIR = "_data"
+CORPUS_XCES_DATA_DIR = "_xces-data"
+
+CORPUS_OUT = "log_corpus.txt"
+CORPUS_ERR = "log_corpus_err.txt"
+
+def generateCorpus(destPath, destDataPath, corpus, xces, app):
+	global CORPUS_RT_DIR, CORPUS_DATA_DIR, CORPUS_XCES_DATA_DIR
+	if app == None:
+		out = open(destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".meta.cfg", "w")
+		out.write("S filename\n")
+		out.write("S origname\n")
+		out.write("S batchname\n")
+		out.write("S title\n")
+		out.write("S source\n")
+		out.write("S version\n")
+		out.close()
+		out = open(destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".meta.lisp", "w")
+		out.write("(single \"filename\" \"/cesHeader/fileDesc/titleStmt/h.title\")\n")
+		out.write("(single \"origname\" \"/cesHeader/fileDesc/biblStruct/monogr/h.title\")\n")
+		#out.write("(single \"version\" \"/cesHeader/fileDesc/biblStruct/monogr/edition\")\n")
+		out.write("(single \"batchname\" \"/cesHeader/fileDesc/biblStruct/monogr/biblNote\")\n")
+		#out.write("(single \"version\" \"/cesHeader/fileDesc/editionStmt/@version\")\n")
+		out.close()
+		out = open(destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".bp.conf", "w")
+		out.write("[locale]\n")
+		out.write("locale = pl_PL\n")
+		out.write("\n")
+		out.write("[filenames]\n")
+		out.write("header = header.xml\n")
+		out.write("morphosyntax = morph.xml\n")
+		out.write("\n")
+		out.write("[meta]\n")
+		out.write("name = filename\n")
+		out.write("path = /meta/filename\n")
+		out.write("\n")
+		out.write("[meta]\n")
+		out.write("name = origname\n")
+		out.write("path = /meta/origname\n")
+		out.write("\n")
+		out.write("[meta]\n")
+		out.write("name = batchname\n")
+		out.write("path = /meta/batchname\n")
+		out.write("\n")
+		out.write("[meta]\n")
+		out.write("name = title\n")
+		out.write("path = /meta/title\n")
+		out.write("\n")
+		out.write("[meta]\n")
+		out.write("name = source\n")
+		out.write("path = /meta/source\n")
+		out.write("\n")
+		out.write("[meta]\n")
+		out.write("name = version\n")
+		out.write("path = /meta/version\n")
+		out.close()
+		output = open(destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".cfg", "w")
+		output.write("[attr]\n")
+		output.write("\n")
+		output.write("[pos]\n")
+		output.write("ign =\n")
+		output.write("\n")
+		output.write("[named-entity]\n")
+		output.write("entity-orth = orth\n")
+		output.write("entity-base = base\n")
+		output.write("entity-tag = tag\n")
+		output.write("entity-pos = pos\n")
+		output.close()
+		out = open(destPath + "/" + CORPUS_RT_DIR + "/poliqarpd.conf", "w")
+		out.write("logging = on\n")
+		out.write("log-file = poliqarpd.log\n")
+		out.write("corpus = " + corpus + "-id: " + corpus + "\n")
+		out.write("max-match-length = 100\n")
+		out.close()
+	#outc = os.path.abspath(destPath) + "/" + CORPUS_OUT
+	#errc = os.path.abspath(destPath) + "/" + CORPUS_ERR
+	cwd = os.getcwd()
+	os.chdir(destPath + "/" + CORPUS_RT_DIR)
+	print os.getcwd()
+	#sys.stderr.write("time bpng " + corpus + " ../" + CORPUS_DATA_DIR + "/*/\n")
+	#os.system("time bpng " + corpus + " ../" + CORPUS_DATA_DIR + "/*/")
+	#sys.stderr.write("time bpng " + corpus + " " + destDataPath + "/" + CORPUS_DATA_DIR + "/*/\n")#  >> " + outc + " 2>> " + errc + "\n")
+	if xces:
+		if app != None:
+			os.system("bpng -c " + corpus + " " + cwd + "/" + destDataPath + "/" + CORPUS_XCES_DATA_DIR + "/*/")
+		else:
+			os.system("bpng " + corpus + " " + cwd + "/" + destDataPath + "/" + CORPUS_XCES_DATA_DIR + "/*/")
+	else:
+		os.system("time /home/jsbien/NEW/bpng+djvu/poliqarp-1.3.9/bin/bpng " + corpus + " " + cwd + "/" + destDataPath + "/" + CORPUS_DATA_DIR + "/*/")#  >> " + outc + " 2>> " + errc)
+	sys.stderr.write("augment-djvu-corpus2 " + corpus + " " + cwd + "/" + destDataPath + "/" + CORPUS_DATA_DIR + "/*/morph.xml\n")#  >> " + outc + " 2>> " + errc + "\n")
+	os.system("augment-djvu-corpus2 " + corpus + " " + cwd + "/" + destDataPath + "/" + CORPUS_DATA_DIR + "/*/morph.xml")#  >> " + outc + " 2>> " + errc)
+	map = {}
+	#print os.getcwd()
+	print os.path.exists(cwd + "/" + destDataPath + "/map.txt")
+	print cwd + "/" + destDataPath + "/map.txt"
+	if os.path.exists(cwd + "/" + destDataPath + "/map.txt"):
+		#os.chdir(cwd)
+		#return
+		fp = open(cwd + "/" + destDataPath + "/map.txt")
+		for line in fp:
+			if len(line) > 1:
+				(k, v) = line.split(",")
+				v = v[:-1]
+				k = k.replace("..", cwd + "/" + destDataPath)
+				print v
+				map.setdefault(k, v)
+		fp.close()
+		#os.system("rm ../map.txt")# >> " + outc + " 2>> " + errc)
+		#print "[", corpus, "]"
+		fp = open(corpus + ".djvu.filenames")
+		out = open(corpus + ".djvu.filenames_tmp", "w")
+		for line in fp:
+			if len(line) > 1:
+				line = line[:-1]
+				#print line, map.get(line)
+				if map.get(line) != None:
+					out.write(map.get(line) + "\n")
+				else:
+					out.write(line + "\n")
+		fp.close()
+		out.close()
+		os.system("rm " + corpus + ".djvu.filenames")#  >> " + outc + " 2>> " + errc)
+		os.system("mv " + corpus + ".djvu.filenames_tmp " + corpus + ".djvu.filenames")#  >> " + outc + " 2>> " + errc)
+	os.chdir(cwd)
+
+def main(argv):
+	global CORPUS_RT_DIR, CORPUS_DATA_DIR, CORPUS_XCES_DATA_DIR
+	usage = "%prog [OPTIONS] DIRECTORY_WITH_PAGE2ALL_OUTPUT"
+	parser = OptionParser(usage = usage, version = "makecorpus 0.1")
+	parser.add_option("-x", "--xces", action="store_true", help="Use XCES source", dest="xces", default=False)
+	parser.add_option("-a", "--append", help="Append to existing corpus", dest="app", default=None)
+	(options, args) = parser.parse_args(argv)
+	if (not options.xces) and options.app != None:
+		print "Option -a not supported in hOCR mode"
+		exit()
+	if len(args) != 2:
+		parser.print_help()
+		exit()
+	dpath = args[1]
+	for obj in os.listdir(dpath):
+		if obj == "corpus_name":
+			obj = open(dpath + "/" + obj)
+			for line in obj:
+				dataToAppend = line
+			obj.close()
+			#os.system("rm " + path + "/" + obj + " >> " path + "/" + CORPUS_OUT + " 2>> " + path + "/" + CORPUS_ERR)
+			break
+	if options.app != None:
+		path = options.app
+		for obj in os.listdir(path):
+			if obj == "corpus_name":
+				obj = open(path + "/" + obj)
+				for line in obj:
+					corpus = line
+				obj.close()
+				break
+	else:
+		path = dpath
+		corpus = dataToAppend
+	# TODO: blad jak nie ma corpus_name
+	CORPUS_RT_DIR = corpus + CORPUS_RT_DIR
+	CORPUS_DATA_DIR = dataToAppend + CORPUS_DATA_DIR
+	CORPUS_XCES_DATA_DIR = dataToAppend + CORPUS_XCES_DATA_DIR
+	corPath = path + "/" + CORPUS_RT_DIR
+	if not os.path.isdir(path):
+		print "Directory", path, "does not exist"
+		exit()
+	if not os.path.isdir(dpath):
+		print "Directory", dpath, "does not exist"
+		exit()
+	if not os.path.isdir(corPath):
+		print "Directory", dpath, "does not contain", CORPUS_RT_DIR, "subdirectory"
+		exit()
+	#sys.stdout = open(path + "/log_corpus.txt", "a")
+	#sys.stderr = open(path + "/log_corpus_err.txt", "a")
+	generateCorpus(path, dpath, corpus, options.xces, options.app)
+	#sys.stdout.close()
+	#sys.stderr.close()
+
+if __name__ == "__main__":
+	main(sys.argv)

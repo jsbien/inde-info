@@ -1,0 +1,326 @@
+inne/inne/1-133-222.html
+------------------------
+Przykładowe dane dla columns.py.
+
+
+inne/inne/columns.py
+--------------------
+columns.py PLIK
+
+Umożliwia obejrzenie segmentacji w pliku hOCR w postaci graficznej.
+
+
+inne/inne/columns_win.py
+--------------------
+columns_win.py PLIK
+
+Umożliwia obejrzenie segmentacji w pliku hOCR w postaci graficznej - wersja dla Windows (znacząco szybsza).
+
+
+kanji/00435723seg.html, kanji/00435723seg_old.html
+--------------------------------------------------
+Pliki ilustrujące problem ze znikającymi spacjami - patrz kanji.instrukcja/2.1.
+
+
+kanji/hocr.py
+-----------
+hocr.py PLIK_WEJŚCIOWY PLIK_WYNIKOWY
+
+Skrypt obcina bounding boxy elementów hOCR tak by mieściły się w bounding boxach elementów je zawierających - taki problem pojawia się w plikach generowanych programem Michalskiego.
+
+
+kanji/instrukcja.txt
+--------------------
+Instrukcja tworzenia korpusów z użyciem page2all i innych skryptów.
+
+
+kanji/pageparser
+----------------
+Modyfikacja pageparsera:
+
+Nowy pageparser dokleja inicjały do następnego słowa i sortuje elementy wewnątrz regionów i niżej po bounding boxach.
+Dopisuje też spacje po każdym słowie, z wyjątkiem ostatniego w wierszu - eksperymenty pokazują, że jest to zgodne z tekstem w wierszu i wyższych regionach.
+Dodatkowo ma możliwość zapisywania informacji o fontach do wynikowego hOCR jeżeli poda mu się argumenty:
+--fonts PLIK_Z_REGIONAMI
+--font-config-file PLIK_Z_KONFIGURACJĄ
+
+PLIK_Z_REGIONAMI - zawiera w osobnych wierszach nazwy regionów
+PLIK_Z_KONFIGURACJA - ma w pierwszym wierszu nazwę fontu dla regionów których nie ma w pliku PLIK_Z_REGIONAMI a w drugim dla tych które są, np.:
+
+tomek@kanji:~$ cat plik.txt
+Gotyk
+Antykwa
+tomek@kanji:~$
+
+
+kanji/README
+------------
+Odpowiedzi Wilka na pytania do tworzenia korpusów.
+
+
+kanji/tytuly.txt
+----------------
+Tytuły dokumentów źródłowych - używane przez page2all do (trzeba skonfigurować ścieżkę w pageconfig.py) tworzenia metadanych.
+
+
+kanji/bin/base_extract.py
+-------------------------
+base_processor.py PLIK_WEJŚCIOWY PLIK_WYNIKOWY
+
+Wypisuje do podanego pliku zawartość elementów "base" z podanego pliku XCES. Dane te są wykorzystywane do stworzenia list frekwencyjnych i histogramu znaków. Efektem ubocznym jest to, że w histogramie nie będą uwzględnione spacje (bo nie ma ich w elementach "base").
+
+
+kanji/bin/freqlist
+------------------
+freqlist KATALOG_Z_WYNIKAMI_PAGE2ALL [NAZWA_KORPUSU [NAZWA_PLIKU_WYNIKOWEGO]]
+
+W <KATALOG_Z_WYNIKAMI_PAGE2ALL>/<NAZWA_KORPUSU>_run-time/<NAZWA_KORPUSU> powinien być wcześniej utworzony korpus przy pomocy skryptu makecorpus.
+
+NAZWA_KORPUSU - domyślnie ostatni element ścieżki <KATALOG_Z_WYNIKAMI_PAGE2ALL>
+NAZWA_PLIKU_WYNIKOWEGO - domyślnie ostatni element ścieżki <KATALOG_Z_WYNIKAMI_PAGE2ALL>
+
+Przy pomocy skryptu /home/jsbien/NEW/marasca/misc/frequency-list tworzona jest lista frekwencyjna korpusu z rozpisanymi ligaturami i umieszczana w /var/www/freqs/<NAZWA_PLIKU_WYNIKOWEGO>_freqlist_ligs.txt. Lista bez rozpisanych ligatur /var/www/freqs/<NAZWA_PLIKU_WYNIKOWEGO>_freqlist.txt tworzona jest przy użyciu frequency_list_base (powinna być widoczna w $PATH - wystarczy dodać do $PATH /home/tomek/bin). Listy będą potem widoczne w http://kanji.klf.uw.edu.pl/freqs.
+
+
+kanji/bin/frequency-list-base
+-----------------------------
+Modyfikacja frequency-list tworząca listy frekwencyjne z nierozpisanymi ligaturami z form bazowych korpusu.
+
+
+kanji/bin/hist
+--------------
+hist -n PLIK_Z_NAZWAMI [-o NAZWA_PLIKU_WYNIKOWEGO] KATALOG_Z_WYNIKAMI_PAGE2ALL
+
+PLIK_Z_NAZWAMI - np. TextelNames.txt
+
+Przy użyciu skryptu unihist tworzy histogramy znaków (bez i z rozpisanymi ligaturami) na podstawie danych zawartych w <KATALOG_Z_WYNIKAMI_PAGE2ALL>/text i <KATALOG_Z_WYNIKAMI_PAGE2ALL>/ligs. Dane są zapisywane do plików /var/www/hists/codes_<IDENTYFIKATOR_KORPUSU>.txt i /var/www/hists/codes_ligs_<IDENTYFIKATOR_KORPUSU>.txt. Histogram z rozpisanymi ligaturami nie będzie zawierał informacji o spacjach (patrz opis base_extract.py). Pliki będą widoczne na http://kanji.klf.uw.edu.pl/hists.
+
+IDENTYFIKATOR_KORPUSU = NAZWA_PLIKU_WYNIKOWEGO jeśli podano opcję -o, ostatni element ścieżki KATALOG_Z_WYNIKAMI_PAGE2ALL wpp
+
+
+kanji/bin/makecorpus
+--------------------
+Tworzy korpus na podstawie danych wygenerowanych przez page2all.
+
+makecorpus [-x] ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL
+
+-x jeżeli podano tą opcję to do utworzenia korpusu użyjemy danych XCES i widocznej w $PATH instalacji bpng, wpp użyjemy danych z plików hOCR i bpng z katalogu /home/jsbien/NEW/bpng+djvu/poliqarp-1.3.9/bin
+
+ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL - <KATALOG_WYNIKOWY> polecenia page2all
+
+NAZWA_KORPUSU zostanie odczytana z pliku <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/corpus_name
+
+Dokładny opis działania w kanji/instrukcja.txt.
+
+
+kanji/bin/makecorpus2
+---------------------
+Modyfikacja służąca do dołączania wyników page2all do istniejących korpusów wygenerowanych przez makecorpus. Posiada dodatkową opcję -a.
+
+Podanie opcji -a powoduje włączenie trybu dołączania. Bez tej opcji skrypt powinien działać jak zwykły makecorpus. Parametrem opcji jest <ŚCIEŻKA_DO_KORPUSU>.
+
+Dokładny opis działania w kanji/instrukcja.txt.
+
+
+kanji/bin/normalize.py
+----------------------
+Normalizuje listę frekwencyjną lub listę słów w kolejnych wierszach.
+
+normalize.py [-f] [-v] [-e PLIK_Z_WYJĄTKAMI] [-s SEPARATOR] PLIK_Z_NORMALIZACJĄ PLIK_WEJŚCIOWY PLIK_WYNIKOWY
+
+SEPARATOR - separator CSV w plikach PLIK_Z_NORMALIZACJĄ i PLIK_Z_WYJĄTKAMI (domyślnie ;)
+
+PLIK_Z_NORMALIZACJĄ - plik zawierający reguły normalizacyjne, format pliku opisany w kanji/instrukcja.txt/1.3.1
+
+PLIK_Z_WYJĄTKAMI - plik zawierający wyjątki (słowa pasujące do wyrażenia opisującego wyjątek dla jakiejś reguły nie są przez tą regułę przetwarzane), postaci:
+identyfikator_reguły<SEPARATOR>wyrażenie_regularne_opisujące_wyjątek<NL>
+
+-f - jeżeli podano tę opcję to PLIK_WEJŚCIOWY jest listą frekwencyjną, wpp jest plikiem zawierającym pojedyncze słowa w osobnych wierszach
+
+-v - jeżeli podano tę opcję program wypisuje informacje o zastosowanych regułach na konsolę
+
+
+kanji/bin/page2all
+------------------
+Bardzo skomplikowany skrypt przygotowujący dane do budowy korpusu, dokładny opis w kanji/instrukcja.txt.
+
+
+kanji/bin/pageconfig.py
+-----------------------
+Plik z konfiguracją ścieżek do page2all - dokładny opis w kanji/instrukcja.txt/1.1.2.
+
+
+kanji/bin/page_normalizer.py
+----------------------------
+page_normalizer.py PLIK_Z_NORMALIZACJĄ [PLIK_Z_WYJĄTKAMI] PLIK_WEJŚCIOWY PLIK_WYNIKOWY
+
+Korzysta z normalize.py, znaczenie argumentów takie jak w normalize.py.
+Normalizuje znaki w pliku PAGE (zawartość tagów Unicode). Zapisuje zmodyfikowany plik PAGE.
+
+
+kanji/bin/page_processor.py
+----------------------------
+page_processor.py PLIK_WEJŚCIOWY PLIK_WYNIKOWY
+
+Normalizuje znaki w pliku PAGE na podstawie reguł w pliku /home/jsbien/extraUnicodeData/TextelNormalization.txt.
+
+
+kanji/bin/xces_normalizer.py
+----------------------------
+xces_normalizer.py PLIK_Z_NORMALIZACJĄ [PLIK_Z_WYJĄTKAMI] PLIK_WEJŚCIOWY PLIK_WYNIKOWY
+
+Korzysta z normalize.py, znaczenie argumentów takie jak w normalize.py.
+Normalizuje znaki w pliku XCES (umieszczając znormalizowany tekst w polu "orth"). Zapisuje zmodyfikowany plik XCES.
+
+
+kanji/bin/xces_processor.py
+----------------------------
+xces_processor.py PLIK_WEJŚCIOWY PLIK_WYNIKOWY PLIK_Z_REGUŁAMI
+
+Normalizuje znaki w pliku XCES na podstawie reguł w pliku PLIK_Z_REGUŁAMI który powinien mieć format analogiczny do pliku /home/jsbien/extraUnicodeData/TextelNormalization.txt.
+
+
+kanji/check/check.py
+--------------------
+check.py KATALOG_Z_PLIKAMI_PAGE
+
+Wypisuje listę plików PAGE w których jest jakaś niespójność między tekstem na różnych poziomach. Jakie to niespójności można potem sprawdzić dla konkretnego pliku skryptem pageassert2. 
+Żeby skrypt zadziałał pageassert musi być w katalogu bieżącym.
+
+
+kanji/check/pageassert
+----------------------
+Pobieżna modyfikacja pageparsera służąca do sprawdzenia spójności plików PAGE.
+Używany przez check.py.
+Polecenie:
+pageassert2 -F hOCR plik.xml
+wypisze nazwę pliku jeżeli jest jakaś niespójność między tekstem na różnych poziomach.
+
+
+kanji/check/pageassert2
+-----------------------
+Pobieżna modyfikacja pageparsera służąca do sprawdzenia spójności plików PAGE.
+Polecenie:
+pageassert2 -F hOCR plik.xml
+wypisze listę różnic między poziomami postaci:
+TYP ELEMENTU, TEKST Z DZIECI ELEMENTU, TEKST ELEMENTU 
+
+
+﻿Dane wejściowe dla skryptów lindego (stare skany)
+-------------------------------------------------
+Katalog z plikami PDF postaci TOM-NR_1_STRONY-NR_OSTATNIEJ_STRONY.pdf, gdzie numery stron są liczone od początku słownika.
+Te numery (np. 935-1030 dla 2-0935-1030.pdf) nazywam dalej globalnymi.
+Lokalne numery stron to numery liczone od 1 dla konkretnego pliku PDF (np. 1-96 dla 2-0935-1030.pdf).
+W skanach brakuje niektórych stron - np. w skanie 3-2103-2156.pdf sześciu.
+Genenowany hOCR ma nazwy zgodne z tym ile tych stron naprawdę powinno być w danym pliku (mimo, że zawiera ich w rzeczywistości tyle co PDF), np. dla wspomnianego wcześniej skanu mamy 3-2103-2162.html.
+Numery rzeczywiste to numery globalne z uwzględnieniem tych brakujących stron (np. strona 2157 to w rzeczywistości 2163).
+Reguły zamiany numerów globalnych na rzeczywiste są w skrypcie generate_hocr_maker.py (funkcja _(i)).
+W skrypcie tym są ponadto zdefiniowane zasięgi: (2369, 2479)*, (133, 813), (835, 1515), (1535, 2162), (2177, 2899), (2921, 3666),	(3751, 4358), (4365, 4899). Obejmują one strony które zawierają właściwą treść słownika (hasła w dwóch kolumnach).
+
+* Ten jest chyba błędny, ale ponieważ zawiera się w (2177, 2899) nie powinno to mieć znaczenia.
+
+
+Dane wejściowe dla skryptów lindego (brakujące strony w starych skanach)
+------------------------------------------------------------------------
+Katalog z plikami PDF:
+FR10_Linde3_2127a-b2130.pdf, FR10_Linde3_2143ab2144.pdf, FR10_Linde4_2883ab2884.pdf, FR10_Linde6-2_4365ab4366.pdf i FR10_Linde6-2_4867a-b4870.pdf zawierające strony których brakowało w starych skanach.
+W pliku glue.py znajduje się mapowanie tych stron na odpowiednie miejsca w plikach hOCR.
+
+
+Dane wejściowe dla skryptów lindego (nowe skany)
+------------------------------------------------
+Katalog z plikami PDF postaci LindeNR_TOMU...OCRonly.pdf.
+Nowe skany nie mają numerów globalnych. Numery rzeczywiste dla tych plików są zdefiniowane w skrypcie generate_hocr.py. Numery rzeczywiste pliku Linde4_OCRonly.pdf zachodzą na numery poprzedniego bo dwie pierwsze strony pliku Linde4_OCRonly.pdf są nadmiarowe - traktujemy je jak dwie ostatnie strony poprzedniego pliku (mimo że są różne - bo i tak nie są w żadnym zasięgu i zostaną zignorowane).
+
+
+linde/extract_entries.py
+------------------------
+Plik zawiera moduł znajdujący hasła w słowniku Lindego.
+
+
+linde/generate_hocr_maker.py
+----------------------------
+generate_hocr_maker.py KATALOG [-i] > SKRYPT_GENERUJACY
+
+Skrypt generuje skrypt generujący hOCR z plików PDF (stare skany) zawartych w katalogu KATALOG (wypisuje na terminal polecenia, trzeba przekierować do pliku).
+Polecenia generujące mają postać:
+pdfa2hocr -p -i -c 2 -u pl_PL -l pagina.py -g IGNOROWANE_STRONY TOM-NR_GLOBALNY_1_STRONY-NR_GLOBALNY_OSTATNIEJ_STRONY.pdf TOM-NR_RZECZYWISTY_1_STRONY-NR_RZECZYWISTY_OSTATNIEJ_STRONY.html
+Gdzie IGNOROWANE_STRONY to lokalne numery stron danego pliku PDF nie należące do żadnego zasięgu - nie zostaną one podzielone na dwie kolumny i przetworzone skryptem pagina.py.
+Jeśli podana została flaga -i skrypt wypisze numery ignorowanych stron dla poszczególnych plików zamiast poleceń.
+Wygenerowany skrypt powinien być uruchomiony w katalogu KATALOG - do niego zostaną zapisane pliki hOCR.
+
+Na stałe wpisane ścieżki do pdfa2hocr: /home/to/workspace/PDFAUtilities2/src/pdfa2hocr.py i skryptu do pdfa2hocr znajdującego paginę: /home/to/workspace/PDFAUtilities/src/pagina.py
+
+
+linde/generate_hocr.py
+----------------------
+Skrypt działa analogicznie do generate_hocr_make.py, z tym że działa dla nowych skanów i nie podaje się argumentu - zakłada, że pliki PDF są w katalogu Desktop/lindenew (wygenerowany skrypt trzeba uruchomić w katalogu nadrzędnym Desktop/.., pliki hOCR zostaną zapisane do Desktop/lindenew).
+Brak także flagi -i - to czy zostaną wygenerowane polecenia czy lista ignorowanych stron zależy od ręcznego ustawienia zmiennej igndump w skrypcie (w repozytorium jest ustawiona na True co generuje listę ignorowanych stron).
+
+
+linde/generator.sh
+------------------
+Plik wygenerowany przez generate_hocr_maker.py.
+
+
+linde/glue.py
+-------------
+glue.py KATALOG_Z_BRAKUJĄCYMI_STRONAMI_DO_STARYCH_SKANÓW KATALOG_ZE_STARYMI_SKANAMI_I_WYNIKOWYM_HOCR
+
+Plik zamienia na hOCR pliki PDF w katalogu z brakującymi stronami i wstawia z nich brakujące strony do plików hOCR w katalogu ze starymi skanami. Oryginalne hOCR (np. 3-2103-2162.html) pozostaje bez zmian, strony są wstawiane do plików (3-2103-2162_real.html).
+
+UWAGA: W katlogu ze starymi skanami nie mogą istnieć pliki "*_real.html" z poprzedniego przebiegu - skrypt dopisze do nich strony które już raz zostały dopisane!
+
+W zmiennej arr jest mapowanie stron w plikach z brakującymi stronami na strony w wynikowych plikach "*_real.html", np. rekord:
+
+["FR10_Linde3_2127a-b2130", 6, 7, "3-2103-2162", 29, 30], # 27, 28
+
+oznacza: weź strony 6 i 7 z pliku FR10_Linde3_2127a-b2130.pdf i wstaw między strony 29 i 30 pliku 3-2103-2162_real.html. Zapisane w komentarzu numery stron 27 i 28 oznaczają, że w pliku 3-2103-2162.html strony 29 i 30 to w rzeczywistości strony 27 i 28, ale ponieważ wcześniej wstawialiśmy już dwie strony (rekord ["FR10_Linde3_2127a-b2130", 2, 3, "3-2103-2162", 25, 26]) to strony od 25 przesunęły się o dwa miejsca w przód.
+
+Na stałe wpisane ścieżki do pdfa2hocr: /home/to/workspace/PDFAUtilities2/src/pdfa2hocr.py i skryptu do pdfa2hocr znajdującego paginę: /home/to/workspace/PDFAUtilities/src/pagina.py
+
+
+linde/ignores.txt
+-----------------
+Plik wygenerowany przez generate_hocr_maker.py z flagą -i.
+
+
+linde/ignores2.txt
+------------------
+Plik wygenerowany przez generate_hocr_maker.py ze zmienną igndump ustawioną na True.
+
+
+linde/new_scans.py
+------------------
+new_scans.py [-r 1000x2000] KATALOG_Z_NOWYMI_SKANAMI_I_WYNIKOWYM_HOCR PLIK_WYNIKOWY
+
+Działa analogicznie do skryptu old_scans.py dla nowych skanów.
+
+Ignoruje strony zawarte w pliku ignores2.txt który powinien się znajdować w katalogu bieżącym (jego brak powoduje błąd).
+
+Linki do haseł są generowane według zmiennej outfiles:
+[["Linde3_OCRonly.djvu", 1521, 2164],
+ ["Linde4_OCRonly.djvu", 2165, 2906],
+ ["Linde5_OCRonly.djvu", 2907, 3672],
+ ["Linde6-1_OCRonly.djvu", 3673, 4358],
+ ["Linde6-2_OCRonly.djvu", 4359, 4914]]
+Linki do danego pliku są generowane jeżeli hasło było na stronie w odpowiadającym jej zakresie (włącznie, np. strona 1521 ma link do Linde3_OCRonly.djvu).
+Zdaje się, że gdy generowałem hasła dla niektórych plików rozszerzenie w linkach było omyłkowo podane jako pdf zamiast djvu.
+
+
+linde/old_scans.py
+------------------
+old_scans.py [-r 1000x2000] KATALOG_ZE_STARYMI_SKANAMI_I_WYNIKOWYM_HOCR PLIK_WYNIKOWY
+
+Odczytuje pliki "*.html" (jeżeli jest odpowiadający mu plik "*_real.html" - patrz glue.py - to czyta tylko "*_real.html") i wyciąga z nich hasła które zapisuje wraz z odpowiednimi informacjami w pliku wynikowym. Wykorzystuje skrypt extract_entries.py (powinien być w tym samym katalogu co skrypt).
+Ignoruje strony zawarte w pliku ignores.txt który powinien się znajdować w katalogu bieżącym (jego brak powoduje błąd).
+
+Linki dla haseł są generowane do pliku http://poliqarp.wbl.klf.uw.edu.pl/extra/linde/index.djvu.
+
+Parametrem opcji -r powinna byc rozdzielczość pliku djvu do obszarów w którym skrypt wygeneruje linki, w formacie SZEROKOSCxWYSOKOSC.
+
+
+linde/shuffle.py
+----------------
+Zamienia kolejność stron w pliku linde-pdf/1-321-404.html (stare skany)
+

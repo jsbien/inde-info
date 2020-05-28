@@ -1,0 +1,404 @@
+#!/usr/bin/python
+import os
+import sys
+import shutil
+from optparse import OptionParser
+from os.path import abspath
+from pageconfig import WEB_DIR, REAL_WEB_DIR, MIREK_PATH, TMP_DIR, TITLES_FILE, PPPATH
+import elementtree.ElementTree as ET
+
+HOCR_DIR = "hocr"
+DJVU_SED_DIR = "djvused"
+TEXT_DIR = "text"
+LIGS_DIR = "ligs"
+DJVU_DIR = "djvu"
+CORPUS_RT_DIR = "_run-time"
+CORPUS_DATA_DIR = "_data"
+CORPUS_MOD_DATA_DIR = "_mod-data"
+CORPUS_XCES_DATA_DIR = "_xces-data"
+TEXTEL_PATH = ""
+EXCEPTIONS_FILE = ""
+
+batchName = ""
+xces = False
+ligs = False
+ignore = None
+fonts = None
+
+def titleOf(fid):
+	#fid = 
+	file = open(TITLES_FILE)
+	for line in file:
+		(id, source, title) = line.split('\t')
+		if fid == id:
+			file.close()
+			return (source, title)
+	file.close()
+	
+
+def isEmpty(hocrFile):
+	doc = ET.parse(hocrFile)
+	#print doc, hocrFile
+	#print doc.findall("/{http://www.w3.org/1999/xhtml}body/{http://www.w3.org/1999/xhtml}div")
+	for e in doc.findall("/{http://www.w3.org/1999/xhtml}body/{http://www.w3.org/1999/xhtml}div"):
+		#print e
+		#print e.getchildren()
+		#print type(e.text), "[" + e.text + "]", e.text == "", e.text == None, e.text == u""
+		if len(e.getchildren()) > 0 or e.text != "\n":
+			return False
+	return True
+
+ast = []
+bs = []
+
+def prepareDocument(fileName, pageNo, destPath, poliSrc, djvuDirs, corpus, map, seg):
+	#print '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', poliSrc, fileName
+	global RED, REDOUT, CORPUS_DATA_DIR, CORPUS_RT_DIR, CORPUS_XCES_DATA_DIR, batchName, xces, ignore, ast, bs, ligs, TEXTEL_PATH, EXCEPTIONS_FILE, fonts, step1, step2
+	#assert(xces)
+	if not os.path.isdir(destPath + "/" + HOCR_DIR):
+		os.mkdir(destPath + "/" + HOCR_DIR)
+	if not os.path.isdir(destPath + "/" + DJVU_SED_DIR):
+		os.mkdir(destPath + "/" + DJVU_SED_DIR)
+	if not os.path.isdir(destPath + "/" + TEXT_DIR):
+		os.mkdir(destPath + "/" + TEXT_DIR)
+	if corpus != None:
+		if not os.path.isdir(destPath + "/" + CORPUS_RT_DIR):
+			os.mkdir(destPath + "/" + CORPUS_RT_DIR)
+		if not os.path.isdir(destPath + "/" + CORPUS_DATA_DIR):
+			os.mkdir(destPath + "/" + CORPUS_DATA_DIR)
+		if not os.path.isdir(destPath + "/" + CORPUS_MOD_DATA_DIR):
+			os.mkdir(destPath + "/" + CORPUS_MOD_DATA_DIR)
+		if not os.path.isdir(destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu"):
+			os.mkdir(destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu")
+		#if not os.path.isdir(destPath + "/" + CORPUS_DATA_DIR + "/" + corpus + ".djvu"):
+		#	os.mkdir(destPath + "/" + CORPUS_DATA_DIR + "/" + corpus + ".djvu")
+		if not os.path.isdir(destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu/" + poliSrc):
+			os.mkdir(destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu/" + poliSrc)
+		if not os.path.isdir(destPath + "/" + CORPUS_DATA_DIR + "/" + poliSrc):
+			os.mkdir(destPath + "/" + CORPUS_DATA_DIR + "/" + poliSrc)
+		if seg:
+			if not os.path.isdir(destPath + "/" + CORPUS_MOD_DATA_DIR + "/" + poliSrc):
+				os.mkdir(destPath + "/" + CORPUS_MOD_DATA_DIR + "/" + poliSrc)
+		if xces:
+			if not os.path.isdir(destPath + "/" + CORPUS_XCES_DATA_DIR):
+				os.mkdir(destPath + "/" + CORPUS_XCES_DATA_DIR)
+			if not os.path.isdir(destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc):
+				os.mkdir(destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc)
+			if ligs:
+				if not os.path.isdir(destPath + "/" + LIGS_DIR):
+					os.mkdir(destPath + "/" + LIGS_DIR)
+	if not os.path.isdir(destPath + "/" + DJVU_DIR):
+		os.mkdir(destPath + "/" + DJVU_DIR)
+	origName = fileName
+	fileNameSplitted = fileName.split("_")
+	if len(fileNameSplitted) > 1:
+		fileName = fileNameSplitted[0] + ".xml"
+		version = fileNameSplitted[1][:-4]
+	else:
+		version = "1"
+	if fileName[:-4][-4:] != ".tif":
+		fileNameNoExt = fileName[:-4]
+		fileName = fileName[:-4] + ".tif.xml"
+	else:
+		fileNameNoExt = fileName[:-8]
+	if step1:
+		fontopt = ""
+		if fonts != None:
+			fontopt = " --fonts " + fileNameNoExt + ".txt --font-config-file " + fonts + " "
+		if ignore != None:
+			disc= "--discard " + ignore
+		else:
+			disc = ""
+		if seg:
+			sys.stderr.write(PPPATH + "pageparser -F hocr --skip-unknown-elements --extra-hocr-classes " + disc + " --join-lines " + fontopt + origName + " > " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html\n")
+			os.system(PPPATH + "pageparser -F hocr --skip-unknown-elements --extra-hocr-classes " + disc + " --join-lines " + fontopt + origName + " > " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html" + REDOUT)
+		else:
+			sys.stderr.write(PPPATH + "pageparser -F hocr --skip-unknown-elements --extra-hocr-classes " + disc + " --join-lines " + fontopt + origName + " > " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html" + REDOUT + "\n")
+			os.system(PPPATH + "pageparser -F hocr --skip-unknown-elements --extra-hocr-classes " + disc + " --join-lines " + fontopt + origName + " > " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html" + REDOUT)
+		if isEmpty(destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html"): #or (fileNameNoExt == "00436933"):
+			#print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+			#print "EMPTY:", fileNameNoExt, poliSrc
+			#print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+			os.system("rm " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html")
+			if corpus != None:
+				os.system("rm -r " + destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu/" + poliSrc)
+				os.system("rm -r " + destPath + "/" + CORPUS_DATA_DIR + "/" + poliSrc)
+			return False
+		out = open(destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + "_header.xml", 'w')
+		out.write("<meta>\n")
+		out.write("  <filename>" + fileName[:-4] + "</filename>\n")
+		out.write("  <origname>" + origName + "</origname>\n")
+		out.write("  <batchname>" + batchName + "</batchname>\n")
+		(source, title) = titleOf(fileNameNoExt[2:])
+		out.write("  <title>" + title + "</title>\n")
+		out.write("  <source>" + source + "</source>\n")
+		out.write("  <version>" + version + "</version>\n")
+		out.write("</meta>\n")
+		out.close()
+	elif step2:
+		if not os.path.exists(destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html"): # empty in first step
+			return False
+	if corpus != None:
+		#os.system("cp " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html " + destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu/" + poliSrc + "/morph.xml" + RED)
+		if step1:
+			if not seg:
+				os.system("cp " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html " + destPath + "/" + CORPUS_DATA_DIR + "/" + poliSrc + "/morph.xml" + RED)
+				#os.system("cp " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + "_header.xml " + destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu/" + poliSrc + "/header.xml" + RED)
+				os.system("cp " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + "_header.xml " + destPath + "/" + CORPUS_DATA_DIR + "/" + poliSrc + "/header.xml" + RED)
+			else:
+				os.system("python /home/tomek/hocr.py " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html " + destPath + "/" + CORPUS_DATA_DIR + "/" + poliSrc + "/morph.xml")
+				os.system("cp " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + "_header.xml " + destPath + "/" + CORPUS_DATA_DIR + "/" + poliSrc + "/header.xml" + RED)
+				os.system("cp " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html " + destPath + "/" + CORPUS_MOD_DATA_DIR + "/" + poliSrc + "/morph.xml")
+				os.system("cp " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + "_header.xml " + destPath + "/" + CORPUS_MOD_DATA_DIR + "/" + poliSrc + "/header.xml")
+		if xces and step2:
+			#sys.stderr.write(destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html hocr2xces " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/morph.xml\n")
+			os.system("cat " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html | hocr2xces > " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/morph.xml")
+			if ligs:
+				#sys.stderr.write("xces_processor.py " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/morph.xml " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/_tmp.xml " + TEXTEL_PATH)
+				#os.system("xces_processor.py " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/morph.xml " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/_tmp.xml " + TEXTEL_PATH)
+				sys.stderr.write("xces_normalizer.py " + TEXTEL_PATH + " " + EXCEPTIONS_FILE + " " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/morph.xml " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/_tmp.xml")
+				os.system("xces_normalizer.py " + TEXTEL_PATH + " " + EXCEPTIONS_FILE + " " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/morph.xml " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/_tmp.xml")
+				os.system("rm " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/morph.xml")
+				os.system("mv " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/_tmp.xml " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/morph.xml")
+				#exit()
+			os.system("cp " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + "_header.xml " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/header.xml" + RED)
+	if step1:
+		sys.stderr.write(PPPATH + "pageparser -F djvused --skip-unknown-elements --discard TextLine --join-lines " + origName + " > " + destPath + "/" + DJVU_SED_DIR + "/" + fileNameNoExt + ".sed" + REDOUT + "\n")
+		if seg:
+			os.system(PPPATH + "pageparser -F djvused --skip-unknown-elements " + disc + " --join-lines " + origName + " > " + destPath + "/" + DJVU_SED_DIR + "/" + fileNameNoExt + ".sed" + REDOUT) 
+		else:
+			os.system(PPPATH + "pageparser -F djvused --skip-unknown-elements --discard TextLine --join-lines " + origName + " > " + destPath + "/" + DJVU_SED_DIR + "/" + fileNameNoExt + ".sed" + REDOUT) 
+	if step2:
+		os.system("html2text -utf8 -o " + destPath + "/" + TEXT_DIR + "/" + fileNameNoExt + ".txt" + " " + destPath + "/" + HOCR_DIR + "/" + fileNameNoExt + ".html" + RED)
+		lines = []
+		fin = open(destPath + "/" + TEXT_DIR + "/" + fileNameNoExt + ".txt")
+		first = True
+		for line in fin:
+			if first:
+				first = False
+			else:
+				lines.append(line)
+		fin.close()
+		fout = open(destPath + "/" + TEXT_DIR + "/" + fileNameNoExt + ".txt", "w")
+		for l in lines:
+			fout.write(l)
+		fout.close()
+		if xces and ligs:
+			os.system("base_extract.py " + destPath + "/" + CORPUS_XCES_DATA_DIR + "/" + poliSrc + "/morph.xml " + destPath + "/" + LIGS_DIR + "/" + fileNameNoExt + ".txt")
+		#if not os.path.isdir(destPath + "/" + DJVU_DIR + "/" + fileNameNoExt):
+		#	os.mkdir(destPath + "/" + DJVU_DIR + "/" + fileNameNoExt)
+		#was = False
+	if djvuDirs != None and corpus != None and step1:
+		for djvuDir in djvuDirs:
+			#print djvuDir + "/" + fileNameNoExt + ".djvu"
+			if os.path.exists(djvuDir + "/" + fileNameNoExt + ".djvu"):
+				#was = True
+				shutil.copyfile(djvuDir + "/" + fileNameNoExt + ".djvu", destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu/" + poliSrc + "/index.djvu")
+				os.system("djvused -f " + destPath + "/" + DJVU_SED_DIR + "/" + fileNameNoExt + ".sed -s " + destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu/" + poliSrc + "/index.djvu")
+				#shutil.copyfile(djvuDir + "/" + fileNameNoExt + ".djvu", destPath + "/" + DJVU_DIR + "/" + fileNameNoExt + ".djvu")
+				#os.system("djvused -f " + destPath + "/" + DJVU_SED_DIR + "/" + fileNameNoExt + ".sed -s " + destPath + "/" + DJVU_DIR + "/" + fileNameNoExt + ".djvu" + RED)
+				if corpus != None:
+					#print "dodane"
+					if not os.path.isdir(WEB_DIR + "/" + corpus):
+						os.mkdir(WEB_DIR + "/" + corpus)
+					os.system("ln -s " + destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu/" + poliSrc + "/index.djvu " + WEB_DIR + "/" + corpus + "/" + fileNameNoExt + ".djvu")
+					ast.append("../" + CORPUS_DATA_DIR + "/" + poliSrc + "/morph.xml")
+					bs.append(REAL_WEB_DIR + "/" + corpus + "/" + fileNameNoExt + ".djvu")
+					#map.setdefault("../" + CORPUS_DATA_DIR + "/" + poliSrc + "/morph.xml", REAL_WEB_DIR + "/" + corpus + "/" + fileNameNoExt + ".djvu")
+				break
+		#if not was:
+		#	print "ojej!", fileNameNoExt
+		#	assert(False)
+	else:
+		#print "NONE"
+		pass
+	return True
+	
+
+def repeat(string, times):
+	res = ""
+	for _ in range(times):
+		res += string
+	return res
+
+def traverse(dir, pageNo, destDir, poliSrcDir, djvuDirs, corpus, map, seg):
+	global step1
+	cwd = os.getcwd()
+	os.chdir(dir)
+	li = os.listdir(".")
+	li.sort()
+	for obj in li:
+		if os.path.isdir(obj):
+			pageNo = traverse(obj, pageNo, destDir, poliSrcDir, djvuDirs, corpus, map, seg)
+		elif obj[-4:] == ".xml":
+			if seg and step1:
+				#print MIREK_PATH + "/testuj -v " + obj + " " + obj
+				os.system("echo " + MIREK_PATH + "/testuj -v " + obj + " " + obj + "; " + MIREK_PATH + "/testuj -v " + obj + " " + obj + "\n")
+			#os.system("ln -s " + destPath + "/" + CORPUS_RT_DIR + "/" + corpus + ".djvu/" + poliSrc + "/index.djvu " + WEB_DIR + "/" + corpus + "/" + fileNameNoExt + ".djvu")
+			ok = prepareDocument(obj, pageNo, destDir, poliSrcDir(pageNo), djvuDirs, corpus, map, seg)
+			#ok = True
+			if ok:
+				pageNo += 1
+	os.chdir(cwd)
+	return pageNo
+
+def count(dir, counter):
+	cwd = os.getcwd()
+	os.chdir(dir)
+	li = os.listdir(".")
+	li.sort()
+	for obj in li:
+		if os.path.isdir(obj):
+			counter += count(obj, counter)
+		elif obj[-4:] == ".xml":
+			counter += 1
+	os.chdir(cwd)
+	return counter
+	
+RED = ""
+REDOUT = ""
+
+step1 = True
+step2 = True
+
+def main(argv):
+	global RED, REDOUT, CORPUS_DATA_DIR, CORPUS_RT_DIR, CORPUS_XCES_DATA_DIR, CORPUS_MOD_DATA_DIR, batchName, xces, ignore, ast, bs, ligs, TEXTEL_PATH, EXCEPTIONS_FILE, fonts, step1, step2
+	usage = "%prog [OPTIONS] DIRECTORY"
+	parser = OptionParser(usage = usage, version = "page2all 0.2")
+	parser.add_option("-n", "--page-number", help="set number of first page", dest="firstPage", default=1)
+	parser.add_option("-o", "--output-dir", help="output directory", dest="outDir", default=os.getcwd())
+	parser.add_option("-d", "--djvu-dir", help="directory with djvu files separated by comma", dest="djvuDir", default=None)
+	parser.add_option("-c", "--corpus-name", help="name of the created corpus", dest="corpus", default=None)
+	parser.add_option("-s", "--segmentize", help="segmentize PAGE files before processing", action="store_true", dest="seg", default=False)
+	parser.add_option("-x", "--xces", help="generate XCES output", action="store_true", dest="xces", default=False)
+	parser.add_option("-i", "--ignore", help="--discard parameter of pageparser", dest="ignore", default=None)
+	parser.add_option("-l", "--ligatures", help="divide ligatures into separate characters", action="store_true", dest="ligs", default=False)
+	parser.add_option("-t", "--textel-path", help="path of file with normalization rules", dest="textel", default=None)
+	parser.add_option("-e", "--exceptions", help="exception file", dest="exceptions", default=None)
+	parser.add_option("-f", "--fonts", help="file with font information configuration, if given page2all will write information about fonts to hOCR", dest="fonts", default=None)
+	parser.add_option("--first", help="first step (hOCR generation)", dest="first_step", action="store_true", default=False)
+	parser.add_option("--second", help="second step (after hOCR generation)", dest="second_step", action="store_true", default=False)
+	(options, args) = parser.parse_args(argv)
+	if len(args) != 2:
+		parser.print_help()
+		exit()
+	if not os.path.isdir(options.outDir):
+		#print "Directory", options.outDir, "does not exist"
+		os.mkdir(options.outDir)
+		#exit()
+	step1 = options.first_step
+	step2 = options.second_step
+	if (not step1) and (not step2):
+		step1 = True
+		step2 = True
+	if not os.path.isdir(args[1]):
+		print "Directory", args[1], "does not exist"
+		exit()
+	if options.djvuDir != None:
+		if not os.path.isdir(options.djvuDir):
+			print "Directory", options.djvuDir, "does not exist"
+		djvuDirs = []
+		def __findDirs(parent, dirs):
+			hasDjvu = False
+			for el in os.listdir(parent):
+				if os.path.isdir(parent + "/" + el):
+					dirs = __findDirs(parent + "/" + el, dirs)
+				elif el[-5:] == ".djvu":
+					hasDjvu = True
+			if hasDjvu:
+				dirs.append(parent)
+			return dirs
+		djvuDirs = __findDirs(os.path.abspath(options.djvuDir), djvuDirs)
+	else:
+		djvuDirs = None
+	ignore = options.ignore
+	fonts = options.fonts
+	if fonts != None:
+		fonts = os.path.abspath(fonts)
+		if not os.path.exists(fonts):
+			print fonts + " - no such file"
+			exit()
+	if options.xces:
+		xces = True
+		print "Using XCES..."
+		if options.ligs:
+			ligs = True
+			if options.textel == None:
+				print "Textel path not given"
+				exit()
+			else:
+				if not os.path.exists(options.textel):
+					print "File", options.textel, "not exists"
+					exit()
+				if options.exceptions != None:
+					EXCEPTIONS_FILE = os.path.abspath(options.exceptions)
+				TEXTEL_PATH = os.path.abspath(options.textel)
+	if options.corpus != None and step1:
+		if os.path.exists(WEB_DIR + "/" + options.corpus):
+			print "Corpus", options.corpus, "already exists in", WEB_DIR, "directory"
+			exit()
+	#print djvuDirs
+	pageNo = int(options.firstPage)
+	digits = len(str(count(args[1], 0)))
+	destDir = abspath(options.outDir)
+	def poliSrcDir(pageNo):
+		#diff = digits - len(str(pageNo))
+		#return repeat("0", diff) + str(pageNo)
+		if pageNo < 10:
+			return "00" + str(pageNo)
+		elif pageNo < 100:
+			return "0" + str(pageNo)
+		else:
+			return str(pageNo)
+	map = {}
+	#OUT = destDir + "/log.txt"
+	#ERR = destDir + "/log_err.txt"
+	#RED = " >> " + OUT + " 2>> " + ERR
+	#REDOUT = " 2>> " + ERR
+	#sys.stdout = open(OUT, "a")
+	#sys.stderr = open(ERR, "a")
+	if options.corpus != None:
+		CORPUS_DATA_DIR = options.corpus + CORPUS_DATA_DIR
+		CORPUS_RT_DIR = options.corpus + CORPUS_RT_DIR
+		CORPUS_MOD_DATA_DIR = options.corpus + CORPUS_MOD_DATA_DIR
+		CORPUS_XCES_DATA_DIR = options.corpus + CORPUS_XCES_DATA_DIR
+	batchName = str.split(args[1], "/")
+	batchName = batchName[len(batchName) - 1]
+	if options.seg:
+		if step1:
+			if os.path.exists(TMP_DIR):
+				os.system("rm -r " + TMP_DIR)
+			print "Copying..."
+			os.system("cp -r " + args[1] + " " + TMP_DIR)
+			print "Copied"
+		else:
+			if not os.path.exists(TMP_DIR):
+				print "Directory " + TMP_DIR + " not exists - repeat first step"
+		traverse(TMP_DIR, pageNo, destDir, poliSrcDir, djvuDirs, options.corpus, map, True)
+		#os.system("rm -r " + TMP_DIR)
+	else:
+		traverse(args[1], pageNo, destDir, poliSrcDir, djvuDirs, options.corpus, map, False)
+	#print "koniec"
+	if step1:
+		if options.corpus != None:
+			fp = open(destDir + "/corpus_name", "w")
+			fp.write(options.corpus)
+			fp.close()
+		#print CORPUS_DATA_DIR, CORPUS_RT_DIR
+		#if len(map.keys()) > 0:
+		if len(ast) > 0:
+			#print "niezero" 
+			fp = open(destDir + "/map.txt", "w")
+			#for (k, v) in map.iteritems():
+			for i in range(len(ast)):
+				fp.write(ast[i] + "," + bs[i] + "\n")
+				#fp.write(k + "," + v + "\n")
+			fp.close()
+	#sys.stdout.close()
+	#sys.stderr.close()
+	#else:
+		#print "0"
+
+if __name__ == "__main__":
+	main(sys.argv)
+

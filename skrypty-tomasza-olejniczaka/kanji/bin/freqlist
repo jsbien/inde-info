@@ -1,0 +1,36 @@
+#!/usr/bin/python
+
+import os
+import sys
+
+FREQ_PATH = "/home/jsbien/NEW/marasca/misc"
+WEB_DIR = "/var/www/freqs"
+
+def main(argv):
+	name = argv[1].split("/")
+	path = ""
+	for i in range(0, len(name) - 1):
+		path += name[i] + "/"
+	name = name[len(name) - 1]
+	oname = name
+	if path == "":
+		path = "."
+	cwd = os.getcwd()
+	ename = name
+	if len(argv) > 2:
+	    #print argv[2]
+	    name = argv[2]
+	if len(argv) > 3:
+	    ename = argv[3]
+	os.chdir(path + "/" + oname + "/" + name + "_run-time")
+	#if not os.isdir(WEB_DIR + "/" + ename):
+	#	os.mkdir(WEB_DIR + "/" + ename)
+	sys.stderr.write(FREQ_PATH + "/frequency-list " + name + " > " + WEB_DIR + "/" + ename + "_freqlist_ligs.txt\n")
+	os.system(FREQ_PATH + "/frequency-list " + name + " > " + WEB_DIR + "/" + ename + "_freqlist_ligs.txt")
+	sys.stderr.write("frequency-list-base " + name + " > " + WEB_DIR + "/" + ename + "_freqlist.txt\n")
+	os.system("frequency-list-base " + name + " > " + WEB_DIR + "/" + ename + "_freqlist.txt\n")
+	os.chdir(cwd)
+
+if __name__ == "__main__":
+	main(sys.argv)
+

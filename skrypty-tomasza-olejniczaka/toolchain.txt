@@ -1,0 +1,25 @@
+Opis co robią skrypty w komentarzach na początku skryptów.
+                                                                        /---\
+plik w postaci kolumnowej* -\                                           |    \--- lista haseł słownika XVII w.
+                            |-> txt2info > lista* -\                    \--\
+        /-------------------/                      |                       |--> gloscheck > lista* > check3 ---\
+hocr ---|                                          |                       |                 /\                |
+        \--> Poprawiacz                            |-> infocheck > lista --/                 |                 V
+                 |             /-> plik z paginą* -/                                         |               lista*
+                 V             |                                                     gdzieś tutaj              |
+            katalog z hocr > pagex                                                   ręcznie dodano            V
+                                                                                     kolumnę z miejscem      check4^
+                                                                                     przeniesienia do          |
+                                                                                     nowego wiersza (%)        V
+                                                                                                       /---> lista*
+                                                                                                       |       |&
+                                                                                                /------/       V  
+                                                                                                |            check3
+                                                                                                |              |
+                                                        weryfikacja ze słownikiem < lista* < check5 < lista* <-/
+ 
+* - poprawianie ręczne przed przekazaniem do następnego narzędzia
+% - od tego miejsca lista w formacie 2
+^ - check4 należy zastąpić przez check5 gdyby kiedykolwiek zaszła potrzeba powtórzenia całego procesu
+& - opcjonalnie można w tym miejscu użyć skryptu subcheck
+

@@ -1,0 +1,78 @@
+>Czy postać katalogów musi być 01, 02, 03 itd.? Czy może być całkowicie 
+>dowolna (np. "pierwszy", "drugi" itp.)?
+
+Klient musi skądś wiedzieć, jaki lokalny plik DjVu otworzyć, żeby 
+wygenerować "snippet". Jeszcze raz odsyłam do pliku "app/snippets.py". 
+:)
+
+>To samo pytanie dotyczy katalogów o nazwach 01, 02, 03 w których 
+>trzymany jest hOCR dla augment-djvu-corpus i pliki XCES z których bpng 
+>generuje korpus.
+
+Nazwy tych katalogów nie mają żadnego znaczenia.
+
+>Czy zera na początku mają jakieś znaczenie, czy może być 1, 2, 3, ...,
+>10, 11, itd.? (***)
+
+Mają tylko takie, że klient, tak jak jest teraz napisany, będzie 
+zaglądał do katalogów z co najmniej 2 cyframi.
+
+>Czy jeden dokument djvu musi odpowiadać jednemu dokumentowi hOCR? (**)
+
+Tak.
+
+>Czy jeden dokument djvu musi odpowiadać jednemu dokumentowi XCES?
+
+Tak.
+
+>Czy jeden dokument XCES musi odpowiadać jednemu dokumentowi hOCR?
+
+Tak.
+
+>Czy djvu mogą zawierać więcej niż jedną stronę?
+
+Tak, oczywiście.
+
+
+>>Dla kwerendy Deputatow proszę sprawdzić 3 trafienie - snippet i 
+>>zaznaczenie nie pasują do tekstu :-( Panie Jakubie, to się nam już 
+>>zdarzało - co Pan radzi p. Tomkowi?
+>
+>Przyczyny mogą być następujące:
+>
+>1. Po aktualizacji korpusu dla Poliqarp nie uruchomiono ponownie
+>augment-djvu-corpus.
+>
+>2. bpng przetwarzał dokumenty w innej kolejności niż
+>augment-djvu-corpus.
+>
+>3. Natrafiliśmy na jakiś nieznany błąd.
+[...]
+>Z punktu 2 wydaje się wynikać jeden plik XCES powinien odpowiadać
+>jednemu plikowi hOCR.
+
+Tak.
+
+>Poza tym, jeżeli ważna jest kolejność, to rozumiem, że nazwy katalogów 
+>w których są pliki (i samych plików) są znaczące o tyle, że 
+>poszczególne pliki powinny być przetwarzane w tej samej kolejności 
+>(sortowane leksygoraficznie po katalogach je zawierających).
+
+>>Tak. Warto pamiętać, że bpng nie sortuje w żaden sposób katalogów, więc 
+>>żeby zachowywał się deterministycznie trzeba mu explicite przekazać 
+>>posortowaną listę.
+
+>Ja mu podaje $SCIEZKA_DO_KATALOGU_Z_XCES/*/, zakładam, że katalogi do 
+>których rozwijana jest ta gwiazdka są przetwarzane w takiej kolejności 
+>w jakiej wypisuje je ls.
+
+Tak właśnie powinno być.
+
+
+
+Mam nadzieję, że odpowiedziałem na wszystkie pytania, było mi trudno się 
+zorientować w tym gąszczu tekstu. :/
+
+-- 
+Jakub Wilk
+

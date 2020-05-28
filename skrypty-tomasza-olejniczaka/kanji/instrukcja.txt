@@ -1,0 +1,351 @@
+SKRYPTY KORPUSOWE - INSTRUKCJA
+==============================
+
+1. Opisy skryptów
+----------------
+
+1.1 page2all
+------------
+
+Przetwarza pliki PAGE i djvu tworząc katalog z danymi potrzebnymi do wygenerowania korpusu.
+
+1.1.1. Parametry
+----------------
+
+page2all -d KATALOG_Z_DJVU -c NAZWA_KORPUSU [-s] [-x] [-i ARGUMENT_DISCARD] [-t PLIK_Z_ROZPISANIEM_LIGATUR] [-f PLIK_Z_DEFINICJĄ_FONTÓW] -o KATALOG_WYNIKOWY [-l] KATALOG_Z_PAGE
+
+-f powoduje przekazanie do pageparsera parametrów powodujących wypisywanie do wynikowego hOCR informacji o fontach (odczytywanej z plików z informacją o fontach NAZWA_PLIKU_PAGE_BEZ_ROZSZERZENIA.txt znajdujących się w tym samym katalogu co odpowiadające im pliki PAGE)
+UWAGA: wypisywanie do pageparsera informacji o fontach działa tylko jeżeli nie podano opcji -i oraz dla opcji -i Glyph
+
+-s powoduje użycie programu Michalskiego do segmentacji
+
+-l powoduje rozpisanie ligatur, musi być też podana opcja -t
+
+-x powoduje utworzenie źródeł XCES z których będzie potem utworzony korpus (bez tego będą wygenerowane jedynie źródła hOCR)
+
+NAZWA_KORPUSU - zostanie umieszczona w pliku <KATALOG_WYNIKOWY>/corpus_name
+
+KATALOG_Z_DJVU - katalog zawierający pliki djvu zgodne z PAGE (o nazwach <NAZWA>.djvu, gdzie <NAZWA> jest elementem nazwy pliku PAGE, patrz poniżej) bezpośrednio lub w podkatalogach, w podkatalogach podkatalogów, itd.; pliki nie będące plikami djvu zostaną zignorowane
+
+KATALOG_Z_PAGE - katalog zawierający pliki PAGE (*.xml) bezpośrednio lub w podkatalogach, w podkatalogach podkatalogów, itd.; pliki nie będące plikami PAGE zostaną zignorowane; zignorowane zostaną też pliki puste
+
+PLIK_Z_NORMALIZACJĄ - przekazany do xces_normalizer.py jako trzeci parametr (zob. 1.3.), ma sens jedynie z opcją -l
+
+PLIK_Z_DEFINICJĄ_FONTÓW - przekazany do pageparsera, w pierwszym wierszu zawiera nazwę fontu dla
+regionów których nie ma w pliku z informacją o fontach NAZWA_PLIKU_PAGE_BEZ_ROZSZERZENIA.txt a w drugim dla tych które są (zob. 3.5)
+
+* pliki są niepuste jeśli mają jakikolwiek niepusty tag div, tagi div są niepuste jeśli mają dzieci lub zawierają tekst różny od "\n"
+
+// TODO: dlaczego ignorujemy puste
+// Bo puste powodowały jakiś problem, trzeba wygrzebać z mejli informację Wilka jaki.
+
+* nazwy plików PAGE powinny mieć postać: <NAZWA>_<WERSJA>[.tif].xml lub <NAZWA>[.tif].xml (wtedy przyjmujemy WERSJA = 1)
+
+ARGUMENT_DISCARD - jeżeli użyta zostanie segmentacja programem Michalskiego argument zostanie przekazany do pageparsera jako argument opcji --discard, wpp argument zostanie zignorowany i jako argument opcji --discard użyte będzie TextLine
+
+Każda <NAZWA> pliku PAGE ma przypisywany <NUMER> w kolejności przetwarzania uzupełniany do trzech znaków ("5" > "005" itd.).
+Numer ten jest potem używany do nadawania nazw katalogom w których są trzymane różne dane - zapewnia on, że przy przetwarzaniu w kolejności leksykograficznej (podanie argumentu */... róznym poleceniom) wszystkie te dane (np. pliki XCES w bpng i pliki DjVu w augment-djvu-corpus) będą przetwarzane w tej samej kolejności. Patrz też plik README.
+Numer ten jest też istotny o tyle, że marasca zakłada, że pliki DjVu w korpusie są w katalogach o nazwie postaci liczby trzycyfrowej uzupełnianej zerami.
+Kolejność przetwarzania plików PAGE: w kolejności leksykograficznej (li.sort() - gdzie li to lista plików w danym katalogu). Niestety nie pamiętam już, czy ta kolejność też jest istotna (ale chyba nie, ważne tylko, żeby wygenerowane dane - hOCR, XCES, DjVu - były w tej samej kolejności).
+
+1.1.2 Ścieżki wpisane na sztywno
+--------------------------------
+
+MIREK_PATH - katalog zawierający program do segmentacji Michalskiego - obecnie /home/mirek/segment
+WEB_DIR - katalog zawierający pliki djvu widoczne z zewnątrz przez HTTP - obecnie /var/www/djvus
+REAL_WEB_DIR - ścieżka do powyższego katalogu widoczna z zewnątrz - obecnie http://kanji.klf.uw.edu.pl/djvus
+PPPATH - katalog zawierający skrypt pageparser - obecnie /home/tomek, zawiera modyfikację pageparsera opisaną w 2.1., znajdującą się w tym repozytorium
+TITLES_FILE - ścieżka do pliku ze źródłem i tytułami dokumentów źródłowych - obecnie /home/tomek/tytuly.txt
+TMP_DIR - katalog do którego są kopiowane pliki PAGE na potrzeby segmentacji (zob. 1.1.3) - obecnie /home/tomek/tmp
+(powyższe ścieżki zdefiniowano w pliku pageconfig.py)
+/home/tomek - katalog zawierający skrypt hocr.py
+
+Jeżeli jakiś skrypt w poniższym opisie podano ze ścieżką, to powinien być pod tą ścieżką, wpp powinien być widoczny w $PATH (wystarczy dodać /home/tomek/bin do $PATH).
+
+1.1.3 Działanie
+---------------
+
+Bierze pliki PAGE
+
+Jeżeli użyto opcji segmentacji to tworzone są kopie wszystkich plików PAGE, poddawane segmentacji programem Michalskiego MIREK_PATH/testuj i wszelkie dalsze operacje są wykonywane na tych kopiach a nie na oryginalnych plikach.
+
+W <KATALOG_WYNIKOWY>/hocr umieszczone zostaną pliki <NAZWA>.html i <NAZWA>_header.xml zawierające wynikowe pliki hOCR i nagłówki z metadanymi.
+Ich kopie zostaną umieszczone w <KATALOG_WYNIKOWY>/<NAZWA_KORPUSU>_data/<NAZWA_KORPUSU>/<NUMER>/morph.xml i <KATALOG_WYNIKOWY>/<NAZWA_KORPUSU>_data/<NUMER>/header.xml.
+Jeżeli użyto segmentacji programem Michalskiego to w <NAZWA_KORPUSU>_data zostaną umieszczone pliki hOCR przetworzone przez program /home/tomek/hocr.py, natomiast nie zmienione kopie zostaną umieszczone w katalogu <NAZWA_KORPUSU>_mod-data (którego struktura jest analogiczna do struktury katalogu <NAZWA_KORPUSU>_data).
+Jeżeli podano opcję -x to w katalogu <NAZWA_KORPUSU>_xces-data (którego struktura jest analogiczna do struktury katalogu <NAZWA_KORPUSU>_data) zostaną umieszczone pliki XCES będące wynikiem konwersji hOCR na XCES (pliki morph.xml są tutaj plikiami XCES a nie jak w <NAZWA_KORPUSU>_data i <NAZWA_KORPUSU>_mod-data plikami hOCR).
+Jeżeli podano opcję -l to zostaną rozpisane ligatury z użyciem skryptu xces_processor.py, a do plików <KATALOG_WYNIKOWY>/ligs/<NAZWA>.txt zostaną wypisane (z użyciem skryptu base_extract.py) formy "base" z plików XCES po rozpisaniu ligatur.
+
+Pliki djvused zostaną umieszczone w plikach <KATALOG_WYNIKOWY>/djvused/<NAZWA>.sed.
+
+W plikach <KATALOG_WYNIKOWY>/text/<NAZWA>.txt zostaną umieszczone wyniki działania programu html2text (bez pierwszego wiersza) na odpowiednich plikach hOCR.
+
+W plikach <KATALOG_WYNIKOWY>/<NAZWA_KORPUSU>_run-time/<NAZWA_KORPUSU>.djvu/<NUMER>/indeks.djvu zostaną umieszczone odpowiednie (o nazwie <NAZWA>.djvu) pliki djvu poddane działaniu programu djvused z użyciem wygenerowanych wcześniej plików djvused.
+
+Dowiązania symboliczne do tych plików djvu zostaną umieszczone w plikach /var/www/djvus/<NAZWA_KORPUSU>/<NAZWA>.djvu.
+W pliku <KATALOG_WYNIKOWY>/map.txt umieszczane jest mapowanie "../<NAZWA_KORPUSU>_data/<NUMER>/morph.xml" -> "<REAL_WEB_DIR>/<NAZWA_KORPUSU>/<NAZWA>.djvu".
+
+Postać metadanych:
+filename = <NAZWA>.tif.xml (wycięta wersja i dołożone ".tif" jeżeli nie było go w oryginalnej nazwie pliku PAGE)
+origname = oryginalna nazwa pliku PAGE
+batchname = ostatni element ścieżki <KATALOG_Z_PAGE>
+title = tytuł
+source = źródło
+version = <WERSJA>
+
+Źródło i tytuł są brane z pliku TITLES_FILE postaci:
+<NAZWA>[2:]<tab>źródło<tab>tytuł<nl>
+(pythonowa notacja: "przykład"[2:] = "zykład", "napis"[3:] = "is", itp.)
+
+1.2 hocr.py
+-----------
+
+hocr.py PLIK_WEJŚCIOWY PLIK_WYNIKOWY
+
+Skrypt obcina bounding boxy elementów hOCR tak by mieściły się w bounding boxach elementów je zawierających - taki problem pojawia się w plikach generowanych programem Michalskiego.
+
+1.3. xces_normalizer.py
+-----------------------
+
+xces_normalizer.py PLIK_Z_NORMALIZACJĄ PLIK_WEJŚCIOWY PLIK_WYNIKOWY
+
+Normalizuje znaki w pliku XCES (umieszczając znormalizowany tekst w polu "orth") korzystając z podanego jako pierwszy parametr pliku w opisanym formacie. Zapisuje zmodyfikowany plik XCES.
+
+1.3.1. Format pliku z normalizacją
+----------------------------------
+
+DEFINICJA_KLASY_ZNAKÓW <tab> KOMENTARZ <tab> LISTA_ZNAKÓW_ODDZIELONYCH_PRZECINKAMI <nl>
+? <tab> WYRAŻENIE_REGULARNE_KONTEKSTU_LEWEGO <tab> SZUKANE_WYRAŻENIE <tab> WYRAŻENIE_REGULARNE_KONTEKSTU_PRAWEGO <tab> WYRAŻENIE_ZASTĘPUJĄCE <tab> cokolwiek <nl>
+
+Gdzie definicja klasy znaków to pojedyncza duża litera - w wyrażeniu regularnym klasa np.
+D	<tab> komentarz <tab> b, d, g, w, z
+symbolizuje [bdgwz].
+
+Wszystkie litery w wyrażeniach powinny być małe - duże są zarezerwowane dla klas znaków.
+
+Skrypt wyszukuje wyrażenie szukane (może ono zawierać jedynie małe znaki - bez symboli typu *, + [ itp.) w odpowiednim kontekście i zamienia na wyrażenie zastępujące (może ono zawierać jedynie małe znaki - bez symboli typu *, + [ itp.).
+
+1.3.2. Stary skrypt xces_processor.py
+-------------------------------------
+
+xces_processor.py PLIK_WEJŚCIOWY PLIK_WYNIKOWY PLIK_Z_ROZPISANIEM_LIGATUR
+
+Rozpisuje ligatury w pliku XCES (umieszczając je w polu "orth") korzystając z podanego jako trzeci parametr pliku (np. /home/jsbien/extraUnicodeData/TextelNormalization.txt). Zapisuje zmodyfikowany plik XCES.
+
+1.3.3. base_extract.py
+----------------------
+
+base_processor.py PLIK_WEJŚCIOWY PLIK_WYNIKOWY
+
+Wypisuje do podanego pliku zawartość elementów "base" z podanego pliku XCES. Dane te są wykorzystywane do stworzenia list frekwencyjnych i histogramu znaków. Efektem ubocznym jest to, że w histogramie nie będą uwzględnione spacje (bo nie ma ich w elementach "base").
+
+1.4. makecorpus
+---------------
+
+Tworzy korpus na podstawie danych wygenerowanych przez page2all.
+
+1.4.1 Parametry
+---------------
+
+makecorpus [-x] ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL
+
+-x jeżeli podano tą opcję to do utworzenia korpusu użyjemy danych XCES i widocznej w $PATH instalacji bpng, wpp użyjemy danych z plików hOCR i bpng z katalogu /home/jsbien/NEW/bpng+djvu/poliqarp-1.3.9/bin
+
+ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL - <KATALOG_WYNIKOWY> polecenia page2all
+
+NAZWA_KORPUSU zostanie odczytana z pliku <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/corpus_name
+
+1.4.2. Działanie
+----------------
+
+Tworzy pliki <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/<NAZWA_KORPUSU>_run-time/<NAZWA_KORPUSU>.meta.cfg, <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/<NAZWA_KORPUSU>_run-time/<NAZWA_KORPUSU>.bf.conf, <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/<NAZWA_KORPUSU>_run-time/<NAZWA_KORPUSU>.meta.lisp (w którym nie ma chyba nic sensownego), <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/<NAZWA_KORPUSU>_run-time/<NAZWA_KORPUSU>.cfg i <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/<NAZWA_KORPUSU>_run-time/<NAZWA_KORPUSU>.poliqarpd.conf (któy i tak nie jest używany).
+
+Następnie tworzy korpus <NAZWA_KORPUSU> w katalogu <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/<NAZWA_KORPUSU>_run-time przy użycie bpng.
+
+Na koniec skryptem augment-djvu-corpus (powinien być widoczny w $PATH) dodajemy do korpusu informacje z plików hOCR w <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/<NAZWA_KORPUSU>_data. Ścieżki w pliku <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/<NAZWA_KORPUSU>_run-time/<NAZWA_KORPUSU>.djvu.filenames są podmieniane na URLe (widoczne z zewnątrz) odpowiednich plików djvu przy użyciu pliku <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/map.txt.
+
+Zakładam, że kolejność wpisów w tym pliku jest istotna (jest zgodna z kolejnością przetwarzania przez DjVu corpus), i każdy wpis powinien zostać zastąpiony w dokładnie tym samym miejscu odpowiadającym mu URL, podobnie przy dołączaniu w makecorpus2 przez augment-djvu-corpus2 zgodnie z tym samym założeniem dopisuję nowe wpisy na końcu pliku <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/<NAZWA_KORPUSU>_run-time/<NAZWA_KORPUSU>.djvu.filenames (założenie to wymaga dodatkowego założenia, że bpng -c przy dołączaniu traktuje dołączane pliki XCES jako występujące po plikach XCES które zostały wykorzystane do utworzenia korpusu do którego dołączamy; na założeniu tym opiera się też augment-djvu-corpus2 dla dołączania).
+
+1.4.3 makecorpus2
+-----------------
+
+Modyfikacja służąca do dołączania wyników page2all do istniejących korpusów wygenerowanych przez makecorpus. Posiada dodatkową opcję -a.
+
+Podanie opcji -a powoduje włączenie trybu dołączania. Bez tej opcji skrypt powinien działać jak zwykły makecorpus. Parametrem opcji jest <ŚCIEŻKA_DO_KORPUSU>.
+
+1.4.3.1. Tryb dołączania
+------------------------
+
+UWAGA: Funkcjonalność powstała na zasadzie eksperymentu ("zrobimy tak i zobaczymy co się stanie"). Nie ma żadnej gwarancji że jest poprawna.
+
+NAZWA_KORPUSU zostanie odczytana z pliku <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/corpus_name
+NAZWA_ISTNIEJĄCEGO_KORPUSU zostanie odczytana z pliku <ŚCIEŻKA_DO_KORPUSU>/corpus_name
+
+Tryb dołączania dotyczy tylko korpusów tworzonych z plików XCES (opcja -x).
+
+W trybie dołączania nie są tworzone pliki konfiguracyjne korpusu (bo nadpisałyby już istniejące).
+
+Zamiast utworzenia korpusu <NAZWA_KORPUSU> wyniki page2all zostaną dołączone do korpusu znajdującego się w katalogu <ŚCIEŻKA_DO_KORPUSU>/<NAZWA_ISTNIEJĄCEGO_KORPUSU>_run-time/<NAZWA_ISTNIEJĄCEGO_KORPUSU>. Do dołączenia do istniejącego korpusu zostanie użyte polecenie bpng z opcją -c.
+
+Zamiast augment-djvu-corpus zostanie użyty augment-djvu-corpus2 (powinien być widoczny w $PATH - wystarczy dodać do $PATH /home/tomek/bin) który dopisze na koniec plików wytworzonych przez augment-djvu-corpus w <ŚCIEŻKA_DO_KORPUSU>/<NAZWA_ISTNIEJĄCEGO_KORPUSU>_run-time informacje z plików hOCR w <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/<NAZWA_KORPUSU>_data. Nowo utworzone ściezki w pliku <ŚCIEŻKA_DO_KORPUSU>/<NAZWA_ISTNIEJĄCEGO_KORPUSU>_run-time/<NAZWA_ISTNIEJĄCEGO_KORPUSU>.djvu.filenames są podmieniane na URLe (widoczne z zewnątrz) odpowiednich plików djvu przy użyciu pliku <ŚCIEŻKA_DO_WYNIKÓW_PAGE2ALL>/map.txt. Ścieżki pozostałe po utworzeniu korpusu <ŚCIEŻKA_DO_KORPUSU>/<NAZWA_ISTNIEJĄCEGO_KORPUSU>_run-time/<NAZWA_ISTNIEJĄCEGO_KORPUSU> są pozostawiane bez zmian.
+
+1.5. hist
+---------
+
+hist -n PLIK_Z_NAZWAMI [-o NAZWA_PLIKU_WYNIKOWEGO] KATALOG_Z_WYNIKAMI_PAGE2ALL
+
+PLIK_Z_NAZWAMI - np. TextelNames.txt
+
+Przy użyciu skryptu unihist tworzy histogramy znaków (bez i z rozpisanymi ligaturami) na podstawie danych zawartych w <KATALOG_Z_WYNIKAMI_PAGE2ALL>/text i <KATALOG_Z_WYNIKAMI_PAGE2ALL>/ligs. Dane są zapisywane do plików /var/www/hists/codes_<IDENTYFIKATOR_KORPUSU>.txt i /var/www/hists/codes_ligs_<IDENTYFIKATOR_KORPUSU>.txt. Histogram z rozpisanymi ligaturami nie będzie zawierał informacji o spacjach (patrz opis base_extract.py). Pliki będą widoczne na http://kanji.klf.uw.edu.pl/hists.
+
+IDENTYFIKATOR_KORPUSU = NAZWA_PLIKU_WYNIKOWEGO jeśli podano opcję -o, ostatni element ścieżki KATALOG_Z_WYNIKAMI_PAGE2ALL wpp
+
+1.6. freqlist
+-------------
+
+freqlist KATALOG_Z_WYNIKAMI_PAGE2ALL [NAZWA_KORPUSU [NAZWA_PLIKU_WYNIKOWEGO]]
+
+W <KATALOG_Z_WYNIKAMI_PAGE2ALL>/<NAZWA_KORPUSU>_run-time/<NAZWA_KORPUSU> powinien być wcześniej utworzony korpus przy pomocy skryptu makecorpus.
+
+NAZWA_KORPUSU - domyślnie ostatni element ścieżki <KATALOG_Z_WYNIKAMI_PAGE2ALL>
+
+NAZWA_PLIKU_WYNIKOWEGO - domyślnie ostatni element ścieżki <KATALOG_Z_WYNIKAMI_PAGE2ALL>
+
+Przy pomocy skryptu /home/jsbien/NEW/marasca/misc/frequency-list tworzona jest lista frekwencyjna korpusu z rozpisanymi ligaturami i umieszczana w /var/www/freqs/<NAZWA_PLIKU_WYNIKOWEGO>_freqlist_ligs.txt. Lista bez rozpisanych ligatur /var/www/freqs/<NAZWA_PLIKU_WYNIKOWEGO>_freqlist.txt tworzona jest przy użyciu frequency_list_base (powinna być widoczna w $PATH - wystarczy dodać do $PATH /home/tomek/bin). Listy będą potem widoczne w http://kanji.klf.uw.edu.pl/freqs.
+
+2. Modyfikacje istniejących skryptów
+------------------------------------
+
+2.1. pageparser
+---------------
+
+// Dopisanie spacji na końcu elementu hOCR będącego wierszem (ocrx_line):
+// Linia 305:
+// child.tail = ' ' zamiast child.tail = ''
+
+// Z tego co rozumiem przy wersji bez segmentacji (--discard TextLine) bierzemy tekst z TextEquiv TextRegionu (gdzie spacje między kolejnymi liniami są wpisane), a w wersji z segmentacją (--discard Word) z TextEquiv TextLine.
+// Powoduje to, że w wersji z segmentacją w wynikowym hOCRze nie ma spacji między kolejnymi wierszami (ocrx_line). Problem ten usuwa istniejąca modyfikacja pageparsera.
+
+// Do skryptów załączono przykładowe pliki 00435723seg.html i 00435723seg_old.html (odpowiednio przykładowe wyniki pageparsera po i przed modyfikacją).
+
+Powyższy problem rozwiązuje nowy hocr2xces Wilka, dlatego modyfikację tą usunięto.
+
+Nowy pageparser dokleja inicjały do następnego słowa i sortuje elementy wewnątrz regionów i niżej po bounding boxach.
+Dodatkowo ma możliwość zapisywania informacji o fontach do wynikowego hOCR jeżeli poda mu się argumenty:
+--fonts PLIK_Z_REGIONAMI
+--font-config-file PLIK_Z_KONFIGURACJĄ
+
+PLIK_Z_REGIONAMI - zawiera w osobnych wierszach nazwy regionów
+PLIK_Z_KONFIGURACJA - ma w pierwszym wierszu nazwę fontu dla regionów których nie ma w pliku PLIK_Z_REGIONAMI a w drugim dla tych które są (zob. 3.5)
+
+Dopisuje też spacje po każdym słowie, z wyjątkiem ostatniego w wierszu - eksperymenty pokazują, że jest to zgodne z tekstem w wierszu i wyższych regionach.
+
+2.2. augment-djvu-corpus2
+-------------------------
+
+Modyfikacja augment-djvu-corpus polegająca na tym, że jeżeli pliki które powinny być utworzone przez skrypt już istnieją to wyniki skryptu są do nich dopisywane (w niezmodyfikowanym skrypcie augment-djvu-corpus pliki są pozostawiane bez zmian).
+
+UWAGA: Funkcjonalność powstała na zasadzie eksperymentu ("zrobimy tak i zobaczymy co się stanie"). Nie ma żadnej gwarancji że jest poprawna.
+TODO: Uzyć zmodyfikowanej wersji Wilka zamiast tego. Uwzględnić problem z powtarzającymi się wpisami w pliku konfiguracyjnym.
+
+2.3. frequency-list-base
+------------------------
+
+Skrypt frequency-list zmodyfikowany tak by brał pod uwagę zwartość XCESowych elementów "base" przy tworzeniu ligatur.
+
+3. Procedura tworzenia korpusu
+------------------------------
+
+3.1. Korpus bez segmentacji
+---------------------------
+
+cd /home/tomek
+page2all -x -l -i TextLine -d /host/PRIMA-djvu -o /home/tomek/NowyKorpus -c NowyKorpus /host/GT_PSNC/Batch10
+makecorpus -x NowyKorpus
+hist -n /home/jsbien/extraUnicodeData/TextelNames.txt NowyKorpus
+freqlist NowyKorpus
+
+Statystyki możemy już oglądać w plikach:
+http://kanji.klf.uw.edu.pl/hists/codes_NowyKorpus.txt
+http://kanji.klf.uw.edu.pl/hists/codes_ligs_NowyKorpus.txt
+http://kanji.klf.uw.edu.pl/freqs/NowyKorpus_freqlist.txt
+http://kanji.klf.uw.edu.pl/freqs/NowyKorpus_freqlist_ligs.txt
+
+W pliku /home/tomek/global/poliqarpd.conf dodajemy wiersz:
+corpus = nowy-korpus-id: /home/tomek/NowyKorpus/NowyKorpus_run-time/NowyKorpus
+
+Jeżeli jest uruchomiony poliqarpd to go zatrzymujemy.
+
+Wywołujemy polecenie:
+poliqarpd -c /home/tomek/global/poliqarpd.conf -d
+
+W pliku /home/jsbien/NEW/marasca/marasca/settings/kanji.py w tablicy zwracanej przez funkcję _get_corpora() dopisujemy:
+DjVuCorpus(path='/home/tomek/NowyKorpus/NowyKorpus_run-time/NowyKorpus'
+	id='nowy-korpus-id',
+	title=_(u'Nowy Korpus'),
+	abbreviation='Nowy Korpus'
+)
+
+Restartujemy Apache'a.
+
+Gdybyśmy chcieli podać inną nazwę korpusu niż katalogu podanego jako parametr opcji -o:
+page2all -x -l -d /host/PRIMA-djvu -o /home/tomek/katalog -c NowyKorpus /host/GT_PSNC/Batch10
+
+To następne polecenia będą miały postać:
+makecorpus -x katalog
+hist -n /home/jsbien/extraUnicodeData/TextelNames.txt -o NowyKorpus katalog
+freqlist katalog NowyKorpus NowyKorpus                   ----------
+                            ----------
+Nazwy plików:
+http://kanji.klf.uw.edu.pl/hists/codes_NowyKorpus.txt
+http://kanji.klf.uw.edu.pl/hists/codes_ligs_NowyKorpus.txt
+http://kanji.klf.uw.edu.pl/freqs/NowyKorpus_freqlist.txt
+http://kanji.klf.uw.edu.pl/freqs/NowyKorpus_freqlist_ligs.txt
+zależą od podkreślonych parametrów.
+
+3.2 Korpus z segmentacją
+------------------------
+
+Różni się tylko składnią polecenia page2all:
+
+page2all -x -l -s -i Word -d /host/PRIMA-djvu -o /home/tomek/NowyKorpus -c NowyKorpus /host/GT_PSNC/Batch10
+
+3.3. Korpus łączony
+-------------------
+
+Tworzymy pierwszy korpus:
+
+page2all -x -l -s -d /host/PRIMA-djvu -o /home/tomek/NowyKorpus -c NowyKorpus /host/GT_PSNC/Batch10
+makecorpus -x NowyKorpus
+hist -n /home/jsbien/extraUnicodeData/TextelNames.txt -o NowyKorpus_I NowyKorpus
+
+Tworzymy drugi korpus dołączając do pierwszego:
+
+page2all -x -l -s -d /host/PRIMA-djvu -o /home/tomek/DodatekDoNowego -c DodatekDoNowego /host/GT_PSNC/Batch11
+makecorpus2 -x -a NowyKorpus DodatekDoNowego
+hist -n /home/jsbien/extraUnicodeData/TextelNames.txt -o NowyKorpus_II DodatekDoNowego
+
+Tworzymy listę frekwencyjną dla połączonego korpusu:
+
+freqlist NowyKorpus
+
+3.4 Korpus z poziomu słów
+-------------------------
+
+Różni się tylko składnią polecenia page2all:
+
+page2all -x -l -i Glyph -d /host/PRIMA-djvu -o /home/tomek/NowyKorpus -c NowyKorpus /host/PSNC_GT_GLYPH/Batch10
+
+3.5 Korpus z poziomu znaków z informacją o fontach
+--------------------------------------------------
+
+Różni się tylko składnią polecenia page2all:
+
+page2all -x -l -d -f plik.txt /host/PRIMA-djvu -o /home/tomek/NowyKorpus -c NowyKorpus /host/PSNC_GT_GLYPH/Batch10
+
+Gdzie plik.txt ma postać:
+
+tomek@kanji:~$ cat plik.txt
+Gotyk
+Antykwa
+tomek@kanji:~$
+
