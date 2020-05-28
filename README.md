@@ -2,19 +2,11 @@ Różne informacje na temat słownika Lindego.
 
 Patrz także:
 
-https://bitbucket.org/jsbien/ilindecsv
-
-https://bitbucket.org/jsbien/linde-latex
-
-https://bitbucket.org/jsbien/linde-litery
-
-https://bitbucket.org/jsbien/linde-marasca
-
-https://bitbucket.org/jsbien/lindewikisources-dl
+https://github.com/jsbien/ilindecsv
 
 https://bitbucket.org/jsbien/sp4slownik-lindego
 
-https://depotuw.ceon.pl/handle/item/349
+https://www.researchgate.net/publication/335685379_Analiza_i_leksykograficzny_opis_slownika_Lindego_na_potrzeby_dygitalizacji
 
 https://www.researchgate.net/publication/325348345_Rozwiniecia_skrotow_nazw_etnolektow_w_II_wydaniu_slownika_Lindego
 
