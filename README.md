@@ -1,4 +1,5 @@
-Różne informacje na temat słownika Lindego.
+Różne informacje na temat słownika Lindego, uzupełnione o pliki, które
+wcześnie były w innych repozytoriach (m.in. pliki hOCR)..
 
 Patrz także:
 
