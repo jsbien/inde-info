@@ -1,0 +1,10 @@
+Program: xelatex.py
+Autor: Jan Chęć (277635)
+Licencja: Creative Commons 3.0 CC-BY (uznanie autorstwa)
+
+Changelog:
+1.1
+  Dodanie poprawnej obsługi stron wstępu.
+  Dodanie pliku z pełnym opisem licencji (LICENSE.txt).
+  Dodanie opcji --tex-only
+  Dodanie informacji o czcionce do wymagań.
